@@ -2,12 +2,16 @@
 #define OPERATORS_H
 
 #include "dizzy.h"
-#include "rates.h"
+
+#include "types.h"
+#include "sizes.h"
+#include "unit.h"
+#include "parameter.h"
 #include "util.h"
 
 namespace thelonious {
 template <size_t N>
-class Add {
+class Add : public Unit<N> {
 public:
     Add(Sample value=0.0f): value(value) {}
 
@@ -25,7 +29,7 @@ public:
 };
 
 template <size_t N>
-class Subtract {
+class Subtract : public Unit<N> {
 public:   
     Subtract(Sample value=0.0f): value(value) {}
 
@@ -43,7 +47,7 @@ public:
 };
 
 template <size_t N>
-class Multiply {
+class Multiply : public Unit<N> {
 public:   
     Multiply(Sample value=1.0f): value(value) {}
 
@@ -61,7 +65,7 @@ public:
 };
 
 template <size_t N>
-class Divide {
+class Divide : public Unit<N> {
 public:   
     Divide(Sample value=1.0f): value(value) {}
 
@@ -79,7 +83,7 @@ public:
 };
 
 template <size_t N>
-class Modulo {
+class Modulo : public Unit<N> {
 public:   
     Modulo(Sample value=1.0f): value(value) {}
 

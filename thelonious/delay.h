@@ -2,13 +2,15 @@
 #define DELAY_H
 
 #include "types.h"
-#include "rates.h"
+#include "sizes.h"
+#include "unit.h"
+#include "parameter.h"
 #include "util.h"
 
 namespace thelonious {
 
 template <size_t N, size_t bufferSize>
-class Delay {
+class Delay : public Unit<N> {
 public:
     Delay(Buffer<N, bufferSize> &buffer, Sample position=0.0f,
           Sample rate=1.0f):

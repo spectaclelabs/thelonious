@@ -1,18 +1,22 @@
 #ifndef PARAMETER_H
 #define PARAMETER_H
 
+#include <algorithm>
+
 #include "dizzy.h"
+
 #include "types.h"
 
 namespace thelonious {
 
 class Parameter {
 public:
-    Parameter(Sample value=0, bool interpolate=true) :
-        value(value), lastValue(value), interpolate(interpolate) {}
+    Parameter(Sample value=0, Interpolation interpolation=LINEAR) :
+        value(value), lastValue(value), interpolation(interpolation) {}
 
     const Chock& get() {
-        if (value == lastValue || !interpolate) {
+        // TODO: Cubic interpolation
+        if (value == lastValue || interpolation == NONE) {
             std::fill(buffer.begin(), buffer.end(), value);
         }
         else {
@@ -37,25 +41,19 @@ public:
     void unsetDynamic() {
         dynamicBuffer = nullptr;
 
-        // De-zipper removal of the dynamic buffer.
-        // TODO: Work out whether this should happen!
-        /*
-        if (interpolate) {
-            lastValue = buffer.back();
-        }
-        */
+        // TODO: Should we interpolate removal of the dynamic buffer.
     }
 
     void set(Sample value) {
         this->value = value;
     }
 
-    void setInterpolate(bool interpolate) {
-        this->interpolate = interpolate;
+    void setInterpolate(Interpolation interpolation) {
+        this->interpolation = interpolation;
     }
 
-    bool getInterpolate() {
-        return interpolate;
+    Interpolation getInterpolate() {
+        return interpolation;
     }
 
 private:
@@ -65,7 +63,7 @@ private:
     Chock buffer;
     Chock *dynamicBuffer=nullptr;
 
-    bool interpolate;
+    Interpolation interpolation;
 };
 
 }

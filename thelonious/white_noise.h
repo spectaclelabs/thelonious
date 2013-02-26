@@ -1,10 +1,15 @@
 #ifndef WHITE_NOISE_H
 #define WHITE_NOISE_H
 
+#include "dizzy.h"
+
+#include "types.h"
+#include "unit.h"
+
 namespace thelonious {
 
 template <size_t N>
-class WhiteNoise {
+class WhiteNoise : public Unit<N> {
 public:
     WhiteNoise() {}
 

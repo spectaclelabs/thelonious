@@ -2,6 +2,9 @@
 #define BAND_PASS_FILTER_H
 
 #include <cmath>
+
+#include "types.h"
+#include "rates.h"
 #include "biquad_filter.h"
 
 namespace thelonious {

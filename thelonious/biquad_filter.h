@@ -1,10 +1,15 @@
 #ifndef BIQUAD_FILTER_H
 #define BIQUAD_FILTER_H
 
+#include "types.h"
+#include "sizes.h"
+#include "unit.h"
+#include "parameter.h"
+
 namespace thelonious {
 
 template <size_t N>
-class BiquadFilter {
+class BiquadFilter : public Unit<N> {
 private:
     typedef struct {
         Sample a0;

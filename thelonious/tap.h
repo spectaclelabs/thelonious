@@ -1,14 +1,16 @@
 #ifndef TAP_H
 #define TAP_H
 
-namespace thelonious {
-
 #include "types.h"
-#include "rates.h"
+#include "sizes.h"
+#include "unit.h"
+#include "parameter.h"
 #include "util.h"
 
+namespace thelonious {
+
 template <size_t N, size_t bufferSize>
-class Tap {
+class Tap : public Unit<N> {
 public:
     Tap(const Buffer<N, bufferSize> &buffer, Sample position=0.0f,
         Sample rate=1.0f, Interpolation interpolation=NONE):
@@ -36,7 +38,6 @@ private:
     Sample position;
     Interpolation interpolation;
 };
-
 }
 
 #endif

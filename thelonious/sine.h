@@ -2,14 +2,18 @@
 #define SINE_H
 
 #include <cmath>
+#include <algorithm>
 
-#include "dizzy.h"
+#include "types.h"
 #include "rates.h"
+#include "sizes.h"
+#include "unit.h"
+#include "parameter.h"
 #include "util.h"
 
 namespace thelonious {
 template <size_t N>
-class Sine {
+class Sine : public Unit<N> {
 public:
     Sine(Sample frequency=440.0f, Sample phase=0.0f) :
         frequency(frequency), phase(phase) {}

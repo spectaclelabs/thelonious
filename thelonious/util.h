@@ -3,6 +3,9 @@
 
 #include <cmath>
 
+#include "types.h"
+#include "rates.h"
+
 namespace thelonious {
 
 Sample wrap(Sample value, Sample length) {
@@ -15,6 +18,10 @@ constexpr uint32_t secondsToSamples(Sample seconds) {
 
 constexpr Sample samplesToSeconds(uint32_t samples) {
     return samples * INV_SAMPLE_RATE;
+}
+
+Sample linearInterpolate(Sample start, Sample end, Sample position) {
+    return start + position * (end - start);
 }
 
 }
