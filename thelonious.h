@@ -1,3 +1,6 @@
+#ifndef THELONIOUS_H
+#define THELONIOUS_H
+
 /* Constants */
 #include "thelonious/sizes.h"
 #include "thelonious/types.h"
@@ -29,3 +32,5 @@
 
 /* Envelopes */
 #include "thelonious/envelope.h"
+
+#endif
