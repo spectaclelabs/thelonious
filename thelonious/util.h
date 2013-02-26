@@ -1,5 +1,5 @@
-#ifndef UTIL_H
-#define UTIL_H
+#ifndef THELONIOUS_UTIL_H
+#define THELONIOUS_UTIL_H
 
 #include <cmath>
 

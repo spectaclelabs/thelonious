@@ -1,5 +1,5 @@
-#ifndef BAND_PASS_FILTER_H
-#define BAND_PASS_FILTER_H
+#ifndef THELONIOUS_BAND_PASS_FILTER_H
+#define THELONIOUS_BAND_PASS_FILTER_H
 
 #include <cmath>
 

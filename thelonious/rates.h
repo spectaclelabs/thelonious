@@ -1,5 +1,5 @@
-#ifndef RATES_H
-#define RATES_H
+#ifndef THELONIOUS_RATES_H
+#define THELONIOUS_RATES_H
 
 #include "sizes.h"
 

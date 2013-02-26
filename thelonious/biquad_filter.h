@@ -1,5 +1,5 @@
-#ifndef BIQUAD_FILTER_H
-#define BIQUAD_FILTER_H
+#ifndef THELONIOUS_BIQUAD_FILTER_H
+#define THELONIOUS_BIQUAD_FILTER_H
 
 #include "types.h"
 #include "sizes.h"

@@ -1,5 +1,5 @@
-#ifndef DELAY_H
-#define DELAY_H
+#ifndef THELONIOUS_DELAY_H
+#define THELONIOUS_DELAY_H
 
 #include "types.h"
 #include "sizes.h"

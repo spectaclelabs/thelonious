@@ -1,5 +1,5 @@
-#ifndef SIZES_H
-#define SIZES_H
+#ifndef THELONIOUS_SIZES_H
+#define THELONIOUS_SIZES_H
 
 #include <cstddef>
 

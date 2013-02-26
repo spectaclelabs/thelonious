@@ -1,5 +1,5 @@
-#ifndef WHITE_NOISE_H
-#define WHITE_NOISE_H
+#ifndef THELONIOUS_WHITE_NOISE_H
+#define THELONIOUS_WHITE_NOISE_H
 
 #include "dizzy.h"
 

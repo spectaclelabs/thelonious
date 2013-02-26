@@ -1,5 +1,5 @@
-#ifndef TYPES_H
-#define TYPES_H
+#ifndef THELONIOUS_TYPES_H
+#define THELONIOUS_TYPES_H
 
 #include <array>
 #include "sizes.h"

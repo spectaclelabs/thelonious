@@ -1,5 +1,5 @@
-#ifndef ENVELOPE_H
-#define ENVELOPE_H
+#ifndef THELONIOUS_ENVELOPE_H
+#define THELONIOUS_ENVELOPE_H
 
 #include <initializer_list>
 #include <algorithm>

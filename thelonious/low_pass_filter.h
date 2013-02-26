@@ -1,5 +1,5 @@
-#ifndef LOW_PASS_FILTER_H
-#define LOW_PASS_FILTER_H
+#ifndef THELONIOUS_LOW_PASS_FILTER_H
+#define THELONIOUS_LOW_PASS_FILTER_H
 
 #include <cmath>
 

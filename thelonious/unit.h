@@ -1,5 +1,5 @@
-#ifndef UNIT_H
-#define UNIT_H
+#ifndef THELONIOUS_UNIT_H
+#define THELONIOUS_UNIT_H
 
 #include "types.h"
 

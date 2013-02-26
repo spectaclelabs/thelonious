@@ -1,5 +1,5 @@
-#ifndef OPERATORS_H
-#define OPERATORS_H
+#ifndef THELONIOUS_OPERATORS_H
+#define THELONIOUS_OPERATORS_H
 
 #include "dizzy.h"
 

@@ -1,5 +1,5 @@
-#ifndef SINE_H
-#define SINE_H
+#ifndef THELONIOUS_SINE_H
+#define THELONIOUS_SINE_H
 
 #include <cmath>
 #include <algorithm>

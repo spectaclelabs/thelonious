@@ -1,5 +1,5 @@
-#ifndef TAP_H
-#define TAP_H
+#ifndef THELONIOUS_TAP_H
+#define THELONIOUS_TAP_H
 
 #include "types.h"
 #include "sizes.h"

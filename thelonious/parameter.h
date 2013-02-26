@@ -1,5 +1,5 @@
-#ifndef PARAMETER_H
-#define PARAMETER_H
+#ifndef THELONIOUS_PARAMETER_H
+#define THELONIOUS_PARAMETER_H
 
 #include <algorithm>
 
