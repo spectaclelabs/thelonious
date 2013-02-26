@@ -3,7 +3,7 @@
 
 #include "types.h"
 
-namespace thelonious {;
+namespace thelonious {
 
 template <size_t N>
 class Unit {
