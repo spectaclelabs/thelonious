@@ -5,6 +5,7 @@
 
 /* Core */
 #include "thelonious/util.h"
+#include "thelonious/unit.h"
 #include "thelonious/parameter.h"
 
 /* Operators */
@@ -25,3 +26,6 @@
 /* Delay */
 #include "thelonious/delay.h"
 #include "thelonious/tap.h"
+
+/* Envelopes */
+#include "thelonious/envelope.h"
