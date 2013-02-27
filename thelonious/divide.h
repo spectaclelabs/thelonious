@@ -112,7 +112,7 @@ Buffer<M, N> & operator/=(Buffer<M, N> &a, Sample b) {
 template <size_t N>
 class Divide : public Unit<N> {
 public:
-    Divide(Sample value=0.0f): value(value) {}
+    Divide(Sample value=1.0f): value(value) {}
 
     void tick(Block<N> &block) {
         Chock valueChock = value.get();
