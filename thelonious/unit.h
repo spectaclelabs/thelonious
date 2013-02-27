@@ -7,6 +7,7 @@ namespace thelonious {
 
 template <size_t N>
 class Unit {
+public:
     virtual void tick(Block<N> &block) = 0;
 
 };
