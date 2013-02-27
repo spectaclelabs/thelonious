@@ -27,16 +27,12 @@ typedef EnvelopeSegment LinearSegment;
 template <size_t N, size_t numberOfSegments>
 class Envelope : public Unit<N> {
 public:
-    Envelope(std::initializer_list<Sample> values,
-             std::initializer_list<Sample> durations) :
-        gate(0.0f, NONE), value(0.0f), time(0.0f), segmentIndex(0u),
-        playing(false), canTrigger(true), first(false) {
-        int size = std::min(values.size(), numberOfSegments + 1);
-        std::copy(values.begin(), values.begin() + size, this->values.begin());
-
-        size = std::min(durations.size(), numberOfSegments);
-        std::copy(durations.begin(), durations.begin() + size,
-                  this->durations.begin());
+    Envelope(Sample initialValue,
+             std::array<Sample, numberOfSegments> values,
+             std::array<Sample, numberOfSegments> durations) :
+        gate(0.0f, NONE), values(values), durations(durations),
+        value(initialValue), time(0.0f), segmentIndex(0u), playing(false),
+        canTrigger(true) {
     }
 
     Envelope(std::initializer_list<Sample> values,
@@ -81,18 +77,13 @@ private:
     void setSegmentVariables() {
         duration = durations[segmentIndex];
         startValue = value;
-        endValue = values[segmentIndex + 1];
+        endValue = values[segmentIndex];
     }
 
     void firstSegment() {
         segmentIndex = 0;
         setSegmentVariables();
         time = 0;
-
-        if (first) {
-            startValue = values[0];
-            first = false;
-        }
     }
 
     void nextSegment() {
@@ -107,7 +98,7 @@ private:
         }
     }
 
-    std::array<Sample, numberOfSegments + 1> values;
+    std::array<Sample, numberOfSegments> values;
     std::array<Sample, numberOfSegments> durations;
     std::array<EnvelopeSegment, numberOfSegments> segments;
 
@@ -121,7 +112,6 @@ private:
     uint32_t segmentIndex;
     bool playing;
     bool canTrigger;
-    bool first;
 };
 
 }
