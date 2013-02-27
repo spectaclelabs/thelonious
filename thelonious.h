@@ -37,4 +37,7 @@
 /* Envelopes */
 #include "thelonious/envelope.h"
 
+/* Triggers */
+#include "thelonious/trigger.h"
+
 #endif
