@@ -8,9 +8,12 @@
 
 namespace thelonious {
 
-Sample wrap(Sample value, Sample length) {
-    return value - std::floor(value / length) * length;
+Sample modulo(Sample a, Sample b) {
+    return a - std::floor(a / b) * b;
 }
+
+// Alias wrap to modulo, so we can use it semantically based on the application
+constexpr auto &wrap = modulo;
 
 constexpr uint32_t secondsToSamples(Sample seconds) {
     return seconds * SAMPLE_RATE;
