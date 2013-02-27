@@ -19,7 +19,7 @@ private:
         Sample w0 = 2.0f * M_PI * frequency * INV_SAMPLE_RATE;
         Sample cosw0 = cos(w0);
         Sample sinw0 = sin(w0);
-        Sample alpha = sinw0 * M_SQRT2 / 2.0f;
+        Sample alpha = sinw0 * M_SQRT1_2;
 
         this->coefficients.b0 = alpha;
         this->coefficients.b1 = 0;
