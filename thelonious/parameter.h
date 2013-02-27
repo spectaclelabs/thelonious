@@ -11,12 +11,14 @@ namespace thelonious {
 
 class Parameter {
 public:
-    Parameter(Sample value=0, Interpolation interpolation=LINEAR) :
-        value(value), lastValue(value), interpolation(interpolation) {}
+    Parameter(Sample value=0.0f, Interpolation interpolation=LINEAR) :
+        value(value), lastValue(value), interpolation(interpolation),
+        isDynamic(false) {}
 
     const Chock& get() {
-        if (dynamicBuffer != nullptr) {
-            return *dynamicBuffer;
+        if (isDynamic) {
+            isDynamic = false;
+            return buffer;
         }
 
         // TODO: Cubic interpolation
@@ -31,18 +33,13 @@ public:
         return buffer;
     }
 
-    void setDynamic(Chock& chock) {
-        dynamicBuffer = &chock;
+    void set(Chock& chock) {
+        std::copy(chock.begin(), chock.end(), buffer.begin());
+        isDynamic = true;
     }
 
-    void setDynamic(Block<1> &block) {
-        dynamicBuffer = &block[0];
-    }
-
-    void unsetDynamic() {
-        dynamicBuffer = nullptr;
-
-        // TODO: Should we interpolate removal of the dynamic buffer.
+    void set(Block<1> &block) {
+        set(block[0]);
     }
 
     void set(Sample value) {
@@ -62,10 +59,30 @@ private:
     Sample lastValue;
 
     Chock buffer;
-    Chock *dynamicBuffer=nullptr;
 
     Interpolation interpolation;
+
+    bool isDynamic;
 };
+
+template <size_t N>
+Block<N> operator>>(Block<N> block, Parameter &parameter) {
+    parameter.set(block);
+    return block;
+}
+
+template <size_t N>
+Block<N> operator>>(Unit<N> &unit, Parameter &parameter) {
+    Block<N> block;
+    unit.tick(block);
+    parameter.set(block);
+    return block;
+}
+
+Sample operator>>(Sample sample, Parameter &parameter) {
+    parameter.set(sample);
+    return sample;
+}
 
 }
 

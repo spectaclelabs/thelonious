@@ -12,10 +12,18 @@ public:
 
 };
 
-// TODO: Work out whether this is evil, genius, or evil genius
+
 template<size_t N>
 Block<N> & operator>>(Block<N> & block, Unit<N> & unit) {
     unit.tick(block);
+    return block;
+}
+
+template<size_t N>
+Block<N> operator>>(Unit<N> & a, Unit<N> & b) {
+    Block<N> block;
+    a.tick(block);
+    b.tick(block);
     return block;
 }
 
