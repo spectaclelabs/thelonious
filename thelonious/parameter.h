@@ -15,6 +15,10 @@ public:
         value(value), lastValue(value), interpolation(interpolation) {}
 
     const Chock& get() {
+        if (dynamicBuffer != nullptr) {
+            return *dynamicBuffer;
+        }
+
         // TODO: Cubic interpolation
         if (value == lastValue || interpolation == NONE) {
             std::fill(buffer.begin(), buffer.end(), value);
@@ -24,9 +28,6 @@ public:
             lastValue = value;
         }
 
-        if (dynamicBuffer != nullptr) {
-            dizzy::add(buffer, buffer, *dynamicBuffer);
-        }
         return buffer;
     }
 
