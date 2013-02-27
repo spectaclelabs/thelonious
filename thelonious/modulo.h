@@ -15,7 +15,7 @@ namespace thelonious {
 template <size_t N>
 Channel<N> operator%(const Channel<N> &a, const Channel<N> &b) {
     Channel<N> channel;
-    for (int i=0; i<N; i++) {
+    for (uint32_t i=0; i<N; i++) {
         channel[i] = modulo(a[i],  b[i]);
     }
     return channel;
@@ -24,7 +24,7 @@ Channel<N> operator%(const Channel<N> &a, const Channel<N> &b) {
 template <size_t N>
 Channel<N> operator%(const Channel<N> &a, Sample b) {
     Channel<N> channel;
-    for (int i=0; i<N; i++) {
+    for (uint32_t i=0; i<N; i++) {
         channel[i] = modulo(a[i], b);
     }
     return channel;
@@ -33,7 +33,7 @@ Channel<N> operator%(const Channel<N> &a, Sample b) {
 template <size_t N>
 Channel<N> operator%(Sample a, const Channel<N> &b) {
     Channel<N> channel;
-    for (int i=0; i<N; i++) {
+    for (uint32_t i=0; i<N; i++) {
         channel[i] = modulo(a, b[i]);
     }
     return channel;
@@ -44,7 +44,7 @@ Channel<N> operator%(Sample a, const Channel<N> &b) {
 template <size_t M, size_t N>
 Buffer<M, N> operator%(const Buffer<M, N> &a, const Buffer<M, N> &b) {
     Buffer<M, N> buffer;
-    for (int i=0; i<M; i++) {
+    for (uint32_t i=0; i<M; i++) {
         buffer[i] = a[i] % b[i];
     }
     return buffer;
@@ -53,7 +53,7 @@ Buffer<M, N> operator%(const Buffer<M, N> &a, const Buffer<M, N> &b) {
 template <size_t M, size_t N>
 Buffer<M, N> operator%(const Buffer<M, N> &a, Sample b) {
     Buffer<M, N> buffer;
-    for (int i=0; i<M; i++) {
+    for (uint32_t i=0; i<M; i++) {
         buffer[i] = a[i] % b;
     }
     return buffer;
@@ -62,7 +62,7 @@ Buffer<M, N> operator%(const Buffer<M, N> &a, Sample b) {
 template <size_t M, size_t N>
 Buffer<M, N> operator%(Sample a, const Buffer<M, N> &b) {
     Buffer<M, N> buffer;
-    for (int i=0; i<M; i++) {
+    for (uint32_t i=0; i<M; i++) {
         buffer[i] = a % b[i];
     }
     return buffer;
@@ -76,7 +76,7 @@ Buffer<M, N> operator%(Sample a, const Buffer<M, N> &b) {
 
 template <size_t N>
 Channel<N> & operator%=(Channel<N> &a, const Channel<N> &b) {
-    for (int i=0; i<N; i++) {
+    for (uint32_t i=0; i<N; i++) {
        a[i] = modulo(a[i], b[i]);
     }
     return a;
@@ -84,7 +84,7 @@ Channel<N> & operator%=(Channel<N> &a, const Channel<N> &b) {
 
 template <size_t N>
 Channel<N> & operator%=(Channel<N> &a, Sample b) {
-    for (int i=0; i<N; i++) {
+    for (uint32_t i=0; i<N; i++) {
         a[i] = modulo(a[i], b);
     }
     return a;
@@ -94,7 +94,7 @@ Channel<N> & operator%=(Channel<N> &a, Sample b) {
 
 template <size_t M, size_t N>
 Buffer<M, N> & operator%=(Buffer<M, N> &a, const Buffer<M, N> &b) {
-    for (int i=0; i<M; i++) {
+    for (uint32_t i=0; i<M; i++) {
         a[i] %= b[i];
     }
     return a;
@@ -102,7 +102,7 @@ Buffer<M, N> & operator%=(Buffer<M, N> &a, const Buffer<M, N> &b) {
 
 template <size_t M, size_t N>
 Buffer<M, N> & operator%=(Buffer<M, N> &a, Sample b) {
-    for (int i=0; i<M; i++) {
+    for (uint32_t i=0; i<M; i++) {
         a[i] %= b;
     }
     return a;
@@ -118,7 +118,7 @@ public:
     void tick(Block<N> &block) {
         Chock valueChock = value.get();
 
-        for (int i=0; i<N; i++) {
+        for (uint32_t i=0; i<N; i++) {
             block[i] %= valueChock;
         }
     }

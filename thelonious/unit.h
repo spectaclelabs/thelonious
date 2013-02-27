@@ -8,7 +8,15 @@ namespace thelonious {
 template <size_t N>
 class Unit {
     virtual void tick(Block<N> &block) = 0;
+
 };
+
+// TODO: Work out whether this is evil, genius, or evil genius
+template<size_t N>
+Block<N> & operator>>(Block<N> & block, Unit<N> & unit) {
+    unit.tick(block);
+    return block;
+}
 
 }
 
