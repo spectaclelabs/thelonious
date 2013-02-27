@@ -12,7 +12,11 @@
 #include "thelonious/parameter.h"
 
 /* Operators */
-#include "thelonious/operators.h"
+#include "thelonious/add.h"
+#include "thelonious/subtract.h"
+#include "thelonious/multiply.h"
+#include "thelonious/divide.h"
+#include "thelonious/modulo.h"
 
 /* Oscillators */
 #include "thelonious/sine.h"
