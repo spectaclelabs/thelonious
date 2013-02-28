@@ -6,6 +6,7 @@
 #include "dizzy.h"
 
 #include "types.h"
+#include "unit.h"
 
 namespace thelonious {
 
