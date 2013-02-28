@@ -12,14 +12,15 @@ namespace thelonious {
 template <size_t N>
 class BandPassFilter: public BiquadFilter<N> {
 public:
-    BandPassFilter(Sample frequency) : BiquadFilter<N>(frequency) {}
+    BandPassFilter(Sample frequency, Sample damping=2.0f*M_SQRT1_2) :
+        BiquadFilter<N>(frequency, damping) {}
 
 private:
-    void calculateCoefficients(Sample frequency) {
+    void calculateCoefficients(Sample frequency, Sample damping) {
         Sample w0 = 2.0f * M_PI * frequency * INV_SAMPLE_RATE;
         Sample cosw0 = cos(w0);
         Sample sinw0 = sin(w0);
-        Sample alpha = sinw0 * M_SQRT1_2;
+        Sample alpha =  0.5 * sinw0 * damping;
 
         this->coefficients.b0 = alpha;
         this->coefficients.b1 = 0;

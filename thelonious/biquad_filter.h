@@ -28,16 +28,20 @@ private:
     } Samples;
 
 public:
-    BiquadFilter(Sample frequency) : frequency(frequency) {}
+    BiquadFilter(Sample frequency, Sample damping) :
+        frequency(frequency), damping(damping) {}
 
     void tick(Block<N> &block) {
         Chock frequencyChuck = frequency.get();
+        Chock dampingChuck = damping.get();
         for (uint32_t i=0; i<BLOCK_SIZE; i++) {
             Sample frequency = frequencyChuck[i];
+            Sample damping = dampingChuck[i];
 
-            if (frequency != lastFrequency) {
-                calculateCoefficients(frequency);
+            if (frequency != lastFrequency || damping != lastDamping) {
+                calculateCoefficients(frequency, damping);
                 lastFrequency = frequency;
+                lastDamping = damping;
             }
 
             Sample invA0 = 1.0 / coefficients.a0;
@@ -60,6 +64,7 @@ public:
     }
 
     Parameter frequency;
+    Parameter damping;
 
 protected:
     Coefficients coefficients;
@@ -69,6 +74,7 @@ private:
 
     std::array<Samples, N> samples;
     Sample lastFrequency;
+    Sample lastDamping;
 };
 
 }
