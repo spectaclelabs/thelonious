@@ -14,7 +14,7 @@ public:
 
 
 template<size_t N>
-Block<N> & operator>>(Block<N> & block, Unit<N> & unit) {
+Block<N> operator>>(Block<N> block, Unit<N> & unit) {
     unit.tick(block);
     return block;
 }
