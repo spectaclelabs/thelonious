@@ -6,6 +6,7 @@
 #include "dizzy.h"
 
 #include "types.h"
+#include "sizes.h"
 #include "unit.h"
 
 namespace thelonious {
@@ -14,22 +15,31 @@ class Parameter {
 public:
     Parameter(Sample value=0.0f, Interpolation interpolation=LINEAR) :
         value(value), lastValue(value), interpolation(interpolation),
-        isDynamic(false) {}
+        isDynamic(false), needFill(true) {}
 
     const Chock& get() {
         if (isDynamic) {
             isDynamic = false;
+            lastValue = buffer[BLOCK_SIZE - 1];
+            return buffer;
+        }
+
+        // If the buffer is already filled with the correct constant value,
+        // then we don't need to do it again!
+        if (!needFill) {
             return buffer;
         }
 
         // TODO: Cubic interpolation
         if (value == lastValue || interpolation == NONE) {
             std::fill(buffer.begin(), buffer.end(), value);
+            needFill = false;
         }
         else {
             dizzy::ramp(buffer, lastValue, value);
-            lastValue = value;
         }
+
+        lastValue = value;
 
         return buffer;
     }
@@ -37,6 +47,9 @@ public:
     void set(Chock& chock) {
         std::copy(chock.begin(), chock.end(), buffer.begin());
         isDynamic = true;
+        // When we stop setting dynamically we will need to refill with the
+        // static value
+        needFill = true;
     }
 
     void set(Block<1> &block) {
@@ -45,6 +58,8 @@ public:
 
     void set(Sample value) {
         this->value = value;
+        // Value has changed, so we need to fill the buffer
+        needFill = true;
     }
 
     void setInterpolate(Interpolation interpolation) {
@@ -64,6 +79,7 @@ private:
     Interpolation interpolation;
 
     bool isDynamic;
+    bool needFill;
 };
 
 template <size_t N>
