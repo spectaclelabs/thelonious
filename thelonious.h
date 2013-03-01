@@ -20,6 +20,12 @@
 
 /* Oscillators */
 #include "thelonious/sine.h"
+#include "thelonious/saw.h"
+#include "thelonious/pulse.h"
+#include "thelonious/triangle.h"
+#include "thelonious/dpw_saw.h"
+#include "thelonious/dpw_pulse.h"
+#include "thelonious/dpw_triangle.h"
 
 /* Noise */
 #include "thelonious/white_noise.h"
