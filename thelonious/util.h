@@ -15,6 +15,22 @@ Sample modulo(Sample a, Sample b) {
 // Alias wrap to modulo, so we can use it semantically based on the application
 constexpr auto &wrap = modulo;
 
+// Should be quicker when a is unlikely to be outside b as we avoid the
+// division and floating point compares are cheap
+Sample moduloB(Sample a, Sample b) {
+    while (a >= b) {
+        a -= b;
+    }
+
+    while (a < 0.0f) {
+        a += b;
+    }
+    return a;
+}
+
+constexpr auto &wrapB = moduloB;
+
+
 constexpr uint32_t secondsToSamples(Sample seconds) {
     return seconds * SAMPLE_RATE;
 }
