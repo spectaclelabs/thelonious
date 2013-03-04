@@ -102,9 +102,9 @@ Buffer<M, N> & operator+=(Buffer<M, N> &a, Sample b) {
 // End addition assignment (+=) operators
 
 template <size_t N>
-class Add : public Unit<N> {
+class AddN : public Unit<N> {
 public:
-    Add(Sample value=0.0f): value(value) {}
+    AddN(Sample value=0.0f): value(value) {}
 
     void tick(Block<N> &block) {
         Chock valueChock = value.get();
@@ -116,6 +116,8 @@ public:
 
     Parameter value;
 };
+
+typedef AddN<1> Add;
 
 }
 

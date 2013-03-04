@@ -10,9 +10,9 @@
 namespace thelonious {
 
 template <size_t N>
-class Trigger : public Unit<N> {
+class TriggerN : public Unit<N> {
 public:
-    Trigger(Sample trigger=0.0f) : trigger(trigger, NONE) {}
+    TriggerN(Sample trigger=0.0f) : trigger(trigger, NONE) {}
 
     void tick(Block<N> &block) {
         Chock triggerChock = trigger.get();
@@ -34,6 +34,8 @@ public:
 
     Parameter trigger;
 };
+
+typedef TriggerN<1> Trigger;
 
 }
 

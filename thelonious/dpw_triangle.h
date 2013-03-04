@@ -17,9 +17,9 @@ namespace thelonious {
  * An alias-reduced triangle wave oscillator.
  */
 template <size_t N>
-class DPWTriangle : public Unit<N> {
+class DPWTriangleN : public Unit<N> {
 public:
-    DPWTriangle(Sample frequency=440.0f, Sample phase=0.0f) :
+    DPWTriangleN(Sample frequency=440.0f, Sample phase=0.0f) :
         frequency(frequency), phase(phase), position(0.5f), lastValue(0.0f),
         lastFrequency(0.0f), lastPhase(0.0f), scaleFactor(0.0f) {}
 
@@ -70,6 +70,8 @@ private:
     Sample lastPhase;
     Sample scaleFactor;
 };
+
+typedef DPWTriangleN<1> DPWTriangle;
 
 }
 

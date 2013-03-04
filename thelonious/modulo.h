@@ -111,9 +111,9 @@ Buffer<M, N> & operator%=(Buffer<M, N> &a, Sample b) {
 // End modulo assignment (%=) operators
 
 template <size_t N>
-class Modulo : public Unit<N> {
+class ModuloN : public Unit<N> {
 public:
-    Modulo(Sample value=0.0f): value(value) {}
+    ModuloN(Sample value=0.0f): value(value) {}
 
     void tick(Block<N> &block) {
         Chock valueChock = value.get();
@@ -125,6 +125,8 @@ public:
 
     Parameter value;
 };
+
+typedef ModuloN<1> Modulo;
 
 }
 

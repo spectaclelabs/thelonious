@@ -10,9 +10,9 @@
 namespace thelonious {
 
 template <size_t N, size_t bufferSize>
-class Tap : public Unit<N> {
+class TapN : public Unit<N> {
 public:
-    Tap(const Buffer<N, bufferSize> &buffer, Sample position=0.0f,
+    TapN(const Buffer<N, bufferSize> &buffer, Sample position=0.0f,
         Sample rate=1.0f, Interpolation interpolation=NONE):
         rate(rate), buffer(buffer), position(position),
         interpolation(interpolation) {}
@@ -38,6 +38,9 @@ private:
     Sample position;
     Interpolation interpolation;
 };
+
+template <size_t bufferSize>
+using Tap = TapN<1, bufferSize>;
 }
 
 #endif

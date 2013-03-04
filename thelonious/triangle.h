@@ -17,9 +17,9 @@ namespace thelonious {
  * A non-band-limited triangle wave oscillator.
  */
 template <size_t N>
-class Triangle : public Unit<N> {
+class TriangleN : public Unit<N> {
 public:
-    Triangle(Sample frequency=440.0f, Sample phase=0.0f) :
+    TriangleN(Sample frequency=440.0f, Sample phase=0.0f) :
         frequency(frequency), phase(phase), position(0.0f), lastPhase(0.0f) {}
     
     /**
@@ -57,6 +57,8 @@ private:
     Sample position;
     Sample lastPhase;
 };
+
+typedef TriangleN<1> Triangle;
 
 }
 

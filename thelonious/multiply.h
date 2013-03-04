@@ -102,9 +102,9 @@ Buffer<M, N> & operator*=(Buffer<M, N> &a, Sample b) {
 // End multiplication assignment (*=) operators
 
 template <size_t N>
-class Multiply : public Unit<N> {
+class MultiplyN : public Unit<N> {
 public:
-    Multiply(Sample value=1.0f): value(value) {}
+    MultiplyN(Sample value=1.0f): value(value) {}
 
     void tick(Block<N> &block) {
         Chock valueChock = value.get();
@@ -116,6 +116,8 @@ public:
 
     Parameter value;
 };
+
+typedef MultiplyN<1> Multiply;
 
 }
 

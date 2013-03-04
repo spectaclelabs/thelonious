@@ -9,9 +9,9 @@
 namespace thelonious {
 
 template <size_t N>
-class WhiteNoise : public Unit<N> {
+class WhiteNoiseN : public Unit<N> {
 public:
-    WhiteNoise() {}
+    WhiteNoiseN() {}
 
     void tick(Block<N> &block) {
         auto it=block.begin();
@@ -21,6 +21,8 @@ public:
         }
     }
 };
+
+typedef WhiteNoiseN<1> WhiteNoise;
 
 }
 

@@ -13,9 +13,9 @@
 
 namespace thelonious {
 template <size_t N>
-class Sine : public Unit<N> {
+class SineN : public Unit<N> {
 public:
-    Sine(Sample frequency=440.0f, Sample phase=0.0f) :
+    SineN(Sample frequency=440.0f, Sample phase=0.0f) :
         frequency(frequency), phase(phase) {}
 
     void tick(Block<N> &block) {
@@ -43,6 +43,8 @@ public:
 private:
     Sample position;
 };
+
+typedef SineN<1> Sine;
 
 }
 

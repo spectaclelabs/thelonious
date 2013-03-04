@@ -25,9 +25,9 @@ public:
 typedef EnvelopeSegment LinearSegment;
 
 template <size_t N, size_t numberOfSegments>
-class Envelope : public Unit<N> {
+class EnvelopeN : public Unit<N> {
 public:
-    Envelope(Sample initialValue,
+    EnvelopeN(Sample initialValue,
              std::array<Sample, numberOfSegments> values,
              std::array<Sample, numberOfSegments> durations) :
         gate(0.0f, NONE), values(values), durations(durations),
@@ -35,10 +35,10 @@ public:
         canTrigger(true) {
     }
 
-    Envelope(std::initializer_list<Sample> values,
+    EnvelopeN(std::initializer_list<Sample> values,
              std::initializer_list<Sample> durations,
              std::initializer_list<Sample> segments) :
-        Envelope(values, durations) {
+        EnvelopeN(values, durations) {
         int size = std::min(segments.size(), numberOfSegments);
         std::copy(segments.begin(), segments.begin() + size,
                   this->segments.begin());
@@ -113,6 +113,9 @@ private:
     bool playing;
     bool canTrigger;
 };
+
+template <size_t numberOfSegments>
+using Envelope = EnvelopeN<1, numberOfSegments>;
 
 }
 #endif

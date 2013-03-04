@@ -10,9 +10,9 @@
 namespace thelonious {
 
 template <size_t N>
-class LowPassFilter: public BiquadFilter<N> {
+class LowPassFilterN: public BiquadFilter<N> {
 public:
-    LowPassFilter(Sample frequency, Sample damping=2.0f*M_SQRT1_2) :
+    LowPassFilterN(Sample frequency, Sample damping=2.0f*M_SQRT1_2) :
         BiquadFilter<N>(frequency, damping) {}
 
 private:
@@ -30,6 +30,8 @@ private:
         this->coefficients.a2 = 1.0f - alpha; 
     }
 };
+
+typedef LowPassFilterN<1> LowPassFilter;
 
 }
 

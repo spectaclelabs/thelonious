@@ -16,9 +16,9 @@ namespace thelonious {
  * A non-band-limited pulse oscillator, with a variable pulse width
  */
 template <size_t N>
-class Pulse : public Unit<N> {
+class PulseN : public Unit<N> {
 public:
-    Pulse(Sample frequency=440.0f, Sample width=0.5f) :
+    PulseN(Sample frequency=440.0f, Sample width=0.5f) :
         frequency(frequency), width(width), positionA(0.5f), 
         positionB(0.5f), lastPhase(0.0f) {}
 
@@ -60,6 +60,8 @@ private:
     Sample positionB;
     Sample lastPhase;
 };
+
+typedef PulseN<1> Pulse;
 
 }
 

@@ -17,9 +17,9 @@ namespace thelonious {
  * An alias-reduced sawtooth oscillator.
  */
 template <size_t N>
-class DPWSaw : public Unit<N> {
+class DPWSawN : public Unit<N> {
 public:
-    DPWSaw(Sample frequency=440.0f, Sample phase=0.0f) :
+    DPWSawN(Sample frequency=440.0f, Sample phase=0.0f) :
         frequency(frequency), phase(phase), position(0.5f), lastValue(0.0f),
         lastFrequency(0.0f), lastPhase(0.0f), scaleFactor(0.0f) {}
 
@@ -71,6 +71,8 @@ private:
     Sample lastPhase;
     Sample scaleFactor;
 };
+
+typedef DPWSawN<1> DPWSaw;
 
 }
 

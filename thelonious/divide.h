@@ -110,9 +110,9 @@ Buffer<M, N> & operator/=(Buffer<M, N> &a, Sample b) {
 // End division assignment (/=) operators
 
 template <size_t N>
-class Divide : public Unit<N> {
+class DivideN : public Unit<N> {
 public:
-    Divide(Sample value=1.0f): value(value) {}
+    DivideN(Sample value=1.0f): value(value) {}
 
     void tick(Block<N> &block) {
         Chock valueChock = value.get();
@@ -124,6 +124,8 @@ public:
 
     Parameter value;
 };
+
+typedef DivideN<1> Divide;
 
 }
 

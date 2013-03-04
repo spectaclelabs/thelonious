@@ -70,7 +70,7 @@ protected:
     Coefficients coefficients;
 
 private:
-    virtual void calculateCoefficients(Sample frequency) = 0;
+    virtual void calculateCoefficients(Sample frequency, Sample damping) = 0;
 
     std::array<Samples, N> samples;
     Sample lastFrequency;

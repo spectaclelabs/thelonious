@@ -10,9 +10,9 @@
 namespace thelonious {
 
 template <size_t N, size_t bufferSize>
-class Delay : public Unit<N> {
+class DelayN : public Unit<N> {
 public:
-    Delay(Buffer<N, bufferSize> &buffer, Sample position=0.0f,
+    DelayN(Buffer<N, bufferSize> &buffer, Sample position=0.0f,
           Sample rate=1.0f):
         rate(rate), buffer(buffer), position(position) {}
 
@@ -35,6 +35,9 @@ private:
     Buffer<N, bufferSize> &buffer;
     Sample position;
 };
+
+template <size_t bufferSize>
+using Delay = DelayN<1, bufferSize>;
 
 }
 

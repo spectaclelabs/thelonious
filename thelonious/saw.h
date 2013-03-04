@@ -18,9 +18,9 @@ namespace thelonious {
  * A non-band-limited sawtooth oscillator.
  */
 template <size_t N>
-class Saw : public Unit<N> {
+class SawN : public Unit<N> {
 public:
-    Saw(Sample frequency=440.0f, Sample phase=0.0f) :
+    SawN(Sample frequency=440.0f, Sample phase=0.0f) :
         frequency(frequency), phase(phase), position(0.5f), lastPhase(0.0f) {}
 
     /**
@@ -57,6 +57,8 @@ private:
     Sample position;
     Sample lastPhase;
 };
+
+typedef SawN<1> Saw;
 
 }
 

@@ -110,9 +110,9 @@ Buffer<M, N> & operator-=(Buffer<M, N> &a, Sample b) {
 // End subtraction assignment (-=) operators
 
 template <size_t N>
-class Subtract : public Unit<N> {
+class SubtractN : public Unit<N> {
 public:
-    Subtract(Sample value=0.0f): value(value) {}
+    SubtractN(Sample value=0.0f): value(value) {}
 
     void tick(Block<N> &block) {
         Chock valueChock = value.get();
@@ -124,6 +124,8 @@ public:
 
     Parameter value;
 };
+
+typedef SubtractN<1> Subtract;
 
 }
 

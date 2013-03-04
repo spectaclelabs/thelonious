@@ -17,9 +17,9 @@ namespace thelonious {
  * An alias-reduced pulse wave oscillator.
  */
 template <size_t N>
-class DPWPulse : public Unit<N> {
+class DPWPulseN : public Unit<N> {
 public:
-    DPWPulse(Sample frequency=440.0f, Sample width=0.5f) :
+    DPWPulseN(Sample frequency=440.0f, Sample width=0.5f) :
         frequency(frequency), width(width), positionA(0.5f), positionB(0.5f),
         lastValueA(0.0f), lastValueB(0.0f), lastFrequency(0.0f),
         lastPhase(0.0f), scaleFactor(0.0f) {}
@@ -77,6 +77,8 @@ private:
     Sample lastPhase;
     Sample scaleFactor;
 };
+
+typedef DPWPulseN<1> DPWPulse;
 
 }
 
