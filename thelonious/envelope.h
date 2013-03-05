@@ -2,6 +2,7 @@
 #define THELONIOUS_ENVELOPE_H
 
 #include <initializer_list>
+#include <vector>
 #include <algorithm>
 
 #include "types.h"
@@ -24,24 +25,15 @@ public:
 // typedef allows us to create LinearSegments semantically
 typedef EnvelopeSegment LinearSegment;
 
-template <size_t N, size_t numberOfSegments>
+template <size_t N>
 class EnvelopeN : public Unit<N> {
 public:
     EnvelopeN(Sample initialValue,
-             std::array<Sample, numberOfSegments> values,
-             std::array<Sample, numberOfSegments> durations) :
+             std::initializer_list<Sample> values,
+             std::initializer_list<Sample> durations) :
         gate(0.0f, NONE), values(values), durations(durations),
-        value(initialValue), time(0.0f), segmentIndex(0u), playing(false),
-        canTrigger(true) {
-    }
-
-    EnvelopeN(std::initializer_list<Sample> values,
-             std::initializer_list<Sample> durations,
-             std::initializer_list<Sample> segments) :
-        EnvelopeN(values, durations) {
-        int size = std::min(segments.size(), numberOfSegments);
-        std::copy(segments.begin(), segments.begin() + size,
-                  this->segments.begin());
+        segments(values.size()), value(initialValue), time(0.0f),
+        segmentIndex(0u), playing(false), canTrigger(true) {
     }
 
     void tick(Block<N> &block) {
@@ -89,7 +81,7 @@ private:
     void nextSegment() {
         segmentIndex++;
 
-        if (segmentIndex == numberOfSegments) {
+        if (segmentIndex == segments.size()) {
             playing = false;
         }
         else {
@@ -98,9 +90,9 @@ private:
         }
     }
 
-    std::array<Sample, numberOfSegments> values;
-    std::array<Sample, numberOfSegments> durations;
-    std::array<EnvelopeSegment, numberOfSegments> segments;
+    std::vector<Sample> values;
+    std::vector<Sample> durations;
+    std::vector<EnvelopeSegment> segments;
 
     Sample value;
     Sample time;
@@ -114,8 +106,7 @@ private:
     bool canTrigger;
 };
 
-template <size_t numberOfSegments>
-using Envelope = EnvelopeN<1, numberOfSegments>;
+typedef EnvelopeN<1> Envelope;
 
 }
 #endif
