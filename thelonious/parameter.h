@@ -44,7 +44,7 @@ public:
         return buffer;
     }
 
-    void set(Chock& chock) {
+    void set(const Chock& chock) {
         std::copy(chock.begin(), chock.end(), buffer.begin());
         isDynamic = true;
         // When we stop setting dynamically we will need to refill with the
@@ -52,7 +52,7 @@ public:
         needFill = true;
     }
 
-    void set(Block<1> &block) {
+    void set(const Block<1> &block) {
         set(block[0]);
     }
 
@@ -82,12 +82,30 @@ private:
     bool needFill;
 };
 
+/**
+ * Copy an lvalue block into the parameter.
+ * Usage example: void tick(Block<N> block) { block >> ocillator.frequency }
+ */
 template <size_t N>
-Block<N> operator>>(Block<N> block, Parameter &parameter) {
+Block<N> & operator>>(Block<N> & block, Parameter &parameter) {
     parameter.set(block);
     return block;
 }
 
+/**
+ * Copy an rvalue block into the parameter.
+ * Usage example: lfo >> gain >> oscillator.frequency
+ */
+template <size_t N>
+Block<N> operator>>(Block<N> && block, Parameter &parameter) {
+    parameter.set(block);
+    return std::move(block);
+}
+
+/**
+ * Set the parameter from an lvalue unit's output.
+ * Usage example: lfo >> oscillator.frequency;
+ */
 template <size_t N>
 Block<N> operator>>(Unit<N> &unit, Parameter &parameter) {
     Block<N> block;
@@ -96,6 +114,22 @@ Block<N> operator>>(Unit<N> &unit, Parameter &parameter) {
     return block;
 }
 
+/**
+ * Set the parameter from an rvalue unit's output.
+ * Usage example: (lfo1 + lfo2) >> oscillator.frequency;
+ */
+template <size_t N>
+Block<N> operator>>(Unit<N> &&unit, Parameter &parameter) {
+    Block<N> block;
+    unit.tick(block);
+    parameter.set(block);
+    return block;
+}
+
+/**
+ * Set the parameter from a sample.
+ * Usage example: 440.0f >> oscillator.frequency;
+ */
 Sample operator>>(Sample sample, Parameter &parameter) {
     parameter.set(sample);
     return sample;

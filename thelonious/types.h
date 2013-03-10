@@ -3,10 +3,11 @@
 
 #include <array>
 #include "sizes.h"
+#include "fix16.hpp"
 
 namespace thelonious {
 
-typedef float Sample;
+typedef Fix16 Sample;
 
 template <size_t N>
 using Channel = std::array<Sample, N>;
@@ -20,6 +21,16 @@ template <size_t M>
 using Block = std::array<Chock, M>;
 
 enum Interpolation {NONE, LINEAR, CUBIC};
+
+/**
+ * Move an rvalue block into an lvalue block.
+ * Usage example: void tick(Block<N> block) { oscillator >> effect >> block; }
+ */
+template <size_t N>
+void operator>>(Block<N> &&blockA, Block<N> &blockB) {
+    blockB = std::move(blockA);
+}
+    
 
 }
 

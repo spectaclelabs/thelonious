@@ -18,6 +18,13 @@
 #include "thelonious/divide.h"
 #include "thelonious/modulo.h"
 
+/* Unit operators */
+#include "thelonious/unit_add.h"
+#include "thelonious/unit_subtract.h"
+#include "thelonious/unit_multiply.h"
+#include "thelonious/unit_divide.h"
+#include "thelonious/unit_modulo.h"
+
 /* Oscillators */
 #include "thelonious/sine.h"
 #include "thelonious/saw.h"
