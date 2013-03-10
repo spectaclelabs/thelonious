@@ -7,6 +7,7 @@
 #include "types.h"
 #include "rates.h"
 #include "sizes.h"
+#include "constants.h"
 #include "unit.h"
 #include "parameter.h"
 #include "util.h"
@@ -26,10 +27,10 @@ public:
 
         for (uint32_t i=0; i<BLOCK_SIZE; i++) {
             channel[i] = sin(position + phaseChock[i]);
-            position += 2 * M_PI * INV_AUDIO_RATE * frequencyChock[i];
+            position += 2 * T_PI * INV_AUDIO_RATE * frequencyChock[i];
         }
 
-        position = wrap(position, 2 * M_PI);
+        position = wrap(position, 2 * T_PI);
 
         auto it=block.begin() + 1;
         auto end = block.end();

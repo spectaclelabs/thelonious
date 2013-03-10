@@ -5,6 +5,7 @@
 
 #include "types.h"
 #include "rates.h"
+#include "constants.h"
 #include "biquad_filter.h"
 
 namespace thelonious {
@@ -12,12 +13,12 @@ namespace thelonious {
 template <size_t N>
 class LowPassFilterN: public BiquadFilter<N> {
 public:
-    LowPassFilterN(Sample frequency, Sample damping=2.0f*M_SQRT1_2) :
+    LowPassFilterN(Sample frequency, Sample damping=2.0f*T_SQRT1_2) :
         BiquadFilter<N>(frequency, damping) {}
 
 private:
     void calculateCoefficients(Sample frequency, Sample damping) {
-        Sample w0 = 2.0f * M_PI * frequency * INV_SAMPLE_RATE;
+        Sample w0 = 2.0f * T_PI * frequency * INV_SAMPLE_RATE;
         Sample cosw0 = cos(w0);
         Sample sinw0 = sin(w0);
         Sample alpha = 0.5f * sinw0 * damping;
