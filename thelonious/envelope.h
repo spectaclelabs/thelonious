@@ -15,10 +15,9 @@
 namespace thelonious {
 class EnvelopeSegment {
 public:
-    virtual Sample get(Sample startValue, Sample endValue,
-                       Sample time, Sample duration) {
+    virtual Sample get(Sample startValue, Sample endValue, Sample position) {
         // Default to linear segments
-        return linearInterpolate(startValue, endValue, time / duration);
+        return linearInterpolate(startValue, endValue, position);
     }
 };
 
@@ -55,7 +54,7 @@ public:
 
             if (playing) {
                 value = segments[segmentIndex].get(startValue, endValue,
-                                                   time, duration);
+                                                   time * invDuration);
                 time += INV_SAMPLE_RATE;
             }
 
@@ -68,6 +67,7 @@ public:
 private:
     void setSegmentVariables() {
         duration = durations[segmentIndex];
+        invDuration = 1.0f / duration;
         startValue = value;
         endValue = values[segmentIndex];
     }
@@ -98,6 +98,7 @@ private:
     Sample time;
 
     Sample duration;
+    Sample invDuration;
     Sample startValue;
     Sample endValue;
 
