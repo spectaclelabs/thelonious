@@ -3,11 +3,11 @@
 
 #include <array>
 #include "sizes.h"
-#include "fixed_point_16.hpp"
+#include "fixed_point_16.h"
 
 namespace thelonious {
 
-typedef Fix16 Sample;
+typedef FixedPoint16 Sample;
 //typedef float Sample;
 
 template <size_t N>
