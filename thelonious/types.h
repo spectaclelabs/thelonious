@@ -2,13 +2,20 @@
 #define THELONIOUS_TYPES_H
 
 #include <array>
-#include "sizes.h"
+
+#ifdef FIXED_POINT
 #include "fixed_point_16.h"
+#endif
+
+#include "sizes.h"
 
 namespace thelonious {
 
+#ifdef FIXED_POINT
 typedef FixedPoint16 Sample;
-//typedef float Sample;
+#else
+typedef float Sample;
+#endif
 
 template <size_t N>
 using Channel = std::array<Sample, N>;
