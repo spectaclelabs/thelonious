@@ -3,11 +3,12 @@
 
 #include <array>
 #include "sizes.h"
-#include "fix16.hpp"
+#include "fixed_point_16.hpp"
 
 namespace thelonious {
 
 typedef Fix16 Sample;
+//typedef float Sample;
 
 template <size_t N>
 using Channel = std::array<Sample, N>;
