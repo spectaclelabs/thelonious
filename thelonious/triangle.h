@@ -40,7 +40,7 @@ public:
 
             position = wrapB(position, 1.0f);
 
-            channel[i] = std::abs(position - 0.5) * 4 - 1;
+            channel[i] = abs(position - 0.5) * 4 - 1;
             position += frequency * INV_SAMPLE_RATE;
         }
 

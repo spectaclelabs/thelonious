@@ -27,12 +27,12 @@ public:
 
         for (uint32_t i=0; i<BLOCK_SIZE; i++) {
             channel[i] = sin(position + phaseChock[i]);
-            position += 2 * T_PI * INV_AUDIO_RATE * frequencyChock[i];
+            position += 2.0f * T_PI * INV_AUDIO_RATE * frequencyChock[i];
         }
 
-        position = wrap(position, 2 * T_PI);
+        position = wrap(position, 2.0f * T_PI);
 
-        auto it=block.begin() + 1;
+        auto it=block.begin() + 1u;
         auto end = block.end();
         for (; it<end; it++) {
             std::copy(channel.begin(), channel.end(), (*it).begin());

@@ -31,11 +31,13 @@ Sample moduloB(Sample a, Sample b) {
 constexpr auto &wrapB = moduloB;
 
 
-constexpr uint32_t secondsToSamples(Sample seconds) {
+/* Use float rather than Sample for constexpr, so it can be calculated at
+ * compile time when using fixed-point maths */
+constexpr uint32_t secondsToSamples(float seconds) {
     return seconds * SAMPLE_RATE;
 }
 
-constexpr Sample samplesToSeconds(uint32_t samples) {
+constexpr float samplesToSeconds(uint32_t samples) {
     return samples * INV_SAMPLE_RATE;
 }
 

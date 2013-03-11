@@ -47,7 +47,7 @@ public:
             position = wrapB(position, 1.0f);
 
             Sample value = position * 2 - 1;
-            value -= value * std::abs(value);
+            value -= value * abs(value);
             channel[i] = (value - lastValue) * scaleFactor;
             lastValue = value;
 

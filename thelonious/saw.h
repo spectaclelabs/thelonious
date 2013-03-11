@@ -40,11 +40,11 @@ public:
 
             position = wrapB(position, 1.0f);
 
-            channel[i] = position * 2 - 1;
+            channel[i] = position * 2.0f - 1.0f;
             position += frequency * INV_SAMPLE_RATE;
         }
 
-        auto it=block.begin() + 1;
+        auto it=block.begin() + 1u;
         auto end = block.end();
         for (; it<end; it++) {
             std::copy(channel.begin(), channel.end(), (*it).begin());
