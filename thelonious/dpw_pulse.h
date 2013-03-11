@@ -35,7 +35,7 @@ public:
         for (uint32_t i=0; i<BLOCK_SIZE; i++) {
             Sample frequency = frequencyChock[i];
             if (frequency != lastFrequency) {
-                scaleFactor = 0.5 * SAMPLE_RATE / (4.0f * frequency);
+                scaleFactor = 0.5f * SAMPLE_RATE / (4.0f * frequency);
                 lastFrequency = frequency;
             }
 
@@ -46,8 +46,8 @@ public:
             positionA = wrapB(positionA, 1.0f);
             positionB = wrapB(positionB, 1.0f);
 
-            Sample valueA = positionA * 2 - 1;
-            Sample valueB = positionB * 2 - 1;
+            Sample valueA = positionA * 2.0f - 1.0f;
+            Sample valueB = positionB * 2.0f - 1.0f;
             valueA = valueA * valueA;
             valueB = valueB * valueB;
             channel[i] = ((valueA - lastValueA) -

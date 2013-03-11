@@ -44,7 +44,7 @@ public:
                 lastDamping = damping;
             }
 
-            Sample invA0 = 1.0 / coefficients.a0;
+            Sample invA0 = 1.0f / coefficients.a0;
 
             for (uint32_t j=0; j<N; j++) {
                 Sample output = coefficients.b0 * invA0 * block[j][i] +
