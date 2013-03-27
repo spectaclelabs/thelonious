@@ -7,7 +7,7 @@ GMOCK_DIR = ../../gmock-1.6.0
 # Compiler options
 CXX = g++
 CXXFLAGS = -Werror -Wall -g -std=c++11
-INC = -I ../ -I ../../dizzy -I $(GMOCK_DIR)/include -I $(GMOCK_DIR)/gtest/include
+INC = -I ../ -I $(GMOCK_DIR)/include -I $(GMOCK_DIR)/gtest/include
 LIB = -L $(GMOCK_DIR) -l gmock -l pthread
 
 all: $(EXE) .gitignore

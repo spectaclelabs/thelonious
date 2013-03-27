@@ -3,11 +3,10 @@
 
 #include <algorithm>
 
-#include "dizzy.h"
-
 #include "types.h"
-#include "thelonious/constants/sizes.h"
 #include "unit.h"
+#include "util.h"
+#include "thelonious/constants/sizes.h"
 
 namespace thelonious {
 
@@ -36,7 +35,10 @@ public:
             needFill = false;
         }
         else {
-            dizzy::ramp(buffer, lastValue, value);
+            for (uint32_t i=0; i<constants::BLOCK_SIZE; i++) {
+                buffer[i] = linearInterpolate(lastValue, value,
+                                              i * constants::INV_BLOCK_SIZE);
+            }
         }
 
         lastValue = value;
