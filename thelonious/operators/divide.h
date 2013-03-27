@@ -1,11 +1,12 @@
 #ifndef THELONIOUS_DIVIDE_H
 #define THELONIOUS_DIVIDE_H
 
-#include "types.h"
-#include "unit.h"
-#include "parameter.h"
+#include "thelonious/types.h"
+#include "thelonious/unit.h"
+#include "thelonious/parameter.h"
 
 namespace thelonious {
+namespace operators {
 
 // Division (/) operators
 
@@ -127,6 +128,7 @@ public:
 
 typedef DivideN<1> Divide;
 
-}
+} // namespace operators
+} // namespace thelonious
 
 #endif

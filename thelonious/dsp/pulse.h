@@ -1,17 +1,18 @@
 #ifndef THELONIOUS_PULSE_H
 #define THELONIOUS_PULSE_H
 
-#include <cmath>
 #include <algorithm>
 
-#include "types.h"
-#include "rates.h"
-#include "sizes.h"
-#include "unit.h"
-#include "parameter.h"
-#include "util.h"
+#include "thelonious/types.h"
+#include "thelonious/unit.h"
+#include "thelonious/parameter.h"
+#include "thelonious/util.h"
+#include "thelonious/constants/rates.h"
+#include "thelonious/constants/sizes.h"
 
 namespace thelonious {
+namespace dsp {
+
 /**
  * A non-band-limited pulse oscillator, with a variable pulse width
  */
@@ -31,7 +32,7 @@ public:
         Chock widthChock = width.get();
         Chock &channel = block[0];
 
-        for (uint32_t i=0; i<BLOCK_SIZE; i++) {
+        for (uint32_t i=0; i<constants::BLOCK_SIZE; i++) {
             Sample frequency = frequencyChock[i];
 
             Sample phase = widthChock[i];
@@ -42,8 +43,8 @@ public:
             positionB = wrapB(positionB, 1.0f);
 
             channel[i] = (positionA - positionB);
-            positionA += frequency * INV_SAMPLE_RATE;
-            positionB += frequency * INV_SAMPLE_RATE;
+            positionA += frequency * constants::INV_SAMPLE_RATE;
+            positionB += frequency * constants::INV_SAMPLE_RATE;
         }
 
         auto it=block.begin() + 1;
@@ -63,6 +64,7 @@ private:
 
 typedef PulseN<1> Pulse;
 
-}
+} // namespace dsp
+} // namespace thelonious
 
 #endif

@@ -4,14 +4,15 @@
 #include <cmath>
 #include <algorithm>
 
-#include "types.h"
-#include "rates.h"
-#include "sizes.h"
-#include "unit.h"
-#include "parameter.h"
-#include "util.h"
+#include "thelonious/types.h"
+#include "thelonious/unit.h"
+#include "thelonious/parameter.h"
+#include "thelonious/util.h"
+#include "thelonious/constants/rates.h"
+#include "thelonious/constants/sizes.h"
 
 namespace thelonious {
+namespace dsp {
 
 /**
  * A non-band-limited triangle wave oscillator.
@@ -31,7 +32,7 @@ public:
         Chock phaseChock = phase.get();
         Chock &channel = block[0];
 
-        for (uint32_t i=0; i<BLOCK_SIZE; i++) {
+        for (uint32_t i=0; i<constants::BLOCK_SIZE; i++) {
             Sample frequency = frequencyChock[i];
 
             Sample phase = phaseChock[i];
@@ -40,8 +41,8 @@ public:
 
             position = wrapB(position, 1.0f);
 
-            channel[i] = abs(position - 0.5) * 4 - 1;
-            position += frequency * INV_SAMPLE_RATE;
+            channel[i] = std::abs(position - 0.5) * 4 - 1;
+            position += frequency * constants::INV_SAMPLE_RATE;
         }
 
         auto it=block.begin() + 1;
@@ -60,6 +61,7 @@ private:
 
 typedef TriangleN<1> Triangle;
 
-}
+} // namespace dsp
+} // namespace thelonious
 
 #endif

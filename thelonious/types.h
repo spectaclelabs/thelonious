@@ -3,24 +3,16 @@
 
 #include <array>
 
-#ifdef FIXED_POINT
-#include "fixed_point_16.h"
-#endif
-
-#include "sizes.h"
+#include "thelonious/constants/sizes.h"
 
 namespace thelonious {
 
-#ifdef FIXED_POINT
-typedef FixedPoint16 Sample;
-#else
 typedef float Sample;
-#endif
 
 template <size_t N>
 using Channel = std::array<Sample, N>;
 
-using Chock = Channel<BLOCK_SIZE>;
+using Chock = Channel<constants::BLOCK_SIZE>;
 
 template <size_t M, size_t N>
 using Buffer = std::array<Channel<N>, M>;
@@ -38,8 +30,7 @@ template <size_t N>
 void operator>>(Block<N> &&blockA, Block<N> &blockB) {
     blockB = std::move(blockA);
 }
-    
 
-}
+} // namespace thelonious
 
 #endif

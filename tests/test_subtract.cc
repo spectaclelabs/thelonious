@@ -1,7 +1,7 @@
 #include "gmock/gmock.h"
 #include "gtest/gtest.h"
 
-#include "thelonious/subtract.h"
+#include "thelonious/operators/subtract.h"
 
 int main(int argc, char** argv) {
     testing::InitGoogleMock(&argc, argv);

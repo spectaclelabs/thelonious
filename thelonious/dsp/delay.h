@@ -1,13 +1,14 @@
 #ifndef THELONIOUS_DELAY_H
 #define THELONIOUS_DELAY_H
 
-#include "types.h"
-#include "sizes.h"
-#include "unit.h"
-#include "parameter.h"
-#include "util.h"
+#include "thelonious/types.h"
+#include "thelonious/unit.h"
+#include "thelonious/parameter.h"
+#include "thelonious/util.h"
+#include "thelonious/constants/sizes.h"
 
 namespace thelonious {
+namespace dsp {
 
 template <size_t N, size_t bufferSize>
 class DelayN : public Unit<N> {
@@ -19,7 +20,7 @@ public:
     void tick(const Block<N> &block) {
         Chock rateChock = rate.get();
 
-        for (uint32_t i=0; i<BLOCK_SIZE; i++) {
+        for (uint32_t i=0; i<constants::BLOCK_SIZE; i++) {
             for (uint32_t j=0; j<N; j++) {
                 buffer[j][position] = block[j][i];
             }
@@ -39,6 +40,7 @@ private:
 template <size_t bufferSize>
 using Delay = DelayN<1, bufferSize>;
 
-}
+} // namespace dsp
+} // namespace thelonious
 
 #endif

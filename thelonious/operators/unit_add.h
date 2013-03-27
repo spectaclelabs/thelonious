@@ -1,10 +1,11 @@
 #ifndef THELONIOUS_UNIT_ADD_H
 #define THELONIOUS_UNIT_ADD_H
 
-#include "types.h"
-#include "unit.h"
+#include "thelonious/types.h"
+#include "thelonious/unit.h"
 
 namespace thelonious {
+namespace operators {
 
 template <size_t N>
 class UnitAddN : public Unit<N> {
@@ -48,6 +49,7 @@ UnitAddN<N> operator+(Unit<N> &&a, Unit<N> &&b) {
 
 
 
-}
+} // namespace operators
+} // namespace thelonious
 
 #endif

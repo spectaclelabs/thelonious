@@ -1,17 +1,17 @@
 #ifndef THELONIOUS_DPW_SAW_H
 #define THELONIOUS_DPW_SAW_H
 
-#include <cmath>
 #include <algorithm>
 
-#include "types.h"
-#include "rates.h"
-#include "sizes.h"
-#include "unit.h"
-#include "parameter.h"
-#include "util.h"
+#include "thelonious/types.h"
+#include "thelonious/unit.h"
+#include "thelonious/parameter.h"
+#include "thelonious/util.h"
+#include "thelonious/constants/rates.h"
+#include "thelonious/constants/sizes.h"
 
 namespace thelonious {
+namespace dsp {
 
 /**
  * An alias-reduced sawtooth oscillator.
@@ -34,10 +34,10 @@ public:
         Chock phaseChock = phase.get();
         Chock &channel = block[0];
 
-        for (uint32_t i=0; i<BLOCK_SIZE; i++) {
+        for (uint32_t i=0; i<constants::BLOCK_SIZE; i++) {
             Sample frequency = frequencyChock[i];
             if (frequency != lastFrequency) {
-                scaleFactor = SAMPLE_RATE / (4.0f * frequency);
+                scaleFactor = constants::SAMPLE_RATE / (4.0f * frequency);
                 lastFrequency = frequency;
             }
 
@@ -52,7 +52,7 @@ public:
             channel[i] = (value - lastValue) * scaleFactor;
             lastValue = value;
 
-            position += frequency * INV_SAMPLE_RATE;
+            position += frequency * constants::INV_SAMPLE_RATE;
         }
 
         auto it=block.begin() + 1;
@@ -74,6 +74,7 @@ private:
 
 typedef DPWSawN<1> DPWSaw;
 
-}
+} // namespace dsp
+} // namespace thelonious
 
 #endif

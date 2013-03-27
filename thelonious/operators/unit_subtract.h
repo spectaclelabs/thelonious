@@ -1,10 +1,11 @@
 #ifndef THELONIOUS_UNIT_SUBTRACT_H
 #define THELONIOUS_UNIT_SUBTRACT_H
 
-#include "types.h"
-#include "unit.h"
+#include "thelonious/types.h"
+#include "thelonious/unit.h"
 
 namespace thelonious {
+namespace operators {
 
 template <size_t N>
 class UnitSubtractN : public Unit<N> {
@@ -47,6 +48,7 @@ UnitSubtractN<N> operator-(Unit<N> &&a, Unit<N> &&b) {
     return UnitSubtractN<N>(std::move(a), std::move(b));
 }
 
-}
+} // namespace operators
+} // namespace thelonious
 
 #endif

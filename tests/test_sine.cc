@@ -1,7 +1,7 @@
 #include "gmock/gmock.h"
 #include "gtest/gtest.h"
 
-#include "thelonious/sine.h"
+#include "thelonious/dsp/sine.h"
 
 int main(int argc, char** argv) {
     testing::InitGoogleMock(&argc, argv);

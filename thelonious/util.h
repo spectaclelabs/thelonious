@@ -4,7 +4,7 @@
 #include <cmath>
 
 #include "types.h"
-#include "rates.h"
+#include "constants/rates.h"
 
 namespace thelonious {
 
@@ -30,22 +30,19 @@ Sample moduloB(Sample a, Sample b) {
 
 constexpr auto &wrapB = moduloB;
 
-
-/* Use float rather than Sample for constexpr, so it can be calculated at
- * compile time when using fixed-point maths */
 constexpr uint32_t secondsToSamples(float seconds) {
-    return seconds * SAMPLE_RATE;
+    return seconds * constants::SAMPLE_RATE;
 }
 
 constexpr float samplesToSeconds(uint32_t samples) {
-    return samples * INV_SAMPLE_RATE;
+    return samples * constants::INV_SAMPLE_RATE;
 }
 
 Sample linearInterpolate(Sample start, Sample end, Sample position) {
     return start + position * (end - start);
 }
 
-}
+} // namespace thelonious
 
 #endif
 

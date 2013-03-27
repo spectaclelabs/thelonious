@@ -1,12 +1,13 @@
 #ifndef THELONIOUS_MODULO_H
 #define THELONIOUS_MODULO_H
 
-#include "types.h"
-#include "unit.h"
-#include "parameter.h"
-#include "util.h"
+#include "thelonious/types.h"
+#include "thelonious/unit.h"
+#include "thelonious/parameter.h"
+#include "thelonious/util.h"
 
 namespace thelonious {
+namespace operators {
 
 // Modulo (%) operators
 
@@ -128,6 +129,7 @@ public:
 
 typedef ModuloN<1> Modulo;
 
-}
+} // namespace operators
+} // namespace thelonious
 
 #endif

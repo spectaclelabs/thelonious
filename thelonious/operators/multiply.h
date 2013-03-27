@@ -1,11 +1,12 @@
 #ifndef THELONIOUS_MULTIPLY_H
 #define THELONIOUS_MULTIPLY_H
 
-#include "types.h"
-#include "unit.h"
-#include "parameter.h"
+#include "thelonious/types.h"
+#include "thelonious/unit.h"
+#include "thelonious/parameter.h"
 
 namespace thelonious {
+namespace operators {
 
 // Multiplication (*) operators
 
@@ -119,6 +120,7 @@ public:
 
 typedef MultiplyN<1> Multiply;
 
-}
+} // namespace operators
+} // namespace thelonious
 
 #endif

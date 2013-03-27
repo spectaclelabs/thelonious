@@ -3,10 +3,11 @@
 
 #include "dizzy.h"
 
-#include "types.h"
-#include "unit.h"
+#include "thelonious/types.h"
+#include "thelonious/unit.h"
 
 namespace thelonious {
+namespace dsp {
 
 template <size_t N>
 class WhiteNoiseN : public Unit<N> {
@@ -24,6 +25,7 @@ public:
 
 typedef WhiteNoiseN<1> WhiteNoise;
 
-}
+} // namespace dsp
+} // namespace thelonious
 
 #endif

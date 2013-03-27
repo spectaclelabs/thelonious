@@ -1,13 +1,14 @@
 #ifndef THELONIOUS_TAP_H
 #define THELONIOUS_TAP_H
 
-#include "types.h"
-#include "sizes.h"
-#include "unit.h"
-#include "parameter.h"
-#include "util.h"
+#include "thelonious/types.h"
+#include "thelonious/unit.h"
+#include "thelonious/parameter.h"
+#include "thelonious/util.h"
+#include "thelonious/constants/sizes.h"
 
 namespace thelonious {
+namespace dsp {
 
 template <size_t N, size_t bufferSize>
 class TapN : public Unit<N> {
@@ -20,7 +21,7 @@ public:
     void tick(Block<N> &block) {
         Chock rateChock = rate.get();
 
-        for (uint32_t i=0; i<BLOCK_SIZE; i++) {
+        for (uint32_t i=0; i<constants::BLOCK_SIZE; i++) {
             for (uint32_t j=0; j<N; j++) {
                 // TODO: Interpolation
                 block[j][i] = buffer[j][position];
@@ -41,6 +42,8 @@ private:
 
 template <size_t bufferSize>
 using Tap = TapN<1, bufferSize>;
-}
+
+} // namespace dsp
+} // namespace thelonious
 
 #endif

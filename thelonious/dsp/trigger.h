@@ -3,11 +3,12 @@
 
 #include <algorithm>
 
-#include "types.h"
-#include "unit.h"
-#include "parameter.h"
+#include "thelonious/types.h"
+#include "thelonious/unit.h"
+#include "thelonious/parameter.h"
 
 namespace thelonious {
+namespace dsp {
 
 template <size_t N>
 class TriggerN : public Unit<N> {
@@ -37,6 +38,7 @@ public:
 
 typedef TriggerN<1> Trigger;
 
-}
+} // namespace dsp
+} // namespace thelonious
 
 #endif

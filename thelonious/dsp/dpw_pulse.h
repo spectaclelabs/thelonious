@@ -1,17 +1,17 @@
 #ifndef THELONIOUS_DPW_PULSE_H
 #define THELONIOUS_DPW_PULSE_H
 
-#include <cmath>
 #include <algorithm>
 
-#include "types.h"
-#include "rates.h"
-#include "sizes.h"
-#include "unit.h"
-#include "parameter.h"
-#include "util.h"
+#include "thelonious/types.h"
+#include "thelonious/unit.h"
+#include "thelonious/parameter.h"
+#include "thelonious/util.h"
+#include "thelonious/constants/rates.h"
+#include "thelonious/constants/sizes.h"
 
 namespace thelonious {
+namespace dsp {
 
 /**
  * An alias-reduced pulse wave oscillator.
@@ -32,10 +32,11 @@ public:
         Chock widthChock = width.get();
         Chock &channel = block[0];
 
-        for (uint32_t i=0; i<BLOCK_SIZE; i++) {
+        for (uint32_t i=0; i<constants::BLOCK_SIZE; i++) {
             Sample frequency = frequencyChock[i];
             if (frequency != lastFrequency) {
-                scaleFactor = 0.5f * SAMPLE_RATE / (4.0f * frequency);
+                scaleFactor = 0.5f * constants::SAMPLE_RATE /
+                              (4.0f * frequency);
                 lastFrequency = frequency;
             }
 
@@ -55,8 +56,8 @@ public:
             lastValueA = valueA;
             lastValueB = valueB;
 
-            positionA += frequency * INV_SAMPLE_RATE;
-            positionB += frequency * INV_SAMPLE_RATE;
+            positionA += frequency * constants::INV_SAMPLE_RATE;
+            positionB += frequency * constants::INV_SAMPLE_RATE;
         }
 
         auto it=block.begin() + 1;
@@ -80,6 +81,7 @@ private:
 
 typedef DPWPulseN<1> DPWPulse;
 
-}
+} // namespace dsp
+} // namespace thelonious
 
 #endif

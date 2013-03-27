@@ -6,7 +6,7 @@
 #include "dizzy.h"
 
 #include "types.h"
-#include "sizes.h"
+#include "thelonious/constants/sizes.h"
 #include "unit.h"
 
 namespace thelonious {
@@ -20,7 +20,7 @@ public:
     const Chock& get() {
         if (isDynamic) {
             isDynamic = false;
-            lastValue = buffer[BLOCK_SIZE - 1];
+            lastValue = buffer[constants::BLOCK_SIZE - 1];
             return buffer;
         }
 
@@ -135,6 +135,6 @@ Sample operator>>(Sample sample, Parameter &parameter) {
     return sample;
 }
 
-}
+} // namespace thelonious
 
 #endif

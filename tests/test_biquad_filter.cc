@@ -1,7 +1,7 @@
 #include "gmock/gmock.h"
 #include "gtest/gtest.h"
 
-#include "thelonious/biquad_filter.h"
+#include "thelonious/dsp/biquad_filter.h"
 
 int main(int argc, char** argv) {
     testing::InitGoogleMock(&argc, argv);

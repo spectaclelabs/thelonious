@@ -1,10 +1,11 @@
 #ifndef THELONIOUS_UNIT_MULTIPLY_H
 #define THELONIOUS_UNIT_MULTIPLY_H
 
-#include "types.h"
-#include "unit.h"
+#include "thelonious/types.h"
+#include "thelonious/unit.h"
 
 namespace thelonious {
+namespace operators {
 
 template <size_t N>
 class UnitMultiplyN : public Unit<N> {
@@ -47,6 +48,7 @@ UnitMultiplyN<N> operator*(Unit<N> &&a, Unit<N> &&b) {
     return UnitMultiplyN<N>(a, b);
 }
 
-}
+} // namespace operators
+} // namespace thelonious
     
 #endif

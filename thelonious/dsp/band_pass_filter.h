@@ -3,25 +3,27 @@
 
 #include <cmath>
 
-#include "types.h"
-#include "rates.h"
-#include "constants.h"
+#include "thelonious/types.h"
+#include "thelonious/constants/rates.h"
+#include "thelonious/constants/math.h"
 #include "biquad_filter.h"
 
 namespace thelonious {
+namespace dsp {
 
 template <size_t N>
 class BandPassFilterN: public BiquadFilter<N> {
 public:
-    BandPassFilterN(Sample frequency, Sample damping=2.0f*T_SQRT1_2) :
+    BandPassFilterN(Sample frequency,
+                    Sample damping=2.0f*constants::ROOT_HALF) :
         BiquadFilter<N>(frequency, damping) {}
 
 private:
     void calculateCoefficients(Sample frequency, Sample damping) {
-        Sample w0 = 2.0f * T_PI * frequency * INV_SAMPLE_RATE;
-        Sample cosw0 = cos(w0);
-        Sample sinw0 = sin(w0);
-        Sample alpha =  0.5 * sinw0 * damping;
+        Sample w0 = constants::TWO_PI * frequency * constants::INV_SAMPLE_RATE;
+        Sample cosw0 = std::cos(w0);
+        Sample sinw0 = std::sin(w0);
+        Sample alpha =  0.5f * sinw0 * damping;
 
         this->coefficients.b0 = alpha;
         this->coefficients.b1 = 0;
@@ -34,6 +36,7 @@ private:
 
 typedef BandPassFilterN<1> BandPassFilter;
 
-}
+} // namespace dsp
+} // namespace thelonious
 
 #endif

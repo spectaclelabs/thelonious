@@ -1,12 +1,13 @@
 #ifndef THELONIOUS_BIQUAD_FILTER_H
 #define THELONIOUS_BIQUAD_FILTER_H
 
-#include "types.h"
-#include "sizes.h"
-#include "unit.h"
-#include "parameter.h"
+#include "thelonious/types.h"
+#include "thelonious/unit.h"
+#include "thelonious/parameter.h"
+#include "thelonious/constants/sizes.h"
 
 namespace thelonious {
+namespace dsp {
 
 template <size_t N>
 class BiquadFilter : public Unit<N> {
@@ -34,7 +35,7 @@ public:
     void tick(Block<N> &block) {
         Chock frequencyChuck = frequency.get();
         Chock dampingChuck = damping.get();
-        for (uint32_t i=0; i<BLOCK_SIZE; i++) {
+        for (uint32_t i=0; i<constants::BLOCK_SIZE; i++) {
             Sample frequency = frequencyChuck[i];
             Sample damping = dampingChuck[i];
 
@@ -77,6 +78,7 @@ private:
     Sample lastDamping;
 };
 
-}
+} // namespace dsp
+} // namespace thelonious
 
 #endif

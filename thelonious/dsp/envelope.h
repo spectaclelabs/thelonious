@@ -5,14 +5,16 @@
 #include <vector>
 #include <algorithm>
 
-#include "types.h"
-#include "sizes.h"
-#include "rates.h"
-#include "unit.h"
-#include "parameter.h"
-#include "util.h"
+#include "thelonious/types.h"
+#include "thelonious/unit.h"
+#include "thelonious/parameter.h"
+#include "thelonious/util.h"
+#include "thelonious/constants/sizes.h"
+#include "thelonious/constants/rates.h"
 
 namespace thelonious {
+namespace dsp {
+
 class EnvelopeSegment {
 public:
     virtual Sample get(Sample startValue, Sample endValue, Sample position) {
@@ -37,7 +39,7 @@ public:
 
     void tick(Block<N> &block) {
         Chock gateChock = gate.get();
-        for (uint32_t i=0; i<BLOCK_SIZE; i++) {
+        for (uint32_t i=0; i<constants::BLOCK_SIZE; i++) {
             if (gateChock[i] && canTrigger) {
                 firstSegment();
                 playing = true;
@@ -55,7 +57,7 @@ public:
             if (playing) {
                 value = segments[segmentIndex].get(startValue, endValue,
                                                    time * invDuration);
-                time += INV_SAMPLE_RATE;
+                time += constants::INV_SAMPLE_RATE;
             }
 
             block[0][i] = value;
@@ -109,5 +111,7 @@ private:
 
 typedef EnvelopeN<1> Envelope;
 
-}
+} // namespace dsp
+} // namespace thelonious
+
 #endif

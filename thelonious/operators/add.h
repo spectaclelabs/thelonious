@@ -1,11 +1,12 @@
 #ifndef THELONIOUS_ADD_H
 #define THELONIOUS_ADD_H
 
-#include "types.h"
-#include "unit.h"
-#include "parameter.h"
+#include "thelonious/types.h"
+#include "thelonious/unit.h"
+#include "thelonious/parameter.h"
 
 namespace thelonious {
+namespace operators {
 
 // Addition (+) operators
 
@@ -119,6 +120,7 @@ public:
 
 typedef AddN<1> Add;
 
-}
+} // namespace operators
+} // namespace thelonious
 
 #endif

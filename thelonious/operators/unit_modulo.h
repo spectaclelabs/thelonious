@@ -1,11 +1,12 @@
 #ifndef THELONIOUS_UNIT_MODULO_H
 #define THELONIOUS_UNIT_MODULO_H
 
-#include "types.h"
-#include "unit.h"
-#include "util.h"
+#include "thelonious/types.h"
+#include "thelonious/unit.h"
+#include "thelonious/util.h"
 
 namespace thelonious {
+namespace operators {
 
 template <size_t N>
 class UnitModuloN : public Unit<N> {
@@ -47,7 +48,7 @@ UnitModuloN<N> operator%(Unit<N> &&a, Unit<N> &&b) {
     return UnitModuloN<N>(a, b);
 }
 
-}
-
+} // namespace operators
+} // namespace thelonious
 
 #endif

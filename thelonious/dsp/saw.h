@@ -1,18 +1,17 @@
 #ifndef THELONIOUS_SAW_H
 #define THELONIOUS_SAW_H
 
-#include <cmath>
 #include <algorithm>
 
-#include "types.h"
-#include "rates.h"
-#include "sizes.h"
-#include "unit.h"
-#include "parameter.h"
-#include "util.h"
+#include "thelonious/types.h"
+#include "thelonious/unit.h"
+#include "thelonious/parameter.h"
+#include "thelonious/util.h"
+#include "thelonious/constants/rates.h"
+#include "thelonious/constants/sizes.h"
 
 namespace thelonious {
-
+namespace dsp {
 
 /**
  * A non-band-limited sawtooth oscillator.
@@ -31,7 +30,7 @@ public:
         Chock phaseChock = phase.get();
         Chock &channel = block[0];
 
-        for (uint32_t i=0; i<BLOCK_SIZE; i++) {
+        for (uint32_t i=0; i<constants::BLOCK_SIZE; i++) {
             Sample frequency = frequencyChock[i];
 
             Sample phase = phaseChock[i];
@@ -41,7 +40,7 @@ public:
             position = wrapB(position, 1.0f);
 
             channel[i] = position * 2.0f - 1.0f;
-            position += frequency * INV_SAMPLE_RATE;
+            position += frequency * constants::INV_SAMPLE_RATE;
         }
 
         auto it=block.begin() + 1u;
@@ -60,6 +59,7 @@ private:
 
 typedef SawN<1> Saw;
 
-}
+} // namespace dsp
+} // namespace thelonious
 
 #endif

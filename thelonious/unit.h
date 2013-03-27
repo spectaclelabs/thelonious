@@ -119,6 +119,6 @@ void operator>>(Unit<N> &&unit, Block<N> &block) {
     unit.tick(block);
 }
 
-}
+} // namespace thelonious
 
 #endif

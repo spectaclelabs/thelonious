@@ -4,15 +4,17 @@
 #include <cmath>
 #include <algorithm>
 
-#include "types.h"
-#include "rates.h"
-#include "sizes.h"
-#include "constants.h"
-#include "unit.h"
-#include "parameter.h"
-#include "util.h"
+#include "thelonious/types.h"
+#include "thelonious/unit.h"
+#include "thelonious/parameter.h"
+#include "thelonious/util.h"
+#include "thelonious/constants/rates.h"
+#include "thelonious/constants/sizes.h"
+#include "thelonious/constants/math.h"
 
 namespace thelonious {
+namespace dsp {
+
 template <size_t N>
 class SineN : public Unit<N> {
 public:
@@ -25,12 +27,13 @@ public:
 
         Chock &channel = block[0];
 
-        for (uint32_t i=0; i<BLOCK_SIZE; i++) {
-            channel[i] = sin(position + phaseChock[i]);
-            position += 2.0f * T_PI * INV_AUDIO_RATE * frequencyChock[i];
+        for (uint32_t i=0; i<constants::BLOCK_SIZE; i++) {
+            channel[i] = std::sin(position + phaseChock[i]);
+            position += constants::TWO_PI * constants::INV_AUDIO_RATE *
+                        frequencyChock[i];
         }
 
-        position = wrap(position, 2.0f * T_PI);
+        position = wrap(position, constants::TWO_PI);
 
         auto it=block.begin() + 1u;
         auto end = block.end();
@@ -47,6 +50,7 @@ private:
 
 typedef SineN<1> Sine;
 
-}
+} // namespace dsp
+} // namespace thelonious
 
 #endif
