@@ -25,6 +25,13 @@
 #include "thelonious/operators/unit_divide.h"
 #include "thelonious/operators/unit_modulo.h"
 
+/* Constant operators */
+#include "thelonious/operators/constant_add.h"
+#include "thelonious/operators/constant_subtract.h"
+#include "thelonious/operators/constant_multiply.h"
+#include "thelonious/operators/constant_divide.h"
+#include "thelonious/operators/constant_modulo.h"
+
 /* Oscillators */
 #include "thelonious/dsp/sine.h"
 #include "thelonious/dsp/saw.h"
