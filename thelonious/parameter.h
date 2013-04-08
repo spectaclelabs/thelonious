@@ -64,11 +64,11 @@ public:
         needFill = true;
     }
 
-    void setInterpolate(Interpolation interpolation) {
+    void setInterpolation(Interpolation interpolation) {
         this->interpolation = interpolation;
     }
 
-    Interpolation getInterpolate() {
+    Interpolation getInterpolation() {
         return interpolation;
     }
 
