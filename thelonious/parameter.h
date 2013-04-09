@@ -4,13 +4,13 @@
 #include <algorithm>
 
 #include "types.h"
-#include "unit.h"
+#include "sink.h"
 #include "util.h"
 #include "thelonious/constants/sizes.h"
 
 namespace thelonious {
 
-class Parameter {
+class Parameter : public Sink<1> {
 public:
     Parameter(Sample value=0.0f, Interpolation interpolation=LINEAR) :
         value(value), lastValue(value), interpolation(interpolation),
@@ -46,7 +46,7 @@ public:
         return buffer;
     }
 
-    void set(const Chock& chock) {
+    void tick(Chock& chock) {
         std::copy(chock.begin(), chock.end(), buffer.begin());
         isDynamic = true;
         // When we stop setting dynamically we will need to refill with the
@@ -54,8 +54,8 @@ public:
         needFill = true;
     }
 
-    void set(const Block<1> &block) {
-        set(block[0]);
+    void tick(Block<1> &block) {
+        tick(block[0]);
     }
 
     void set(Sample value) {
@@ -83,50 +83,6 @@ private:
     bool isDynamic;
     bool needFill;
 };
-
-/**
- * Copy an lvalue block into the parameter.
- * Usage example: void tick(Block<N> block) { block >> ocillator.frequency }
- */
-template <size_t N>
-Block<N> & operator>>(Block<N> & block, Parameter &parameter) {
-    parameter.set(block);
-    return block;
-}
-
-/**
- * Copy an rvalue block into the parameter.
- * Usage example: lfo >> gain >> oscillator.frequency
- */
-template <size_t N>
-Block<N> operator>>(Block<N> && block, Parameter &parameter) {
-    parameter.set(block);
-    return std::move(block);
-}
-
-/**
- * Set the parameter from an lvalue unit's output.
- * Usage example: lfo >> oscillator.frequency;
- */
-template <size_t N>
-Block<N> operator>>(Unit<N> &unit, Parameter &parameter) {
-    Block<N> block;
-    unit.tick(block);
-    parameter.set(block);
-    return block;
-}
-
-/**
- * Set the parameter from an rvalue unit's output.
- * Usage example: (lfo1 + lfo2) >> oscillator.frequency;
- */
-template <size_t N>
-Block<N> operator>>(Unit<N> &&unit, Parameter &parameter) {
-    Block<N> block;
-    unit.tick(block);
-    parameter.set(block);
-    return block;
-}
 
 /**
  * Set the parameter from a sample.

@@ -5,7 +5,7 @@
 #include <algorithm>
 
 #include "thelonious/types.h"
-#include "thelonious/unit.h"
+#include "thelonious/source.h"
 #include "thelonious/parameter.h"
 #include "thelonious/util.h"
 #include "thelonious/constants/rates.h"
@@ -16,7 +16,7 @@ namespace thelonious {
 namespace dsp {
 
 template <size_t N>
-class SineN : public Unit<N> {
+class SineN : public Source<N> {
 public:
     SineN(Sample frequency=440.0f, Sample phase=0.0f) :
         frequency(frequency), phase(phase) {}

@@ -4,14 +4,14 @@
 #include <algorithm>
 
 #include "thelonious/types.h"
-#include "thelonious/unit.h"
+#include "thelonious/source.h"
 #include "thelonious/parameter.h"
 
 namespace thelonious {
 namespace dsp {
 
 template <size_t N>
-class TriggerN : public Unit<N> {
+class TriggerN : public Source<N> {
 public:
     TriggerN(Sample trigger=0.0f) : trigger(trigger, NONE) {}
 

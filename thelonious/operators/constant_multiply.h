@@ -7,8 +7,8 @@
 namespace thelonious {
 namespace operators {
 
-template <size_t N>
-class ConstantMultiplyN : public Unit<N> {
+template <class T, size_t N>
+class ConstantMultiplyN : public T {
 public:
     ConstantMultiplyN(Unit<N> &unit, Sample value): unit(&unit), value(value) {}
 
@@ -21,27 +21,49 @@ public:
     Sample value;
 };
 
-typedef ConstantMultiplyN<1> ConstantMultiply;
+template <class T>
+using ConstantMultiply = ConstantMultiplyN<T, 1>;
 
 template <size_t N>
-ConstantMultiplyN<N> operator*(Unit<N> &a, Sample b) {
-    return ConstantMultiplyN<N>(a, b);
+ConstantMultiplyN<Source<N>, N> operator*(Source<N> &a, Sample b) {
+    return ConstantMultiplyN<Source<N>, N>(a, b);
 }
 
 template <size_t N>
-ConstantMultiplyN<N> operator*(Unit<N> &&a, Sample b) {
-    return ConstantMultiplyN<N>(a, b);
+ConstantMultiplyN<Source<N>, N> operator*(Source<N> &&a, Sample b) {
+    return ConstantMultiplyN<Source<N>, N>(a, b);
 }
 
 template <size_t N>
-ConstantMultiplyN<N> operator*(Sample a, Unit<N> &b) {
-    return ConstantMultiplyN<N>(b, a);
+ConstantMultiplyN<Source<N>, N> operator*(Sample a, Source<N> &b) {
+    return ConstantMultiplyN<Source<N>, N>(b, a);
 }
 
 template <size_t N>
-ConstantMultiplyN<N> operator*(Sample a, Unit<N> &&b) {
-    return ConstantMultiplyN<N>(b, a);
+ConstantMultiplyN<Source<N>, N> operator*(Sample a, Source<N> &&b) {
+    return ConstantMultiplyN<Source<N>, N>(b, a);
 }
+
+template <size_t N>
+ConstantMultiplyN<Processor<N>, N> operator*(Processor<N> &a, Sample b) {
+    return ConstantMultiplyN<Processor<N>, N>(a, b);
+}
+
+template <size_t N>
+ConstantMultiplyN<Processor<N>, N> operator*(Processor<N> &&a, Sample b) {
+    return ConstantMultiplyN<Processor<N>, N>(a, b);
+}
+
+template <size_t N>
+ConstantMultiplyN<Processor<N>, N> operator*(Sample a, Processor<N> &b) {
+    return ConstantMultiplyN<Processor<N>, N>(b, a);
+}
+
+template <size_t N>
+ConstantMultiplyN<Processor<N>, N> operator*(Sample a, Processor<N> &&b) {
+    return ConstantMultiplyN<Processor<N>, N>(b, a);
+}
+
 
 } // namespace operators
 } // namespace thelonious

@@ -4,7 +4,7 @@
 #include <algorithm>
 
 #include "thelonious/types.h"
-#include "thelonious/unit.h"
+#include "thelonious/source.h"
 #include "thelonious/parameter.h"
 #include "thelonious/util.h"
 #include "thelonious/constants/rates.h"
@@ -17,7 +17,7 @@ namespace dsp {
  * A non-band-limited pulse oscillator, with a variable pulse width
  */
 template <size_t N>
-class PulseN : public Unit<N> {
+class PulseN : public Source<N> {
 public:
     PulseN(Sample frequency=440.0f, Sample width=0.5f) :
         frequency(frequency), width(width), positionA(0.5f), 

@@ -2,7 +2,7 @@
 #define THELONIOUS_BIQUAD_FILTER_H
 
 #include "thelonious/types.h"
-#include "thelonious/unit.h"
+#include "thelonious/processor.h"
 #include "thelonious/parameter.h"
 #include "thelonious/constants/sizes.h"
 
@@ -10,7 +10,7 @@ namespace thelonious {
 namespace dsp {
 
 template <size_t N>
-class BiquadFilter : public Unit<N> {
+class BiquadFilter : public Processor<N> {
 private:
     typedef struct {
         Sample a0;

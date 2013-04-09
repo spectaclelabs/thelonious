@@ -2,7 +2,7 @@
 #define THELONIOUS_ADD_H
 
 #include "thelonious/types.h"
-#include "thelonious/unit.h"
+#include "thelonious/processor.h"
 #include "thelonious/parameter.h"
 
 namespace thelonious {
@@ -103,7 +103,7 @@ Buffer<M, N> & operator+=(Buffer<M, N> &a, Sample b) {
 // End addition assignment (+=) operators
 
 template <size_t N>
-class AddN : public Unit<N> {
+class AddN : public Processor<N> {
 public:
     AddN(Sample value=0.0f): value(value) {}
 

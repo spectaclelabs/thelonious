@@ -7,8 +7,8 @@
 namespace thelonious {
 namespace operators {
 
-template <size_t N>
-class ConstantAddN : public Unit<N> {
+template <class T, size_t N>
+class ConstantAddN : public T {
 public:
     ConstantAddN(Unit<N> &unit, Sample value): unit(&unit), value(value) {}
 
@@ -21,27 +21,49 @@ public:
     Sample value;
 };
 
-typedef ConstantAddN<1> ConstantAdd;
+template <class T>
+using ConstantAdd = ConstantAddN<T, 1>;
 
 template <size_t N>
-ConstantAddN<N> operator+(Unit<N> &a, Sample b) {
-    return ConstantAddN<N>(a, b);
+ConstantAddN<Source<N>, N> operator+(Source<N> &a, Sample b) {
+    return ConstantAddN<Source<N>, N>(a, b);
 }
 
 template <size_t N>
-ConstantAddN<N> operator+(Unit<N> &&a, Sample b) {
-    return ConstantAddN<N>(a, b);
+ConstantAddN<Source<N>, N> operator+(Source<N> &&a, Sample b) {
+    return ConstantAddN<Source<N>, N>(a, b);
 }
 
 template <size_t N>
-ConstantAddN<N> operator+(Sample a, Unit<N> &b) {
-    return ConstantAddN<N>(b, a);
+ConstantAddN<Source<N>, N> operator+(Sample a, Source<N> &b) {
+    return ConstantAddN<Source<N>, N>(b, a);
 }
 
 template <size_t N>
-ConstantAddN<N> operator+(Sample a, Unit<N> &&b) {
-    return ConstantAddN<N>(b, a);
+ConstantAddN<Source<N>, N> operator+(Sample a, Source<N> &&b) {
+    return ConstantAddN<Source<N>, N>(b, a);
 }
+
+template <size_t N>
+ConstantAddN<Processor<N>, N> operator+(Processor<N> &a, Sample b) {
+    return ConstantAddN<Processor<N>, N>(a, b);
+}
+
+template <size_t N>
+ConstantAddN<Processor<N>, N> operator+(Processor<N> &&a, Sample b) {
+    return ConstantAddN<Processor<N>, N>(a, b);
+}
+
+template <size_t N>
+ConstantAddN<Processor<N>, N> operator+(Sample a, Processor<N> &b) {
+    return ConstantAddN<Processor<N>, N>(b, a);
+}
+
+template <size_t N>
+ConstantAddN<Processor<N>, N> operator+(Sample a, Processor<N> &&b) {
+    return ConstantAddN<Processor<N>, N>(b, a);
+}
+
 
 } // namespace operators
 } // namespace thelonious

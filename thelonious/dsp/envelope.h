@@ -6,7 +6,7 @@
 #include <algorithm>
 
 #include "thelonious/types.h"
-#include "thelonious/unit.h"
+#include "thelonious/source.h"
 #include "thelonious/parameter.h"
 #include "thelonious/util.h"
 #include "thelonious/constants/sizes.h"
@@ -27,7 +27,7 @@ public:
 typedef EnvelopeSegment LinearSegment;
 
 template <size_t N>
-class EnvelopeN : public Unit<N> {
+class EnvelopeN : public Source<N> {
 public:
     EnvelopeN(Sample initialValue,
              std::initializer_list<Sample> values,

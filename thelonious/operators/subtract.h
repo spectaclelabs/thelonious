@@ -2,7 +2,7 @@
 #define THELONIOUS_SUBTRACT_H
 
 #include "thelonious/types.h"
-#include "thelonious/unit.h"
+#include "thelonious/processor.h"
 #include "thelonious/parameter.h"
 
 namespace thelonious {
@@ -111,7 +111,7 @@ Buffer<M, N> & operator-=(Buffer<M, N> &a, Sample b) {
 // End subtraction assignment (-=) operators
 
 template <size_t N>
-class SubtractN : public Unit<N> {
+class SubtractN : public Processor<N> {
 public:
     SubtractN(Sample value=0.0f): value(value) {}
 

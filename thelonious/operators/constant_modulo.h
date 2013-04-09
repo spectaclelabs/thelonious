@@ -7,8 +7,8 @@
 namespace thelonious {
 namespace operators {
 
-template <size_t N>
-class ConstantModuloN : public Unit<N> {
+template <class T, size_t N>
+class ConstantModuloN : public T {
 public:
     ConstantModuloN(Unit<N> &unit, Sample value, bool inverse=false):
             unit(&unit), value(value), inverse(inverse) {}
@@ -29,26 +29,47 @@ public:
     bool inverse;
 };
 
-typedef ConstantModuloN<1> ConstantModulo;
+template <class T>
+using ConstantModulo = ConstantModuloN<T, 1>;
 
 template <size_t N>
-ConstantModuloN<N> operator%(Unit<N> &a, Sample b) {
-    return ConstantModuloN<N>(a, b);
+ConstantModuloN<Source<N>, N> operator%(Source<N> &a, Sample b) {
+    return ConstantModuloN<Source<N>, N>(a, b);
 }
 
 template <size_t N>
-ConstantModuloN<N> operator%(Unit<N> &&a, Sample b) {
-    return ConstantModuloN<N>(a, b);
+ConstantModuloN<Source<N>, N> operator%(Source<N> &&a, Sample b) {
+    return ConstantModuloN<Source<N>, N>(a, b);
 }
 
 template <size_t N>
-ConstantModuloN<N> operator%(Sample a, Unit<N> &b) {
-    return ConstantModuloN<N>(b, a, true);
+ConstantModuloN<Source<N>, N> operator%(Sample a, Source<N> &b) {
+    return ConstantModuloN<Source<N>, N>(b, a, true);
 }
 
 template <size_t N>
-ConstantModuloN<N> operator%(Sample a, Unit<N> &&b) {
-    return ConstantModuloN<N>(b, a, true);
+ConstantModuloN<Source<N>, N> operator%(Sample a, Source<N> &&b) {
+    return ConstantModuloN<Source<N>, N>(b, a, true);
+}
+
+template <size_t N>
+ConstantModuloN<Processor<N>, N> operator%(Processor<N> &a, Sample b) {
+    return ConstantModuloN<Processor<N>, N>(a, b);
+}
+
+template <size_t N>
+ConstantModuloN<Processor<N>, N> operator%(Processor<N> &&a, Sample b) {
+    return ConstantModuloN<Processor<N>, N>(a, b);
+}
+
+template <size_t N>
+ConstantModuloN<Processor<N>, N> operator%(Sample a, Processor<N> &b) {
+    return ConstantModuloN<Processor<N>, N>(b, a, true);
+}
+
+template <size_t N>
+ConstantModuloN<Processor<N>, N> operator%(Sample a, Processor<N> &&b) {
+    return ConstantModuloN<Processor<N>, N>(b, a, true);
 }
 
 } // namespace operators

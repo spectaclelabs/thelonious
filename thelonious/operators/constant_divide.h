@@ -7,7 +7,7 @@
 namespace thelonious {
 namespace operators {
 
-template <size_t N>
+template <class T, size_t N>
 class ConstantDivideN : public Unit<N> {
 public:
     ConstantDivideN(Unit<N> &unit, Sample value, bool inverse=false):
@@ -29,26 +29,47 @@ public:
     bool inverse;
 };
 
-typedef ConstantDivideN<1> ConstantDivide;
+template <class T>
+using ConstantDivide = ConstantDivideN<T, 1>;
 
 template <size_t N>
-ConstantDivideN<N> operator/(Unit<N> &a, Sample b) {
-    return ConstantDivideN<N>(a, b);
+ConstantDivideN<Source<N>, N> operator/(Source<N> &a, Sample b) {
+    return ConstantDivideN<Source<N>, N>(a, b);
 }
 
 template <size_t N>
-ConstantDivideN<N> operator/(Unit<N> &&a, Sample b) {
-    return ConstantDivideN<N>(a, b);
+ConstantDivideN<Source<N>, N> operator/(Source<N> &&a, Sample b) {
+    return ConstantDivideN<Source<N>, N>(a, b);
 }
 
 template <size_t N>
-ConstantDivideN<N> operator/(Sample a, Unit<N> &b) {
-    return ConstantDivideN<N>(b, a, true);
+ConstantDivideN<Source<N>, N> operator/(Sample a, Source<N> &b) {
+    return ConstantDivideN<Source<N>, N>(b, a, true);
 }
 
 template <size_t N>
-ConstantDivideN<N> operator/(Sample a, Unit<N> &&b) {
-    return ConstantDivideN<N>(b, a, true);
+ConstantDivideN<Source<N>, N> operator/(Sample a, Source<N> &&b) {
+    return ConstantDivideN<Source<N>, N>(b, a, true);
+}
+
+template <size_t N>
+ConstantDivideN<Processor<N>, N> operator/(Processor<N> &a, Sample b) {
+    return ConstantDivideN<Processor<N>, N>(a, b);
+}
+
+template <size_t N>
+ConstantDivideN<Processor<N>, N> operator/(Processor<N> &&a, Sample b) {
+    return ConstantDivideN<Processor<N>, N>(a, b);
+}
+
+template <size_t N>
+ConstantDivideN<Processor<N>, N> operator/(Sample a, Processor<N> &b) {
+    return ConstantDivideN<Processor<N>, N>(b, a, true);
+}
+
+template <size_t N>
+ConstantDivideN<Processor<N>, N> operator/(Sample a, Processor<N> &&b) {
+    return ConstantDivideN<Processor<N>, N>(b, a, true);
 }
 
 } // namespace operators

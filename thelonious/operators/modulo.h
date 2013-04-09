@@ -2,7 +2,7 @@
 #define THELONIOUS_MODULO_H
 
 #include "thelonious/types.h"
-#include "thelonious/unit.h"
+#include "thelonious/processor.h"
 #include "thelonious/parameter.h"
 #include "thelonious/util.h"
 
@@ -112,7 +112,7 @@ Buffer<M, N> & operator%=(Buffer<M, N> &a, Sample b) {
 // End modulo assignment (%=) operators
 
 template <size_t N>
-class ModuloN : public Unit<N> {
+class ModuloN : public Processor<N> {
 public:
     ModuloN(Sample value=0.0f): value(value) {}
 

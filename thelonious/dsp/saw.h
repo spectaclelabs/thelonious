@@ -4,7 +4,7 @@
 #include <algorithm>
 
 #include "thelonious/types.h"
-#include "thelonious/unit.h"
+#include "thelonious/source.h"
 #include "thelonious/parameter.h"
 #include "thelonious/util.h"
 #include "thelonious/constants/rates.h"
@@ -17,7 +17,7 @@ namespace dsp {
  * A non-band-limited sawtooth oscillator.
  */
 template <size_t N>
-class SawN : public Unit<N> {
+class SawN : public Source<N> {
 public:
     SawN(Sample frequency=440.0f, Sample phase=0.0f) :
         frequency(frequency), phase(phase), position(0.5f), lastPhase(0.0f) {}

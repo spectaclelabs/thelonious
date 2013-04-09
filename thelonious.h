@@ -4,8 +4,12 @@
 /* Core */
 #include "thelonious/util.h"
 #include "thelonious/unit.h"
+#include "thelonious/source.h"
+#include "thelonious/processor.h"
+#include "thelonious/sink.h"
 #include "thelonious/parameter.h"
 #include "thelonious/types.h"
+#include "thelonious/splitter.h"
 
 /* Constants */
 #include "thelonious/constants/sizes.h"
@@ -19,6 +23,7 @@
 #include "thelonious/operators/modulo.h"
 
 /* Unit operators */
+#include "thelonious/operators/unit_tick.h"
 #include "thelonious/operators/unit_add.h"
 #include "thelonious/operators/unit_subtract.h"
 #include "thelonious/operators/unit_multiply.h"
@@ -53,6 +58,7 @@
 /* Delay */
 #include "thelonious/dsp/delay.h"
 #include "thelonious/dsp/tap.h"
+#include "thelonious/dsp/feedback_delay.h"
 
 /* Envelopes */
 #include "thelonious/dsp/envelope.h"

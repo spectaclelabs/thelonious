@@ -3,12 +3,13 @@
 
 #include "thelonious/types.h"
 #include "thelonious/unit.h"
+#include "thelonious/source.h"
 
 namespace thelonious {
 namespace operators {
 
-template <size_t N>
-class UnitSubtractN : public Unit<N> {
+template <class T, size_t N>
+class UnitSubtractN : public T {
 public:
     UnitSubtractN(Unit<N> &unitA, Unit<N> &unitB):
         unitA(&unitA), unitB(&unitB) {}
@@ -26,26 +27,27 @@ public:
     Unit<N> *unitB;
 };
 
-typedef UnitSubtractN<1> UnitSubtract;
+template <class T>
+using UnitSubtract = UnitSubtractN<T, 1>;
 
 template <size_t N>
-UnitSubtractN<N> operator-(Unit<N> &a, Unit<N> &b) {
-    return UnitSubtractN<N>(std::move(a), std::move(b));
+UnitSubtractN<Source<N>, N> operator-(Source<N> &a, Source<N> &b) {
+    return UnitSubtractN<Source<N>, N>(a, b);
 }
 
 template <size_t N>
-UnitSubtractN<N> operator-(Unit<N> &a, Unit<N> &&b) {
-    return UnitSubtractN<N>(std::move(a), std::move(b));
+UnitSubtractN<Source<N>, N> operator-(Source<N> &a, Source<N> &&b) {
+    return UnitSubtractN<Source<N>, N>(a, b);
 }
 
 template <size_t N>
-UnitSubtractN<N> operator-(Unit<N> &&a, Unit<N> &b) {
-    return UnitSubtractN<N>(std::move(a), std::move(b));
+UnitSubtractN<Source<N>, N> operator-(Source<N> &&a, Source<N> &b) {
+    return UnitSubtractN<Source<N>, N>(a, b);
 }
 
 template <size_t N>
-UnitSubtractN<N> operator-(Unit<N> &&a, Unit<N> &&b) {
-    return UnitSubtractN<N>(std::move(a), std::move(b));
+UnitSubtractN<Source<N>, N> operator-(Source<N> &&a, Source<N> &&b) {
+    return UnitSubtractN<Source<N>, N>(a, b);
 }
 
 } // namespace operators

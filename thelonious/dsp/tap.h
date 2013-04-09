@@ -2,7 +2,7 @@
 #define THELONIOUS_TAP_H
 
 #include "thelonious/types.h"
-#include "thelonious/unit.h"
+#include "thelonious/source.h"
 #include "thelonious/parameter.h"
 #include "thelonious/util.h"
 #include "thelonious/constants/sizes.h"
@@ -11,7 +11,7 @@ namespace thelonious {
 namespace dsp {
 
 template <size_t N, size_t bufferSize>
-class TapN : public Unit<N> {
+class TapN : public Source<N> {
 public:
     TapN(const Buffer<N, bufferSize> &buffer, Sample position=0.0f,
         Sample rate=1.0f, Interpolation interpolation=NONE):

@@ -2,7 +2,7 @@
 #define THELONIOUS_MULTIPLY_H
 
 #include "thelonious/types.h"
-#include "thelonious/unit.h"
+#include "thelonious/processor.h"
 #include "thelonious/parameter.h"
 
 namespace thelonious {
@@ -103,7 +103,7 @@ Buffer<M, N> & operator*=(Buffer<M, N> &a, Sample b) {
 // End multiplication assignment (*=) operators
 
 template <size_t N>
-class MultiplyN : public Unit<N> {
+class MultiplyN : public Processor<N> {
 public:
     MultiplyN(Sample value=1.0f): value(value) {}
 

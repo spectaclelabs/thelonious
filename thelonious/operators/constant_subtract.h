@@ -7,8 +7,8 @@
 namespace thelonious {
 namespace operators {
 
-template <size_t N>
-class ConstantSubtractN : public Unit<N> {
+template <class T, size_t N>
+class ConstantSubtractN : public T {
 public:
     ConstantSubtractN(Unit<N> &unit, Sample value, bool inverse=false):
             unit(&unit), value(value), inverse(inverse) {}
@@ -29,26 +29,47 @@ public:
     bool inverse;
 };
 
-typedef ConstantSubtractN<1> ConstantSubtract;
+template <class T>
+using ConstantSubtract = ConstantSubtractN<T, 1>;
 
 template <size_t N>
-ConstantSubtractN<N> operator-(Unit<N> &a, Sample b) {
-    return ConstantSubtractN<N>(a, b);
+ConstantSubtractN<Source<N>, N> operator-(Source<N> &a, Sample b) {
+    return ConstantSubtractN<Source<N>, N>(a, b);
 }
 
 template <size_t N>
-ConstantSubtractN<N> operator-(Unit<N> &&a, Sample b) {
-    return ConstantSubtractN<N>(a, b);
+ConstantSubtractN<Source<N>, N> operator-(Source<N> &&a, Sample b) {
+    return ConstantSubtractN<Source<N>, N>(a, b);
 }
 
 template <size_t N>
-ConstantSubtractN<N> operator-(Sample a, Unit<N> &b) {
-    return ConstantSubtractN<N>(b, a, true);
+ConstantSubtractN<Source<N>, N> operator-(Sample a, Source<N> &b) {
+    return ConstantSubtractN<Source<N>, N>(b, a, true);
 }
 
 template <size_t N>
-ConstantSubtractN<N> operator-(Sample a, Unit<N> &&b) {
-    return ConstantSubtractN<N>(b, a, true);
+ConstantSubtractN<Source<N>, N> operator-(Sample a, Source<N> &&b) {
+    return ConstantSubtractN<Source<N>, N>(b, a, true);
+}
+
+template <size_t N>
+ConstantSubtractN<Processor<N>, N> operator-(Processor<N> &a, Sample b) {
+    return ConstantSubtractN<Processor<N>, N>(a, b);
+}
+
+template <size_t N>
+ConstantSubtractN<Processor<N>, N> operator-(Processor<N> &&a, Sample b) {
+    return ConstantSubtractN<Processor<N>, N>(a, b);
+}
+
+template <size_t N>
+ConstantSubtractN<Processor<N>, N> operator-(Sample a, Processor<N> &b) {
+    return ConstantSubtractN<Processor<N>, N>(b, a, true);
+}
+
+template <size_t N>
+ConstantSubtractN<Processor<N>, N> operator-(Sample a, Processor<N> &&b) {
+    return ConstantSubtractN<Processor<N>, N>(b, a, true);
 }
 
 } // namespace operators

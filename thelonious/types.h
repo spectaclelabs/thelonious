@@ -22,15 +22,6 @@ using Block = std::array<Chock, M>;
 
 enum Interpolation {NONE, LINEAR, CUBIC};
 
-/**
- * Move an rvalue block into an lvalue block.
- * Usage example: void tick(Block<N> block) { oscillator >> effect >> block; }
- */
-template <size_t N>
-void operator>>(Block<N> &&blockA, Block<N> &blockB) {
-    blockB = std::move(blockA);
-}
-
 } // namespace thelonious
 
 #endif

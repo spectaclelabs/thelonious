@@ -3,14 +3,16 @@
 
 #include "thelonious/types.h"
 #include "thelonious/unit.h"
+#include "thelonious/source.h"
 
 namespace thelonious {
 namespace operators {
 
-template <size_t N>
-class UnitAddN : public Unit<N> {
+template <class T, size_t N>
+class UnitAddN : public T {
 public:
-    UnitAddN(Unit<N> &unitA, Unit<N> &unitB): unitA(&unitA), unitB(&unitB) {}
+    UnitAddN(Unit<N> &unitA, Unit<N> &unitB):
+            unitA(&unitA), unitB(&unitB) {}
 
     void tick(Block<N> &block) {
         unitA->tick(block);
@@ -25,26 +27,27 @@ public:
     Unit<N> *unitB;
 };
 
-typedef UnitAddN<1> UnitAdd;
+template <class T>
+using UnitAdd = UnitAddN<T, 1>;
 
 template <size_t N>
-UnitAddN<N> operator+(Unit<N> &a, Unit<N> &b) {
-    return UnitAddN<N>(a, b);
+UnitAddN<Source<N>, N> operator+(Source<N> &a, Source<N> &b) {
+    return UnitAddN<Source<N>, N>(a, b);
 }
 
 template <size_t N>
-UnitAddN<N> operator+(Unit<N> &a, Unit<N> &&b) {
-    return UnitAddN<N>(a, b);
+UnitAddN<Source<N>, N> operator+(Source<N> &a, Source<N> &&b) {
+    return UnitAddN<Source<N>, N>(a, b);
 }
 
 template <size_t N>
-UnitAddN<N> operator+(Unit<N> &&a, Unit<N> &b) {
-    return UnitAddN<N>(a, b);
+UnitAddN<Source<N>, N> operator+(Source<N> &&a, Source<N> &b) {
+    return UnitAddN<Source<N>, N>(a, b);
 }
 
 template <size_t N>
-UnitAddN<N> operator+(Unit<N> &&a, Unit<N> &&b) {
-    return UnitAddN<N>(a, b);
+UnitAddN<Source<N>, N> operator+(Source<N> &&a, Source<N> &&b) {
+    return UnitAddN<Source<N>, N>(a, b);
 }
 
 

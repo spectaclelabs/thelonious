@@ -3,15 +3,17 @@
 
 #include "thelonious/types.h"
 #include "thelonious/unit.h"
+#include "thelonious/source.h"
 #include "thelonious/util.h"
 
 namespace thelonious {
 namespace operators {
 
-template <size_t N>
-class UnitModuloN : public Unit<N> {
+template <class T, size_t N>
+class UnitModuloN : public T {
 public:
-    UnitModuloN(Unit<N> &unitA, Unit<N> &unitB): unitA(&unitA), unitB(&unitB) {}
+    UnitModuloN(Unit<N> &unitA, Unit<N> &unitB):
+            unitA(&unitA), unitB(&unitB) {}
 
     void tick(Block<N> &block) {
         unitA->tick(block);
@@ -26,26 +28,27 @@ public:
     Unit<N> *unitB;
 };
 
-typedef UnitModuloN<1> UnitModulo;
+template <class T>
+using UnitModulo = UnitModuloN<T, 1>;
 
 template <size_t N>
-UnitModuloN<N> operator%(Unit<N> &a, Unit<N> &b) {
-    return UnitModuloN<N>(a, b);
+UnitModuloN<Source<N>, N> operator%(Source<N> &a, Source<N> &b) {
+    return UnitModuloN<Source<N>, N>(a, b);
 }
 
 template <size_t N>
-UnitModuloN<N> operator%(Unit<N> &a, Unit<N> &&b) {
-    return UnitModuloN<N>(a, b);
+UnitModuloN<Source<N>, N> operator%(Source<N> &a, Source<N> &&b) {
+    return UnitModuloN<Source<N>, N>(a, b);
 }
 
 template <size_t N>
-UnitModuloN<N> operator%(Unit<N> &&a, Unit<N> &b) {
-    return UnitModuloN<N>(a, b);
+UnitModuloN<Source<N>, N> operator%(Source<N> &&a, Source<N> &b) {
+    return UnitModuloN<Source<N>, N>(a, b);
 }
 
 template <size_t N>
-UnitModuloN<N> operator%(Unit<N> &&a, Unit<N> &&b) {
-    return UnitModuloN<N>(a, b);
+UnitModuloN<Source<N>, N> operator%(Source<N> &&a, Source<N> &&b) {
+    return UnitModuloN<Source<N>, N>(a, b);
 }
 
 } // namespace operators

@@ -2,7 +2,7 @@
 #define THELONIOUS_DIVIDE_H
 
 #include "thelonious/types.h"
-#include "thelonious/unit.h"
+#include "thelonious/processor.h"
 #include "thelonious/parameter.h"
 
 namespace thelonious {
@@ -111,7 +111,7 @@ Buffer<M, N> & operator/=(Buffer<M, N> &a, Sample b) {
 // End division assignment (/=) operators
 
 template <size_t N>
-class DivideN : public Unit<N> {
+class DivideN : public Processor<N> {
 public:
     DivideN(Sample value=1.0f): value(value) {}
 

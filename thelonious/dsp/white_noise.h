@@ -4,14 +4,14 @@
 #include <random>
 
 #include "thelonious/types.h"
-#include "thelonious/unit.h"
+#include "thelonious/source.h"
 #include "thelonious/constants/sizes.h"
 
 namespace thelonious {
 namespace dsp {
 
 template <size_t N>
-class WhiteNoiseN : public Unit<N> {
+class WhiteNoiseN : public Source<N> {
 public:
     WhiteNoiseN() {}
 
