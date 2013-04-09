@@ -9,7 +9,6 @@
 #include "thelonious/sink.h"
 #include "thelonious/parameter.h"
 #include "thelonious/types.h"
-#include "thelonious/splitter.h"
 
 /* Constants */
 #include "thelonious/constants/sizes.h"
@@ -56,8 +55,6 @@
 #include "thelonious/dsp/band_pass_filter.h"
 
 /* Delay */
-#include "thelonious/dsp/delay.h"
-#include "thelonious/dsp/tap.h"
 #include "thelonious/dsp/feedback_delay.h"
 
 /* Envelopes */
@@ -65,6 +62,9 @@
 
 /* Triggers */
 #include "thelonious/dsp/trigger.h"
+
+/* Splitters/Mergers */
+#include "thelonious/dsp/splitter.h"
 
 // Flatten namespace hierarchy
 namespace thelonious {
