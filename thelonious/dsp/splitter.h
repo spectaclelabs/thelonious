@@ -1,9 +1,9 @@
 #ifndef THELONIOUS_SPLITTER_H
 #define THELONIOUS_SPLITTER_H
 
-#include "types.h"
-#include "source.h"
-#include "sink.h"
+#include "thelonious/types.h"
+#include "thelonious/source.h"
+#include "thelonious/sink.h"
 
 namespace thelonious {
 namespace dsp {
