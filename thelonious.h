@@ -9,6 +9,7 @@
 #include "thelonious/sink.h"
 #include "thelonious/parameter.h"
 #include "thelonious/types.h"
+#include "thelonious/audio_device.h"
 
 /* Constants */
 #include "thelonious/constants/sizes.h"
