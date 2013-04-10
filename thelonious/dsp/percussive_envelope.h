@@ -8,7 +8,7 @@ namespace thelonious {
 namespace dsp {
 
 template <size_t N>
-class EnvelopeN : public EnvelopeN<N> {
+class PercussiveEnvelopeN : public EnvelopeN<N> {
 public:
     PercussiveEnvelopeN(float attack, float release) :
             EnvelopeN<N>(0.0f, {1.0f, 0.0f}, {attack, release}) {
