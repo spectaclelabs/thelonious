@@ -60,6 +60,9 @@
 
 /* Envelopes */
 #include "thelonious/dsp/envelope.h"
+#include "thelonious/dsp/percussive_envelope.h"
+#include "thelonious/dsp/asr_envelope.h"
+#include "thelonious/dsp/adsr_envelope.h"
 
 /* Triggers */
 #include "thelonious/dsp/trigger.h"
