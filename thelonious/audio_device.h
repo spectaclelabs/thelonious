@@ -1,10 +1,6 @@
 #ifndef THELONIOUS_AUDIO_DEVICE_H
 #define THELONIOUS_AUDIO_DEVICE_H
 
-#include <thread>
-#include <condition_variable>
-#include <mutex>
-
 #include "RtAudio.h"
 
 #include "types.h"
@@ -19,16 +15,10 @@ template <size_t N>
 class AudioDeviceInput : public Source<N> {
 public:
     AudioDeviceInput(uint32_t blocksPerBuffer) :
-            blocksPerBuffer(blocksPerBuffer),
             bufferSize(blocksPerBuffer * constants::BLOCK_SIZE),
             blockIndex(blocksPerBuffer) {}
 
     void tick(Block<N> &block) {
-        std::unique_lock<std::mutex> lock(mutex);
-        if (blockIndex == blocksPerBuffer) {
-            haveSamples.wait(lock);
-        }
-
         for (uint32_t i=0; i<N; i++) {
             Chock chock = block[i];
             // The start of the channel in the outputSamples buffer
@@ -44,35 +34,24 @@ public:
     }
 
     void setBuffer(float *buffer) {
-        std::lock_guard<std::mutex> lock(mutex);
         this->buffer = buffer;
         blockIndex = 0;
-        haveSamples.notify_one();
     }
 
 private:
     float *buffer;
-    uint32_t blocksPerBuffer;
     size_t bufferSize;
     uint32_t blockIndex;
-    std::mutex mutex;
-    std::condition_variable haveSamples;
 };
 
 template <size_t N>
 class AudioDeviceOutput : public Sink<N> {
 public:
     AudioDeviceOutput(uint32_t blocksPerBuffer) :
-            blocksPerBuffer(blocksPerBuffer),
             bufferSize(blocksPerBuffer * constants::BLOCK_SIZE),
             blockIndex(blocksPerBuffer) {}
 
     void tick(Block<N> &block) {
-        std::unique_lock<std::mutex> lock(mutex);
-        if (blockIndex == blocksPerBuffer) {
-            haveSamples.wait(lock);
-        }
-
         for (uint32_t i=0; i<N; i++) {
             Chock chock = block[i];
             // The start of the channel in the outputSamples buffer
@@ -87,20 +66,15 @@ public:
     }
 
     void setBuffer(float *buffer) {
-        std::lock_guard<std::mutex> lock(mutex);    
         this->buffer = buffer;
         blockIndex = 0;
-        haveSamples.notify_one();
     }
          
 
 private:
     float *buffer;
-    uint32_t blocksPerBuffer;
     size_t bufferSize;
     uint32_t blockIndex;
-    std::mutex mutex;
-    std::condition_variable haveSamples;
 };
 
 
@@ -109,7 +83,8 @@ class AudioDeviceN {
 public:
     AudioDeviceN(int inputDevice=-1, int outputDevice=-1,
                  uint32_t blocksPerBuffer=8) :
-            input(blocksPerBuffer), output(blocksPerBuffer) {
+            input(blocksPerBuffer), output(blocksPerBuffer),
+            blocksPerBuffer(blocksPerBuffer) {
         RtAudio::StreamParameters inputParameters;
         inputParameters.deviceId = inputDevice == -1 ?
             device.getDefaultInputDevice() : inputDevice;
@@ -154,7 +129,16 @@ public:
         AudioDeviceN *castDevice = (AudioDeviceN *) device;
         castDevice->input.setBuffer((float *) inputSamples);
         castDevice->output.setBuffer((float *) outputSamples);
+        if (castDevice->onAudioCallback != nullptr) {
+            for (uint32_t i=0; i<castDevice->blocksPerBuffer; i++) {
+                (*(castDevice->onAudioCallback))();
+            }
+        }
         return 0;
+    }
+
+    void onAudio(void (*onAudioCallback)()) {
+        this->onAudioCallback = onAudioCallback;
     }
 
     AudioDeviceInput<inputChannels> input;
@@ -162,6 +146,8 @@ public:
 
 private:
     RtAudio device;
+    void (*onAudioCallback)() = nullptr;
+    uint32_t blocksPerBuffer;
 };
 
 typedef AudioDeviceN<1, 1> AudioDevice;
