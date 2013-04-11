@@ -14,7 +14,7 @@ namespace dsp {
 template <size_t N>
 class HighPassFilterN: public BiquadFilter<N> {
 public:
-    HighPassFilterN(Sample frequency,
+    HighPassFilterN(Sample frequency=440.0f,
                     Sample damping=2.0f*constants::ROOT_HALF) :
         BiquadFilter<N>(frequency, damping) {}
 
