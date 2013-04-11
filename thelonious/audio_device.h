@@ -108,7 +108,7 @@ template <size_t inputChannels, size_t outputChannels>
 class AudioDeviceN {
 public:
     AudioDeviceN(int inputDevice=-1, int outputDevice=-1,
-                 uint32_t blocksPerBuffer=2) :
+                 uint32_t blocksPerBuffer=8) :
             input(blocksPerBuffer), output(blocksPerBuffer) {
         RtAudio::StreamParameters inputParameters;
         inputParameters.deviceId = inputDevice == -1 ?
