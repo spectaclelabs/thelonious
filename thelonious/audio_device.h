@@ -106,7 +106,6 @@ public:
                               RTAUDIO_FLOAT32,
                               thelonious::constants::SAMPLE_RATE, &bufferSize,
                               &AudioDeviceN::callback, (void *) this, &options);
-            device.startStream();
         }
         catch (RtError& error) {
             error.printMessage();
@@ -122,6 +121,22 @@ public:
             device.closeStream();
         }
     }
+
+    void start() {
+        try {
+            device.startStream();
+        }
+        catch (RtError& error) {
+            error.printMessage();
+            exit(0);
+        }
+    }
+
+    void stop() {
+       if (device.isStreamRunning()) {
+            device.stopStream();
+        }
+    } 
 
     static int callback(void *outputSamples, void *inputSamples,
                  uint32_t nBufferFrames, double streamTime,
