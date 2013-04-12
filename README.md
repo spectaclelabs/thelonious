@@ -9,7 +9,7 @@ Thelonious is a header-only library. It depends on the [RtAudio library](http://
 1. Install RtAudio
 
 2. Include Thelonious by adding the following to your project:
-```cpp
+    ```cpp
     #include "thelonious.h"
     ```
 
@@ -86,8 +86,8 @@ Triangle lfo(1.0f);
 
 void onAudio() {
     // Use the LFO to make the frequency of the sine wave oscillate
-    // between 210Hz and 230Hz
-    lfo * 20.0f + 220.0f >> sine.frequency
+    // between 215Hz and 225Hz
+    lfo * 10.0f + 220.0f >> sine.frequency;
 
     // Play the sine wave through the audio device
     sine >> device.output;
@@ -106,7 +106,7 @@ int main() {
 
 ### Adding an envelope
 
-Rather than playing a continuous tone, it would be nice to play a shorter note.  A sequence of notes could then be used to produce something more musical.  Notice how we can multiply the sine wave and the envelope to control the volume of the oscillator.
+Rather than playing a continuous tone, it would be nice to play a shorter note.  A sequence of notes could then be used to produce something more musical.  Notice how we can trigger the envelope by right-shifting a value into its gate parameter.  Also how we can multiply the sine wave and the envelope to control the volume of the oscillator.
 
 ```cpp
 #include <iostream>
@@ -130,8 +130,8 @@ PercussiveEnvelope envelope(0.5f, 1.0f);
 
 void onAudio() {
     // Use the LFO to make the frequency of the sine wave oscillate
-    // between 210Hz and 230Hz
-    lfo * 20.0f + 220.0f >> sine.frequency
+    // between 215Hz and 225Hz
+    lfo * 10.0f + 220.0f >> sine.frequency;
 
     // Apply the envelope to the sine wave, and play it through the audio
     // device
@@ -139,6 +139,9 @@ void onAudio() {
 }
 
 int main() {
+    // Trigger the envelope
+    1.0 >> envelope.gate;
+
     // Call the onAudio function when the device needs audio generating
     device.onAudio(onAudio);
     // Start the audio playing
@@ -167,9 +170,8 @@ AudioDevice device;
 // Create a 110Hz sawtooth wave generator
 Saw saw(110.0f);
 
-// Create a percussive envelope, with a half-second attack phase and a 1
-// second release phase
-PercussiveEnvelope envelope(0.5f, 1.0f);
+// Create a percussive envelope, with a short attack and release phase
+PercussiveEnvelope envelope(0.05f, 0.05f);
 
 // Create a low-pass filter, with a corner frequency of 220Hz
 LowPassFilter lpf(220.0f);
@@ -185,6 +187,9 @@ void onAudio() {
 }
 
 int main() {
+    // Trigger the envelope
+    1.0f >> envelope.gate;
+
     // Call the onAudio function when the device needs audio generating
     device.onAudio(onAudio);
     // Start the audio playing
