@@ -6,6 +6,7 @@
 #include "types.h"
 #include "source.h"
 #include "sink.h"
+#include "duplex.h"
 #include "constants/sizes.h"
 #include "constants/rates.h"
 
@@ -78,8 +79,8 @@ private:
 };
 
 
-template <size_t inputChannels, size_t outputChannels>
-class AudioDeviceN {
+template <size_t N>
+class AudioDeviceN : public Duplex<N> {
 public:
     AudioDeviceN(int inputDevice=-1, int outputDevice=-1,
                  uint32_t blocksPerBuffer=8) :
@@ -88,12 +89,12 @@ public:
         RtAudio::StreamParameters inputParameters;
         inputParameters.deviceId = inputDevice == -1 ?
             device.getDefaultInputDevice() : inputDevice;
-        inputParameters.nChannels = inputChannels;
+        inputParameters.nChannels = N;
 
         RtAudio::StreamParameters outputParameters;
         outputParameters.deviceId = outputDevice == -1 ?
             device.getDefaultOutputDevice() : outputDevice;
-        outputParameters.nChannels = outputChannels;
+        outputParameters.nChannels = N;
 
         RtAudio::StreamOptions options;
         options.flags = RTAUDIO_NONINTERLEAVED;
@@ -101,8 +102,8 @@ public:
         uint32_t bufferSize = blocksPerBuffer * constants::BLOCK_SIZE;
 
         try {
-            device.openStream(outputChannels > 0 ? &outputParameters: NULL,
-                              inputChannels > 0 ? &inputParameters : NULL,
+            device.openStream(N > 0 ? &outputParameters: NULL,
+                              N > 0 ? &inputParameters : NULL,
                               RTAUDIO_FLOAT32,
                               thelonious::constants::SAMPLE_RATE, &bufferSize,
                               &AudioDeviceN::callback, (void *) this, &options);
@@ -156,16 +157,27 @@ public:
         this->onAudioCallback = onAudioCallback;
     }
 
-    AudioDeviceInput<inputChannels> input;
-    AudioDeviceOutput<outputChannels> output;
+    void tick(Block<N> &block) {
+        input.tick(block);
+    }
+
+    void tickIn(Block<N> &block) {
+        output.tick(block);
+    }
 
 private:
     RtAudio device;
+
+    AudioDeviceInput<N> input;
+    AudioDeviceOutput<N> output;
+
     void (*onAudioCallback)() = nullptr;
     uint32_t blocksPerBuffer;
+
+
 };
 
-typedef AudioDeviceN<1, 1> AudioDevice;
+typedef AudioDeviceN<1> AudioDevice;
 
 }
 

@@ -2,45 +2,23 @@
 #define THELONIOUS_SPLITTER_H
 
 #include "thelonious/types.h"
-#include "thelonious/source.h"
-#include "thelonious/sink.h"
+#include "thelonious/duplex.h"
 
 namespace thelonious {
 namespace dsp {
 
 template <size_t N>
-class SplitterInput : public Sink<N> {
+class SplitterN : public Duplex<N> {
 public:
-    SplitterInput(Block<N> &block) : block(block) {}
-
-    void tick(Block<N> &block) {
-        this->block = block;
-    }
-
-private:
-    Block<N> &block;
-};
-
-template <size_t N>
-class SplitterOutput : public Source<N> {
-public:
-    SplitterOutput(Block<N> &block) : block(block) {}
+    SplitterN() {}
 
     void tick(Block<N> &block) {
         block = this->block;
     }
 
-private:
-    Block<N> &block;
-};
-
-template <size_t N>
-class SplitterN {
-public:
-    SplitterN() : input(block), output(block) {}
-
-    SplitterInput<N> input;
-    SplitterOutput<N> output;
+    void tickIn(Block<N> &block) {
+        this->block = block;
+    }
 
 private:
     Block<N> block;

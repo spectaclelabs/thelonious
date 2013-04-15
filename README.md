@@ -44,7 +44,7 @@ Sine sine(220.0f);
 
 void onAudio() {
     // Play the sine wave through the audio device
-    sine >> device.output;
+    sine >> device;
 }
 
 int main() {
@@ -90,7 +90,7 @@ void onAudio() {
     lfo * 10.0f + 220.0f >> sine.frequency;
 
     // Play the sine wave through the audio device
-    sine >> device.output;
+    sine >> device;
 }
 
 int main() {
@@ -135,7 +135,7 @@ void onAudio() {
 
     // Apply the envelope to the sine wave, and play it through the audio
     // device
-    sine * envelope >> device.output;
+    sine * envelope >> device;
 }
 
 int main() {
@@ -183,7 +183,7 @@ FeedbackDelay<> delay;
 void onAudio() {
     // Apply the envelope to the sawtooth wave, pass it through the
     // filter and delay efects, and play it through the audio device
-    saw * envelope >> lpf >> delay >> device.output;
+    saw * envelope >> lpf >> delay >> device;
 }
 
 int main() {
@@ -281,7 +281,7 @@ Sinks are units which receive audio signals from sources or processors.
 #### Parameter
 
 ```cpp
-class Parameter : public Sink<N>;
+class Parameter : public Duplex<N>;
 ```
 
 Parameters provide variable streams of values to units.  They can either be static, where they hold a single value, or dynamic, where they use the values taken from an audio source.  Static parameters can be made to interpolate from the previous value when a new value is set in order to give glitch-free changes to the audio.
@@ -296,7 +296,13 @@ Constructor.  Creates a parameter with an initial static value of `value`, which
 const Chock& Parameter::get();
 ```
 
-Get a chock containing the values of the parameter for this tick.  Generally only called internally by units.
+Get a chock containing the values of the parameter for this tick.  Generally only called internally by units which implement their own DSP algorithms.
+
+```cpp
+void Parameter::tick(Block<1> &block);
+```
+
+Get the values of the parameter for this tick.  Generally only called           internally by units which are constructed from other units.  It can also be     accessed by right-shifting the parameter into an audio stream, for example      `parameter >> unit.parameter`.
 
 ```cpp
 void Parameter::set(Sample value);
@@ -304,11 +310,11 @@ void Parameter::set(Sample value);
 
 Set the static value of the parameter.  This can be also be accessed by right-shifting a sample into the parameter, for example `0.5f >> parameter`.
 
+```cpp
+void Parameter::tickIn(Block<1> &block);
 ```
-void Parameter::tick(const Chock& chock);
-void Parameter::tick(const Block<1> &block);
-```
-Set the dynamic value of the parameter from either a chock or a single-channel block.  This needs to be called each once per tick.  It can also be accessed by right-shifting an audio stream into the parameter, for example `oscillator >> parameter`.
+
+Set the dynamic value of the parameter from a single-channel block.  This needs to be called each once per tick.  It can also be accessed by right-shifting an audio stream into the parameter, for example `oscillator >> parameter`.
 
 ```cpp
 Interpolation Parameter::getInterpolation();
@@ -773,17 +779,17 @@ Constructor.  Creates a trigger with an initial trigger state.
 
 ```cpp
 template <size_t N>
-class SplitterN;
+class SplitterN : public Duplex<N>;
 
 typedef SplitterN<1> Splitter;
 ```
 
-A class containing an input and an output unit, which is used to split audio signals so they can be used in more than once.  For example to trigger two envelopes with one trigger:
+A class used to split audio signals so they can be used in more than once.  For example to trigger two envelopes with one trigger:
 
 ```cpp
-trigger >> splitter.input;
-splitter.output >> frequencyEnvelope.gate;
-splitter.output >> amplitudeEnvelope.gate;
+trigger >> splitter;
+splitter >> frequencyEnvelope.gate;
+splitter >> amplitudeEnvelope.gate;
 ```
 
 *Parameters*:
