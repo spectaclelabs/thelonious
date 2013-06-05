@@ -85,7 +85,7 @@ private:
  * Set the parameter from a sample.
  * Usage example: 440.0f >> oscillator.frequency;
  */
-void operator>>(Sample sample, Parameter &parameter) {
+inline void operator>>(Sample sample, Parameter &parameter) {
     parameter.set(sample);
 }
 

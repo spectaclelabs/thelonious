@@ -8,16 +8,17 @@
 
 namespace thelonious {
 
-Sample modulo(Sample a, Sample b) {
+inline Sample modulo(Sample a, Sample b) {
     return a - std::floor(a / b) * b;
 }
 
-// Alias wrap to modulo, so we can use it semantically based on the application
-constexpr auto &wrap = modulo;
+inline Sample wrap(Sample a, Sample b) {
+    return modulo(a, b);
+}
 
 // Should be quicker when a is unlikely to be outside b as we avoid the
 // division and floating point compares are cheap
-Sample moduloB(Sample a, Sample b) {
+inline Sample moduloB(Sample a, Sample b) {
     while (a >= b) {
         a -= b;
     }
@@ -28,17 +29,19 @@ Sample moduloB(Sample a, Sample b) {
     return a;
 }
 
-constexpr auto &wrapB = moduloB;
+inline Sample wrapB(Sample a, Sample b) {
+    return moduloB(a, b);
+}
 
-constexpr uint32_t secondsToSamples(float seconds) {
+inline constexpr uint32_t secondsToSamples(float seconds) {
     return seconds * constants::SAMPLE_RATE;
 }
 
-constexpr float samplesToSeconds(uint32_t samples) {
+inline constexpr float samplesToSeconds(uint32_t samples) {
     return samples * constants::INV_SAMPLE_RATE;
 }
 
-Sample linearInterpolate(Sample start, Sample end, Sample position) {
+inline Sample linearInterpolate(Sample start, Sample end, Sample position) {
     return start + position * (end - start);
 }
 
