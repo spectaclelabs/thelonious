@@ -79,8 +79,8 @@ private:
 };
 
 
-template <size_t N>
-class AudioDeviceN : public Duplex<N> {
+template <size_t M, size_t N>
+class AudioDeviceN : public Duplex<M, N> {
 public:
     AudioDeviceN(int inputDevice=-1, int outputDevice=-1,
                  uint32_t blocksPerBuffer=8) :
@@ -94,7 +94,7 @@ public:
         RtAudio::StreamParameters outputParameters;
         outputParameters.deviceId = outputDevice == -1 ?
             device.getDefaultOutputDevice() : outputDevice;
-        outputParameters.nChannels = N;
+        outputParameters.nChannels = M;
 
         RtAudio::StreamOptions options;
         options.flags = RTAUDIO_NONINTERLEAVED;
@@ -102,7 +102,7 @@ public:
         uint32_t bufferSize = blocksPerBuffer * constants::BLOCK_SIZE;
 
         try {
-            device.openStream(N > 0 ? &outputParameters: NULL,
+            device.openStream(M > 0 ? &outputParameters: NULL,
                               N > 0 ? &inputParameters : NULL,
                               RTAUDIO_FLOAT32,
                               thelonious::constants::SAMPLE_RATE, &bufferSize,
@@ -157,11 +157,11 @@ public:
         this->onAudioCallback = onAudioCallback;
     }
 
-    void tick(Block<N> &block) {
+    void tickOut(Block<N> &block) {
         input.tick(block);
     }
 
-    void tickIn(Block<N> &block) {
+    void tickIn(Block<M> &block) {
         output.tick(block);
     }
 
@@ -177,7 +177,7 @@ private:
 
 };
 
-typedef AudioDeviceN<1> AudioDevice;
+typedef AudioDeviceN<1, 1> AudioDevice;
 
 }
 

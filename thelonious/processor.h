@@ -6,8 +6,8 @@
 
 namespace thelonious {
 
-template <size_t N>
-class Processor : public Unit<N> {
+template <size_t M, size_t N>
+class Processor : public Unit<M, N> {
 };
 
 } // namespace thelonious

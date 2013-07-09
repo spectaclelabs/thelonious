@@ -5,10 +5,10 @@
 
 namespace thelonious {
 
-template <size_t N>
+template <size_t M, size_t N>
 class Unit {
 public:
-    virtual void tick(Block<N> &block) = 0;
+    virtual void tick(Block<M> &inputBlock, Block<N> &outputBlock) = 0;
 
 };
 

@@ -10,7 +10,7 @@
 
 namespace thelonious {
 
-class Parameter : public Duplex<1> {
+class Parameter : public Duplex<1, 1> {
 public:
     Parameter(Sample value=0.0f, Interpolation interpolation=LINEAR) :
         value(value), lastValue(value), interpolation(interpolation),
@@ -21,7 +21,7 @@ public:
         return block[0];
     }
 
-    void tick(Block<1> &block) {
+    void tickOut(Block<1> &block) {
         update();
         block = this->block;
     }

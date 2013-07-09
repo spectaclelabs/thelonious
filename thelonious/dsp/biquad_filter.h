@@ -10,7 +10,7 @@ namespace thelonious {
 namespace dsp {
 
 template <size_t N>
-class BiquadFilter : public Processor<N> {
+class BiquadFilter : public Processor<N, N> {
 private:
     typedef struct {
         Sample a0;
@@ -32,7 +32,7 @@ public:
     BiquadFilter(Sample frequency, Sample damping) :
         frequency(frequency), damping(damping) {}
 
-    void tick(Block<N> &block) {
+    void tick(Block<N> &inputBlock, Block<N> &outputBlock) {
         Chock frequencyChuck = frequency.get();
         Chock dampingChuck = damping.get();
         for (uint32_t i=0; i<constants::BLOCK_SIZE; i++) {
@@ -48,18 +48,18 @@ public:
             Sample invA0 = 1.0f / coefficients.a0;
 
             for (uint32_t j=0; j<N; j++) {
-                Sample output = coefficients.b0 * invA0 * block[j][i] +
+                Sample output = coefficients.b0 * invA0 * inputBlock[j][i] +
                                 coefficients.b1 * invA0 * samples[j].x1 +
                                 coefficients.b2 * invA0 * samples[j].x2 -
                                 coefficients.a1 * invA0 * samples[j].y1 -
                                 coefficients.a2 * invA0 * samples[j].y2;
 
                 samples[j].x2 = samples[j].x1;
-                samples[j].x1 = block[j][i];
+                samples[j].x1 = inputBlock[j][i];
                 samples[j].y2 = samples[j].y1;
                 samples[j].y1 = output;
 
-                block[j][i] = output;
+                outputBlock[j][i] = output;
             }
         }
     }

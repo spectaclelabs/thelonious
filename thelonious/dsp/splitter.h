@@ -8,16 +8,16 @@ namespace thelonious {
 namespace dsp {
 
 template <size_t N>
-class SplitterN : public Duplex<N> {
+class SplitterN : public Duplex<N, N> {
 public:
     SplitterN() {}
 
-    void tick(Block<N> &block) {
-        block = this->block;
+    void tick(Block<0> &inputBlock, Block<N> &outputBlock) {
+        outputBlock = this->block;
     }
 
-    void tickIn(Block<N> &block) {
-        this->block = block;
+    void tick(Block<N> &inputBlock, Block<0> &outputBlock) {
+        this->block = inputBlock;
     }
 
 private:

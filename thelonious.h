@@ -16,26 +16,17 @@
 #include "thelonious/constants/rates.h"
 
 /* Operators */
-#include "thelonious/operators/add.h"
-#include "thelonious/operators/subtract.h"
-#include "thelonious/operators/multiply.h"
-#include "thelonious/operators/divide.h"
-#include "thelonious/operators/modulo.h"
-
-/* Unit operators */
+#include "thelonious/operators/operator.h"
+#include "thelonious/operators/unit_operator.h"
+#include "thelonious/operators/constant_operator.h"
 #include "thelonious/operators/unit_tick.h"
-#include "thelonious/operators/unit_add.h"
-#include "thelonious/operators/unit_subtract.h"
-#include "thelonious/operators/unit_multiply.h"
-#include "thelonious/operators/unit_divide.h"
-#include "thelonious/operators/unit_modulo.h"
 
-/* Constant operators */
-#include "thelonious/operators/constant_add.h"
-#include "thelonious/operators/constant_subtract.h"
-#include "thelonious/operators/constant_multiply.h"
-#include "thelonious/operators/constant_divide.h"
-#include "thelonious/operators/constant_modulo.h"
+/* DSL */
+#include "thelonious/dsl/buffer.h"
+#include "thelonious/dsl/channel.h"
+#include "thelonious/dsl/constant.h"
+#include "thelonious/dsl/tick.h"
+#include "thelonious/dsl/unit.h"
 
 /* Oscillators */
 #include "thelonious/dsp/sine.h"

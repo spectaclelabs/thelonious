@@ -7,7 +7,13 @@
 namespace thelonious {
 
 template <size_t N>
-class Sink : public Unit<N> {
+class Sink : public Unit<N, 0> {
+public:
+    virtual void tick(Block<N> &inputBlock, Block<0> &outputBlock) {
+        tick(inputBlock);
+    }
+
+    virtual void tick(Block<N> &block) = 0;
 };
 
 } // namespace thelonious

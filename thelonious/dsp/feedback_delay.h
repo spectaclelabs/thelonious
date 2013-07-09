@@ -11,20 +11,20 @@ namespace thelonious {
 namespace dsp {
 
 template <size_t N, size_t bufferSize=secondsToSamples(0.2)>
-class FeedbackDelayN : public Processor<N> {
+class FeedbackDelayN : public Processor<N, N> {
 public:
     FeedbackDelayN(Sample time=0.2f, Sample feedback=0.5f):
         time(time), feedback(feedback) {}
 
-    void tick(Block<N> &block) {
+    void tick(Block<N> &inputBlock, Block<N> &outputBlock) {
         Chock timeChock = time.get();
         Chock feedbackChock = feedback.get();
 
         for (uint32_t i=0; i<constants::BLOCK_SIZE; i++) {
             for (uint32_t j=0; j<N; j++) {
                 buffer[j][position] = buffer[j][position] * feedbackChock[i] +
-                                      block[j][i];
-                block[j][i] = buffer[j][position];
+                                      inputBlock[j][i];
+                outputBlock[j][i] = buffer[j][position];
             }
 
             position += 1;
