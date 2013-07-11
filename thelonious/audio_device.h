@@ -1,6 +1,8 @@
 #ifndef THELONIOUS_AUDIO_DEVICE_H
 #define THELONIOUS_AUDIO_DEVICE_H
 
+#ifndef THELONIOUS_NO_DEVICE
+
 #include "RtAudio.h"
 
 #include "types.h"
@@ -180,5 +182,7 @@ private:
 typedef AudioDeviceN<1, 1> AudioDevice;
 
 }
+
+#endif // ifndef THELONIOUS_NO_DEVICE
 
 #endif
