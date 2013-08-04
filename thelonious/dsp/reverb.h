@@ -12,10 +12,16 @@ namespace dsp {
 
 class Reverb : public Processor<1, 1> {
 public:
-    Reverb() {}
+    Reverb(Sample time=0.7, Sample mix=0.2) : time(time), mix(mix) {}
 
     void tick(Block<1> &inputBlock, Block<1> &outputBlock) {
+        Chock timeChock = time.get();
+        Chock mixChock = mix.get();
         for (uint32_t i=0; i<constants::BLOCK_SIZE; i++) {
+            Sample inputSample = inputBlock[0][i];
+            Sample time = timeChock[i];
+            Sample mix = mixChock[i];
+
             // First input AP
             Sample bufferSample = inputAp1[inputApIndex1];
             Sample delaySample = inputBlock[0][i] + 0.625 * bufferSample;
@@ -40,8 +46,8 @@ public:
             inputAp4[inputApIndex4] = delaySample;
             outputSample = bufferSample - 0.625 * delaySample;
 
-            Sample sampleA = loopDelay1[loopDelayIndex1] * 0.99;
-            Sample sampleB = loopDelay2[loopDelayIndex2] * 0.99;
+            Sample sampleA = loopDelay1[loopDelayIndex1] * time;
+            Sample sampleB = loopDelay2[loopDelayIndex2] * time;
             
             // First loop AP
             bufferSample = loopAp1[loopApIndex1];
@@ -61,7 +67,8 @@ public:
             // Second loop delay
             loopDelay2[loopDelayIndex2] = sampleA;
 
-            outputBlock[0][i] = sampleA + sampleB;
+            outputBlock[0][i] = inputSample * (1.f - mix ) +
+                                (sampleA + sampleB) * mix;
 
             inputApIndex1++;
             inputApIndex1 %= inputAp1.size();            
@@ -81,13 +88,12 @@ public:
             loopApIndex1 %= loopAp1.size();
             loopApIndex2++;
             loopApIndex2 %= loopAp2.size();
-            
 
         }
     }
 
     Parameter time;
-    Parameter feedback;
+    Parameter mix;
 
 private:
     Channel<122> inputAp1;
