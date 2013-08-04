@@ -1,5 +1,6 @@
 # Source files
-SRC =  $(wildcard *.cc)
+SRC = $(wildcard *.cc)
+SRC +=  $(wildcard */*.cc)
 EXE = $(SRC:.cc=)
 
 GMOCK_DIR = ../../gmock-1.6.0
