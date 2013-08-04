@@ -1,6 +1,9 @@
 #ifndef THELONIOUS_DSL_BUFFER_H
 #define THELONIOUS_DSL_BUFFER_H
 
+#include "thelonious/types.h"
+#include "channel.h"
+
 /**
  * Operate on two buffers.
  * Usage example: bufferA = bufferB + bufferC
