@@ -79,8 +79,8 @@ public:
 
             loopApIndex1++;
             loopApIndex1 %= loopAp1.size();
-            loopApIndex1++;
-            loopApIndex1 %= loopAp1.size();
+            loopApIndex2++;
+            loopApIndex2 %= loopAp2.size();
             
 
         }

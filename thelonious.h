@@ -49,6 +49,9 @@
 /* Delay */
 #include "thelonious/dsp/feedback_delay.h"
 
+/* Reverb */
+#include "thelonious/dsp/reverb.h"
+
 /* Envelopes */
 #include "thelonious/dsp/envelope.h"
 #include "thelonious/dsp/percussive_envelope.h"
