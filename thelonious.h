@@ -40,6 +40,9 @@
 /* Noise */
 #include "thelonious/dsp/white_noise.h"
 
+/* Silence */
+#include "thelonious/dsp/silence.h"
+
 /* Filters */
 #include "thelonious/dsp/biquad_filter.h"
 #include "thelonious/dsp/low_pass_filter.h"
