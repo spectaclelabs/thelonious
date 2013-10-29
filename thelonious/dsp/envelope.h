@@ -52,7 +52,12 @@ public:
                 canTrigger = true;
             }
 
-            while (playing && !sustaining && time > duration) {
+            while (playing && !sustaining && time >= duration) {
+                if (duration == 0) {
+                    value = segments[segmentIndex].get(startValue, endValue,
+                                                       1.f);
+                }
+
                 nextSegment();
             }
 
@@ -74,6 +79,7 @@ public:
     }
 
     Parameter gate;
+    std::function<void()> onComplete;
 
 private:
     void setSegmentVariables() {
@@ -96,6 +102,9 @@ private:
         if (segmentIndex == segments.size()) {
             // We have reached the end of the last segment, so stop playing
             playing = false;
+            if (onComplete) {
+                onComplete();
+            }
         }
         else {
             // Rather than set time = 0, we subtract the duration.  This means
@@ -111,6 +120,7 @@ private:
                 // sub-sample durations, so set time to zero
                 time = 0;
             }
+
         }
     }
 
