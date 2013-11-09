@@ -2,12 +2,12 @@
 #define THELONIOUS_SINK_H
 
 #include "types.h"
-#include "unit.h"
+#include "abstract_sink.h"
 
 namespace thelonious {
 
 template <size_t N>
-class Sink : public Unit<N, 0> {
+class Sink : public AbstractSink<N> {
 public:
     virtual void tick(Block<N> &inputBlock, Block<0> &outputBlock) {
         tick(inputBlock);
