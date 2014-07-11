@@ -58,27 +58,27 @@ private:
 };
 
 template<size_t N>
-using AddN = OperatorN<N, '+'>;
+using AddN = OperatorN<N, ADDITION>;
 
 typedef AddN<1> Add;
 
 template<size_t N>
-using SubtractN = OperatorN<N, '-'>;
+using SubtractN = OperatorN<N, SUBTRACTION>;
 
 typedef SubtractN<1> Subtract;
 
 template<size_t N>
-using MultiplyN = OperatorN<N, '*'>;
+using MultiplyN = OperatorN<N, MULTIPLICATION>;
 
 typedef MultiplyN<1> Multiply;
 
 template<size_t N>
-using DivideN = OperatorN<N, '/'>;
+using DivideN = OperatorN<N, DIVISION>;
 
 typedef DivideN<1> Divide;
 
 template<size_t N>
-using ModuloN = OperatorN<N, '%'>;
+using ModuloN = OperatorN<N, MODULO>;
 
 typedef ModuloN<1> Modulo;
 

@@ -8,7 +8,7 @@
 namespace thelonious {
 namespace operators {
 
-template <size_t N, char Op>
+template <size_t N, Operator Op>
 class UnitOperatorN : public Source<N> {
 public:
     UnitOperatorN(AbstractSource<N> &unitA, AbstractSource<N> &unitB):
@@ -55,20 +55,21 @@ private:
     AbstractSource<N> *unitB;
 };
 
+// Binary Mathematical
 template<size_t N>
-using UnitAddN = UnitOperatorN<N, '+'>;
+using UnitAddN = UnitOperatorN<N, ADDITION>;
 
 template<size_t N>
-using UnitSubtractN = UnitOperatorN<N, '-'>;
+using UnitSubtractN = UnitOperatorN<N, SUBTRACTION>;
 
 template<size_t N>
-using UnitMultiplyN = UnitOperatorN<N, '*'>;
+using UnitMultiplyN = UnitOperatorN<N, MULTIPLICATION>;
 
 template<size_t N>
-using UnitDivideN = UnitOperatorN<N, '/'>;
+using UnitDivideN = UnitOperatorN<N, DIVISION>;
 
 template<size_t N>
-using UnitModuloN = UnitOperatorN<N, '%'>;
+using UnitModuloN = UnitOperatorN<N, MODULO>;
 
 } // namespace operators
 } // namespace thelonious

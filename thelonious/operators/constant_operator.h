@@ -11,7 +11,7 @@
 namespace thelonious {
 namespace operators {
 
-template <class T, size_t M, size_t N, char Op, bool Inverse=false>
+template <class T, size_t M, size_t N, Operator Op, bool Inverse=false>
 class ConstantOperatorN : public T {
 public:
     ConstantOperatorN(Unit<M, N> &unit, Sample value):
@@ -68,10 +68,10 @@ private:
     // Usage example: unit % 2.0f
     void operate(Block<N> &block, Sample value, ModuloOperator op,
                  RegularOperator inverse) {
-        block %= block;
+        block %= value;
     }
 
-    // Usage example: unit % 2.0f
+    // Usage example: 2.0f % unit
     void operate(Block<N> &block, Sample value, ModuloOperator op,
                  InverseOperator inverse) {
         block = value % block;
@@ -82,59 +82,35 @@ private:
 };
 
 
-// TODO: Make this into a macro
-// Addition template aliases
-template <class T, size_t M, size_t N>
-using ConstantAddN = ConstantOperatorN<T, M, N, '+'>;
+#define CONSTANT_OPERATOR_ALIAS(name, op)                                   \
+template <class T, size_t M, size_t N, bool Inverse=false>                  \
+using Constant ## name  ## N = ConstantOperatorN<T, M, N, op, Inverse>;     \
 
-template <size_t N>
-using ConstantSourceAddN = ConstantAddN<AbstractSource<N>, 0, N>;
+#define CONSTANT_SOURCE_OPERATOR_ALIAS(name, op)                            \
+template <size_t N, bool Inverse=false>                                     \
+using ConstantSource ## name ## N = Constant ## name ## N<AbstractSource<N>,\
+                                                          0, N, Inverse>;
 
-template <size_t M, size_t N>
-using ConstantProcessorAddN = ConstantAddN<Processor<M, N>, M, N>;
+#define CONSTANT_PROCESSOR_OPERATOR_ALIAS(name, op)                          \
+template <size_t M, size_t N, bool Inverse=false>                            \
+using ConstantProcessor ## name ## N = Constant ## name ## N<Processor<M, N>,\
+                                                             M, N, Inverse>;
 
-// Subtraction template aliases
-template <class T, size_t M, size_t N, bool Inverse=false>
-using ConstantSubtractN = ConstantOperatorN<T, M, N, '-', Inverse>;
+#define OPERATOR_LIST(function)     \
+function(Add, ADDITION)             \
+function(Subtract, SUBTRACTION)     \
+function(Multiply, MULTIPLICATION)  \
+function(Divide, DIVISION)          \
+function(Modulo, MODULO)
 
-template <size_t N, bool Inverse=false>
-using ConstantSourceSubtractN = ConstantSubtractN<AbstractSource<N>, 0, N, Inverse>;
+OPERATOR_LIST(CONSTANT_OPERATOR_ALIAS)
+OPERATOR_LIST(CONSTANT_SOURCE_OPERATOR_ALIAS)
+OPERATOR_LIST(CONSTANT_PROCESSOR_OPERATOR_ALIAS)
 
-template <size_t M, size_t N, bool Inverse=false>
-using ConstantProcessorSubtractN = ConstantSubtractN<Processor<M, N>, M, N,
-                                                     Inverse>;
-
-// Multiplication template aliases
-template <class T, size_t M, size_t N>
-using ConstantMultiplyN = ConstantOperatorN<T, M, N, '*'>;
-
-template <size_t N>
-using ConstantSourceMultiplyN = ConstantMultiplyN<AbstractSource<N>, 0, N>;
-
-template <size_t M, size_t N>
-using ConstantProcessorMultiplyN = ConstantMultiplyN<Processor<M, N>, M, N>;
-
-// Division template aliases
-template <class T, size_t M, size_t N, bool Inverse=false>
-using ConstantDivideN = ConstantOperatorN<T, M, N, '/', Inverse>;
-
-template <size_t N, bool Inverse=false>
-using ConstantSourceDivideN = ConstantDivideN<AbstractSource<N>, 0, N, Inverse>;
-
-template <size_t M, size_t N, bool Inverse=false>
-using ConstantProcessorDivideN = ConstantDivideN<Processor<M, N>, M, N,
-                                                 Inverse>;
-
-// Modulo template aliases
-template <class T, size_t M, size_t N, bool Inverse=false>
-using ConstantModuloN = ConstantOperatorN<T, M, N, '%', Inverse>;
-
-template <size_t N, bool Inverse=false>
-using ConstantSourceModuloN = ConstantModuloN<AbstractSource<N>, 0, N, Inverse>;
-
-template <size_t M, size_t N, bool Inverse=false>
-using ConstantProcessorModuloN = ConstantModuloN<Processor<M, N>, M, N,
-                                                 Inverse>;
+#undef OPERATOR_LIST
+#undef CONSTANT_OPERATOR_ALIAS
+#undef CONSTANT_SOURCE_OPERATOR_ALIAS
+#undef CONSTANT_PROCESSOR_OPERATOR_ALIAS
 
 } // namespace operators
 } // namespace thelonious
