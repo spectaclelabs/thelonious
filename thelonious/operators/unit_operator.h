@@ -30,26 +30,15 @@ private:
         operate(blockA, blockB, op);
     }
 
-    void operate(Block<N> &blockA, Block<N> &blockB, AddOperator op) {
-        blockA += blockB;
+#define OPERATE_FUNCTION(name, uppername, op)                               \
+    void operate(Block<N> &blockA, Block<N> &blockB,                        \
+                 name ## Operator oper) {                                   \
+        blockA = blockA op blockB;                                          \
     }
 
-    void operate(Block<N> &blockA, Block<N> &blockB, SubtractOperator op) {
-        blockA -= blockB;
-    }
+    OPERATOR_LIST(OPERATE_FUNCTION)
 
-    void operate(Block<N> &blockA, Block<N> &blockB,
-                 MultiplyOperator op) {
-        blockA *= blockB;
-    }
-
-    void operate(Block<N> &blockA, Block<N> &blockB, DivideOperator op) {
-        blockA /= blockB;
-    }
-
-    void operate(Block<N> &blockA, Block<N> &blockB, ModuloOperator op) {
-        blockA %= blockB;
-    }
+#undef OPERATE_FUNCTION
 
     AbstractSource<N> *unitA;
     AbstractSource<N> *unitB;

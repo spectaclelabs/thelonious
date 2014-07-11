@@ -29,53 +29,24 @@ private:
         operate(block, value, op, inverse);
     }
 
-    // Usage example: unit + 2.0f
-    void operate(Block<N> &block, Sample value, AddOperator op,
-                 RegularOperator inverse) {
-        block += value;
+#define OPERATE_FUNCTION(name, uppername, op)                               \
+    void operate(Block<N> &block, Sample value, name ## Operator oper,      \
+                 RegularOperator inverse) {                                 \
+        block = block op value;                                             \
     }
 
-    // Usage example: unit - 2.0f
-    void operate(Block<N> &block, Sample value, SubtractOperator op,
-                 RegularOperator inverse) {
-        block -= value;
+#define INVERSE_OPERATE_FUNCTION(name, uppername, op)                       \
+    void operate(Block<N> &block, Sample value, name ## Operator oper,      \
+                 InverseOperator inverse) {                                 \
+        block = value op block;                                             \
     }
 
-    // Usage example: 2.0f - unit 
-    void operate(Block<N> &block, Sample value, SubtractOperator op,
-                 InverseOperator inverse) {
-        block = value - block;
-    }
+    COMMUTATIVE_OPERATOR_LIST(OPERATE_FUNCTION)
+    NON_COMMUTATIVE_OPERATOR_LIST(OPERATE_FUNCTION)
+    NON_COMMUTATIVE_OPERATOR_LIST(INVERSE_OPERATE_FUNCTION)
 
-    // Usage example: unit * 2.0f
-    void operate(Block<N> &block, Sample value, MultiplyOperator op,
-                 RegularOperator inverse) {
-        block *= value;
-    }
-
-    // Usage example: unit / 2.0f
-    void operate(Block<N> &block, Sample value, DivideOperator op,
-                 RegularOperator inverse) {
-        block /= value;
-    }
-
-    // Usage example: 2.0f / unit
-    void operate(Block<N> &block, Sample value, DivideOperator op,
-                 InverseOperator inverse) {
-        block = value / block;
-    }
-
-    // Usage example: unit % 2.0f
-    void operate(Block<N> &block, Sample value, ModuloOperator op,
-                 RegularOperator inverse) {
-        block %= value;
-    }
-
-    // Usage example: 2.0f % unit
-    void operate(Block<N> &block, Sample value, ModuloOperator op,
-                 InverseOperator inverse) {
-        block = value % block;
-    }
+#undef OPERATE_FUNCTION
+#undef INVERSE_OPERATE_FUNCTION
 
     Unit<M, N> *unit;
     Sample value;

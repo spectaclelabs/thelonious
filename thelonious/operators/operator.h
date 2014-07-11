@@ -31,30 +31,16 @@ private:
         operate(inputChock, outputChock, valueChock);
     }
 
-    void operate(Chock &inputChock, Chock &outputChock, Chock &valueChock,
-                 AddOperator op) {
-        outputChock = inputChock + valueChock;
+#define OPERATE_FUNCTION(name, uppername, op)                               \
+    void operate(Chock &inputChock, Chock &outputChock, Chock &valueChock,  \
+                 name ## Operator oper) {                                   \
+        outputChock = inputChock op valueChock;                             \
     }
 
-   void operate(Chock &inputChock, Chock &outputChock, Chock &valueChock,
-                 SubtractOperator op) {
-        outputChock = inputChock - valueChock;
-    }
+    OPERATOR_LIST(OPERATE_FUNCTION)
 
-    void operate(Chock &inputChock, Chock &outputChock, Chock &valueChock,
-                 MultipyOperator op) {
-        outputChock = inputChock * valueChock;
-    }
+#undef OPERATE_FUNCTION
 
-    void operate(Chock &inputChock, Chock &outputChock, Chock &valueChock,
-                 DivideOperator op) {
-        outputChock = inputChock / valueChock;
-    }
-
-    void operate(Chock &inputChock, Chock &outputChock, Chock &valueChock,
-                 ModuloOperator op) {
-        outputChock = inputChock % valueChock;
-    } 
 };
 
 
