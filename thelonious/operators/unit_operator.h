@@ -55,21 +55,21 @@ private:
     AbstractSource<N> *unitB;
 };
 
-// Binary Mathematical
-template<size_t N>
-using UnitAddN = UnitOperatorN<N, ADDITION>;
+#define UNIT_OPERATOR_ALIAS(name, op)                                       \
+template<size_t N>                                                          \
+using Unit ## name ## N = UnitOperatorN<N, op>;                             \
 
-template<size_t N>
-using UnitSubtractN = UnitOperatorN<N, SUBTRACTION>;
+#define OPERATOR_LIST(function)     \
+function(Add, ADDITION)             \
+function(Subtract, SUBTRACTION)     \
+function(Multiply, MULTIPLICATION)  \
+function(Divide, DIVISION)          \
+function(Modulo, MODULO)
 
-template<size_t N>
-using UnitMultiplyN = UnitOperatorN<N, MULTIPLICATION>;
+OPERATOR_LIST(UNIT_OPERATOR_ALIAS)
 
-template<size_t N>
-using UnitDivideN = UnitOperatorN<N, DIVISION>;
-
-template<size_t N>
-using UnitModuloN = UnitOperatorN<N, MODULO>;
+#undef OPERATOR_LIST
+#undef UNIT_OPERATOR_ALIAS
 
 } // namespace operators
 } // namespace thelonious

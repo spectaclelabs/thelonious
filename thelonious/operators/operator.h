@@ -17,7 +17,7 @@ public:
 
     void tick(Block<N> &inputBlock, Block<N> &outputBlock) {
         Chock valueChock = value.get();
-        
+
         for (uint32_t i=0; i<N; i++) {
             operate(inputBlock[i], outputBlock[i], valueChock);
         }
@@ -57,32 +57,27 @@ private:
     } 
 };
 
-template<size_t N>
-using AddN = OperatorN<N, ADDITION>;
 
-typedef AddN<1> Add;
+#define OPERATOR_ALIAS_N(name, op)                                          \
+template<size_t N>                                                          \
+using name ## N = OperatorN<N, op>;
 
-template<size_t N>
-using SubtractN = OperatorN<N, SUBTRACTION>;
+#define OPERATOR_ALIAS(name, op)                                            \
+typedef name ## N<1> name;
 
-typedef SubtractN<1> Subtract;
+#define OPERATOR_LIST(function)     \
+function(Add, ADDITION)             \
+function(Subtract, SUBTRACTION)     \
+function(Multiply, MULTIPLICATION)  \
+function(Divide, DIVISION)          \
+function(Modulo, MODULO)
 
-template<size_t N>
-using MultiplyN = OperatorN<N, MULTIPLICATION>;
+OPERATOR_LIST(OPERATOR_ALIAS_N)
+OPERATOR_LIST(OPERATOR_ALIAS)
 
-typedef MultiplyN<1> Multiply;
-
-template<size_t N>
-using DivideN = OperatorN<N, DIVISION>;
-
-typedef DivideN<1> Divide;
-
-template<size_t N>
-using ModuloN = OperatorN<N, MODULO>;
-
-typedef ModuloN<1> Modulo;
-
-
+#undef OPERATOR_LIST
+#undef OPERATOR_ALIAS_N
+#undef OPERATOR_ALIAS
 
 } // namespace operators
 } // namespace thelonious
