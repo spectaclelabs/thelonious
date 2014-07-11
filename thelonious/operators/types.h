@@ -67,9 +67,6 @@ enum Operator {
 #undef UPPERNAME
 
 // An integral constant used to disambiguate between the operators
-// Probably unnecessary now that we have switched to using an enum rather than
-// a char to identify the operators
-// TODO: Remove me if possible
 template <Operator value>
 using OperatorType = std::integral_constant<Operator, value>;
 
