@@ -72,26 +72,38 @@ Buffer<M, N> & operator op ## =(Buffer<M, N> &a, Sample b) {    \
     return a;                                                   \
 }
 
-#define OPERATOR_LIST(function) \
-function(+)                     \
-function(-)                     \
-function(*)                     \
-function(/)                     \
-function(%)                     \
+#define ARITHMETIC_OPERATOR_LIST(function) \
+function(+)                                \
+function(-)                                \
+function(*)                                \
+function(/)                                \
+function(%)                                \
+
+#define COMPARISON_OPERATOR_LIST(function) \
+function(==)                               \
+function(<)                                \
+function(>)                                \
+function(<=)                               \
+function(>=)                               \
 
 namespace thelonious {
 //namespace dsl {
 
-OPERATOR_LIST(BUFFER_BUFFER)
-OPERATOR_LIST(BUFFER_SAMPLE)
-OPERATOR_LIST(SAMPLE_BUFFER)
-OPERATOR_LIST(BUFFER_BUFFER_ASSIGN)
-OPERATOR_LIST(BUFFER_SAMPLE_ASSIGN)
+ARITHMETIC_OPERATOR_LIST(BUFFER_BUFFER)
+ARITHMETIC_OPERATOR_LIST(BUFFER_SAMPLE)
+ARITHMETIC_OPERATOR_LIST(SAMPLE_BUFFER)
+ARITHMETIC_OPERATOR_LIST(BUFFER_BUFFER_ASSIGN)
+ARITHMETIC_OPERATOR_LIST(BUFFER_SAMPLE_ASSIGN)
+
+COMPARISON_OPERATOR_LIST(BUFFER_BUFFER)
+COMPARISON_OPERATOR_LIST(BUFFER_SAMPLE)
+COMPARISON_OPERATOR_LIST(SAMPLE_BUFFER)
 
 //} // namespace dsl
 } // namespace thelonious
 
-#undef OPERATOR_LIST
+#undef ARITHMETIC_OPERATOR_LIST
+#undef COMPARISON_OPERATOR_LIST
 #undef BUFFER_BUFFER
 #undef BUFFER_SAMPLE
 #undef BUFFER_BUFFER_ASSIGN

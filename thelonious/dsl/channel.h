@@ -51,19 +51,30 @@ Channel<N> & operator op ## =(Channel<N> &a, Sample b) {    \
     return a;                                               \
 }
 
-#define OPERATOR_LIST(function) \
-function(+)                     \
-function(-)                     \
-function(*)                     \
+#define ARITHMETIC_OPERATOR_LIST(function) \
+function(+)                                \
+function(-)                                \
+function(*)                                \
 function(/)
+
+#define COMPARISON_OPERATOR_LIST(function) \
+function(==)                               \
+function(<)                                \
+function(>)                                \
+function(<=)                               \
+function(>=)                               \
 
 namespace thelonious {
 
-OPERATOR_LIST(CHANNEL_CHANNEL)
-OPERATOR_LIST(CHANNEL_SAMPLE)
-OPERATOR_LIST(SAMPLE_CHANNEL)
-OPERATOR_LIST(CHANNEL_CHANNEL_ASSIGN)
-OPERATOR_LIST(CHANNEL_SAMPLE_ASSIGN)
+ARITHMETIC_OPERATOR_LIST(CHANNEL_CHANNEL)
+ARITHMETIC_OPERATOR_LIST(CHANNEL_SAMPLE)
+ARITHMETIC_OPERATOR_LIST(SAMPLE_CHANNEL)
+ARITHMETIC_OPERATOR_LIST(CHANNEL_CHANNEL_ASSIGN)
+ARITHMETIC_OPERATOR_LIST(CHANNEL_SAMPLE_ASSIGN)
+
+COMPARISON_OPERATOR_LIST(CHANNEL_CHANNEL)
+COMPARISON_OPERATOR_LIST(CHANNEL_SAMPLE)
+COMPARISON_OPERATOR_LIST(SAMPLE_CHANNEL)
 
 // Need to manually define these as we need to use the modulo function
 template <size_t N>
@@ -112,7 +123,8 @@ Channel<N> & operator %=(Channel<N> &a, Sample b) {
 
 } // namespace thelonious
 
-#undef OPERATOR_LIST
+#undef ARITHMETIC_OPERATOR_LIST
+#undef COMPARISON_OPERATOR_LIST
 #undef CHANNEL_CHANNEL
 #undef CHANNEL_SAMPLE
 #undef CHANNEL_CHANNEL_ASSIGN
