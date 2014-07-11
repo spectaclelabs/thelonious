@@ -31,13 +31,13 @@ public:
 
     void tickIn(Block<M> &block) {
     }
-    
+
     void tickOut(Block<N> &block) {
         for (uint32_t i=0; i<constants::BLOCK_SIZE; i++) {
             block[i] = value;
         }
     }
-    
+
     Sample value;
 };
 
@@ -149,7 +149,6 @@ TEST_F(ConstantSourceTest, DivideRValue2) {
     ASSERT_THAT(block[1], Each(FloatEq(1.5f)));
 }
 
-
 TEST_F(ConstantSourceTest, ModuloLValue) {
     (ones % 0.4f).tick(dummy, block);
     ASSERT_THAT(block[0], Each(FloatEq(0.2f)));
@@ -170,6 +169,128 @@ TEST_F(ConstantSourceTest, ModuloRValue) {
 
 TEST_F(ConstantSourceTest, ModuloRValue2) {
     (3.f % (ones + ones)).tick(dummy, block);
+    ASSERT_THAT(block[0], Each(FloatEq(1.f)));
+    ASSERT_THAT(block[1], Each(FloatEq(1.f)));
+}
+
+TEST_F(ConstantSourceTest, EqualLValue) {
+    (ones == 1.f).tick(dummy, block);
+    ASSERT_THAT(block[0], Each(FloatEq(1.f)));
+    ASSERT_THAT(block[1], Each(FloatEq(1.f)));
+}
+
+TEST_F(ConstantSourceTest, EqualLValue2) {
+    (2.f == ones).tick(dummy, block);
+    ASSERT_THAT(block[0], Each(FloatEq(0.f)));
+    ASSERT_THAT(block[1], Each(FloatEq(0.f)));
+}
+
+TEST_F(ConstantSourceTest, EqualRValue) {
+    ((ones + ones) == 2.f).tick(dummy, block);
+    ASSERT_THAT(block[0], Each(FloatEq(1.f)));
+    ASSERT_THAT(block[1], Each(FloatEq(1.f)));
+}
+
+TEST_F(ConstantSourceTest, EqualRValue2) {
+    (3.f == (ones + ones)).tick(dummy, block);
+    ASSERT_THAT(block[0], Each(FloatEq(0.f)));
+    ASSERT_THAT(block[1], Each(FloatEq(0.f)));
+}
+
+TEST_F(ConstantSourceTest, LTLValue) {
+    (ones < 1.f).tick(dummy, block);
+    ASSERT_THAT(block[0], Each(FloatEq(0.f)));
+    ASSERT_THAT(block[1], Each(FloatEq(0.f)));
+}
+
+TEST_F(ConstantSourceTest, LTLValue2) {
+    (2.f < ones).tick(dummy, block);
+    ASSERT_THAT(block[0], Each(FloatEq(0.f)));
+    ASSERT_THAT(block[1], Each(FloatEq(0.f)));
+}
+
+TEST_F(ConstantSourceTest, LTRValue) {
+    ((ones + ones) < 3.f).tick(dummy, block);
+    ASSERT_THAT(block[0], Each(FloatEq(1.f)));
+    ASSERT_THAT(block[1], Each(FloatEq(1.f)));
+}
+
+TEST_F(ConstantSourceTest, LTRValue2) {
+    (3.f < (ones + ones)).tick(dummy, block);
+    ASSERT_THAT(block[0], Each(FloatEq(0.f)));
+    ASSERT_THAT(block[1], Each(FloatEq(0.f)));
+}
+
+
+TEST_F(ConstantSourceTest, GTLValue) {
+    (ones > 1.f).tick(dummy, block);
+    ASSERT_THAT(block[0], Each(FloatEq(0.f)));
+    ASSERT_THAT(block[1], Each(FloatEq(0.f)));
+}
+
+TEST_F(ConstantSourceTest, GTLValue2) {
+    (2.f > ones).tick(dummy, block);
+    ASSERT_THAT(block[0], Each(FloatEq(1.f)));
+    ASSERT_THAT(block[1], Each(FloatEq(1.f)));
+}
+
+TEST_F(ConstantSourceTest, GTRValue) {
+    ((ones + ones) > 2.f).tick(dummy, block);
+    ASSERT_THAT(block[0], Each(FloatEq(0.f)));
+    ASSERT_THAT(block[1], Each(FloatEq(0.f)));
+}
+
+TEST_F(ConstantSourceTest, GTRValue2) {
+    (3.f > (ones + ones)).tick(dummy, block);
+    ASSERT_THAT(block[0], Each(FloatEq(1.f)));
+    ASSERT_THAT(block[1], Each(FloatEq(1.f)));
+}
+
+
+TEST_F(ConstantSourceTest, LTELValue) {
+    (ones <= 1.f).tick(dummy, block);
+    ASSERT_THAT(block[0], Each(FloatEq(1.f)));
+    ASSERT_THAT(block[1], Each(FloatEq(1.f)));
+}
+
+TEST_F(ConstantSourceTest, LTELValue2) {
+    (2.f <= ones).tick(dummy, block);
+    ASSERT_THAT(block[0], Each(FloatEq(0.f)));
+    ASSERT_THAT(block[1], Each(FloatEq(0.f)));
+}
+
+TEST_F(ConstantSourceTest, LTERValue) {
+    ((ones + ones) <= 2.f).tick(dummy, block);
+    ASSERT_THAT(block[0], Each(FloatEq(1.f)));
+    ASSERT_THAT(block[1], Each(FloatEq(1.f)));
+}
+
+TEST_F(ConstantSourceTest, LTERValue2) {
+    (3.f <= (ones + ones)).tick(dummy, block);
+    ASSERT_THAT(block[0], Each(FloatEq(0.f)));
+    ASSERT_THAT(block[1], Each(FloatEq(0.f)));
+}
+
+TEST_F(ConstantSourceTest, GTELValue) {
+    (ones >= 1.f).tick(dummy, block);
+    ASSERT_THAT(block[0], Each(FloatEq(1.f)));
+    ASSERT_THAT(block[1], Each(FloatEq(1.f)));
+}
+
+TEST_F(ConstantSourceTest, GTELValue2) {
+    (2.f >= ones).tick(dummy, block);
+    ASSERT_THAT(block[0], Each(FloatEq(1.f)));
+    ASSERT_THAT(block[1], Each(FloatEq(1.f)));
+}
+
+TEST_F(ConstantSourceTest, GTERValue) {
+    ((ones + ones) >= 3.f).tick(dummy, block);
+    ASSERT_THAT(block[0], Each(FloatEq(0.f)));
+    ASSERT_THAT(block[1], Each(FloatEq(0.f)));
+}
+
+TEST_F(ConstantSourceTest, GTERValue2) {
+    (3.f >= (ones + ones)).tick(dummy, block);
     ASSERT_THAT(block[0], Each(FloatEq(1.f)));
     ASSERT_THAT(block[1], Each(FloatEq(1.f)));
 }
