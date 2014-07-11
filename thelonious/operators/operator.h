@@ -32,22 +32,22 @@ private:
     }
 
     void operate(Chock &inputChock, Chock &outputChock, Chock &valueChock,
-                 AdditionOperator op) {
+                 AddOperator op) {
         outputChock = inputChock + valueChock;
     }
 
    void operate(Chock &inputChock, Chock &outputChock, Chock &valueChock,
-                 SubtractionOperator op) {
+                 SubtractOperator op) {
         outputChock = inputChock - valueChock;
     }
 
     void operate(Chock &inputChock, Chock &outputChock, Chock &valueChock,
-                 MultiplicationOperator op) {
+                 MultipyOperator op) {
         outputChock = inputChock * valueChock;
     }
 
     void operate(Chock &inputChock, Chock &outputChock, Chock &valueChock,
-                 DivisionOperator op) {
+                 DivideOperator op) {
         outputChock = inputChock / valueChock;
     }
 
@@ -58,24 +58,16 @@ private:
 };
 
 
-#define OPERATOR_ALIAS_N(name, op)                                          \
+#define OPERATOR_ALIAS_N(name, uppername, op)                               \
 template<size_t N>                                                          \
-using name ## N = OperatorN<N, op>;
+using name ## N = OperatorN<N, uppername>;
 
-#define OPERATOR_ALIAS(name, op)                                            \
+#define OPERATOR_ALIAS(name, uppername, op)                                 \
 typedef name ## N<1> name;
-
-#define OPERATOR_LIST(function)     \
-function(Add, ADDITION)             \
-function(Subtract, SUBTRACTION)     \
-function(Multiply, MULTIPLICATION)  \
-function(Divide, DIVISION)          \
-function(Modulo, MODULO)
 
 OPERATOR_LIST(OPERATOR_ALIAS_N)
 OPERATOR_LIST(OPERATOR_ALIAS)
 
-#undef OPERATOR_LIST
 #undef OPERATOR_ALIAS_N
 #undef OPERATOR_ALIAS
 

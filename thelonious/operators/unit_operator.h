@@ -30,20 +30,20 @@ private:
         operate(blockA, blockB, op);
     }
 
-    void operate(Block<N> &blockA, Block<N> &blockB, AdditionOperator op) {
+    void operate(Block<N> &blockA, Block<N> &blockB, AddOperator op) {
         blockA += blockB;
     }
 
-    void operate(Block<N> &blockA, Block<N> &blockB, SubtractionOperator op) {
+    void operate(Block<N> &blockA, Block<N> &blockB, SubtractOperator op) {
         blockA -= blockB;
     }
 
     void operate(Block<N> &blockA, Block<N> &blockB,
-                 MultiplicationOperator op) {
+                 MultiplyOperator op) {
         blockA *= blockB;
     }
 
-    void operate(Block<N> &blockA, Block<N> &blockB, DivisionOperator op) {
+    void operate(Block<N> &blockA, Block<N> &blockB, DivideOperator op) {
         blockA /= blockB;
     }
 
@@ -55,20 +55,12 @@ private:
     AbstractSource<N> *unitB;
 };
 
-#define UNIT_OPERATOR_ALIAS(name, op)                                       \
+#define UNIT_OPERATOR_ALIAS(name, uppername, op)                            \
 template<size_t N>                                                          \
-using Unit ## name ## N = UnitOperatorN<N, op>;                             \
-
-#define OPERATOR_LIST(function)     \
-function(Add, ADDITION)             \
-function(Subtract, SUBTRACTION)     \
-function(Multiply, MULTIPLICATION)  \
-function(Divide, DIVISION)          \
-function(Modulo, MODULO)
+using Unit ## name ## N = UnitOperatorN<N, uppername>;
 
 OPERATOR_LIST(UNIT_OPERATOR_ALIAS)
 
-#undef OPERATOR_LIST
 #undef UNIT_OPERATOR_ALIAS
 
 } // namespace operators

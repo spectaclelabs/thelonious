@@ -30,37 +30,37 @@ private:
     }
 
     // Usage example: unit + 2.0f
-    void operate(Block<N> &block, Sample value, AdditionOperator op,
+    void operate(Block<N> &block, Sample value, AddOperator op,
                  RegularOperator inverse) {
         block += value;
     }
 
     // Usage example: unit - 2.0f
-    void operate(Block<N> &block, Sample value, SubtractionOperator op,
+    void operate(Block<N> &block, Sample value, SubtractOperator op,
                  RegularOperator inverse) {
         block -= value;
     }
 
     // Usage example: 2.0f - unit 
-    void operate(Block<N> &block, Sample value, SubtractionOperator op,
+    void operate(Block<N> &block, Sample value, SubtractOperator op,
                  InverseOperator inverse) {
         block = value - block;
     }
 
     // Usage example: unit * 2.0f
-    void operate(Block<N> &block, Sample value,
-                 MultiplicationOperator op, RegularOperator inverse) {
+    void operate(Block<N> &block, Sample value, MultiplyOperator op,
+                 RegularOperator inverse) {
         block *= value;
     }
 
     // Usage example: unit / 2.0f
-    void operate(Block<N> &block, Sample value, DivisionOperator op,
+    void operate(Block<N> &block, Sample value, DivideOperator op,
                  RegularOperator inverse) {
         block /= value;
     }
 
     // Usage example: 2.0f / unit
-    void operate(Block<N> &block, Sample value, DivisionOperator op,
+    void operate(Block<N> &block, Sample value, DivideOperator op,
                  InverseOperator inverse) {
         block = value / block;
     }
@@ -82,32 +82,25 @@ private:
 };
 
 
-#define CONSTANT_OPERATOR_ALIAS(name, op)                                   \
+#define CONSTANT_OPERATOR_ALIAS(name, uppername, op)                        \
 template <class T, size_t M, size_t N, bool Inverse=false>                  \
-using Constant ## name  ## N = ConstantOperatorN<T, M, N, op, Inverse>;     \
+using Constant ## name  ## N = ConstantOperatorN<T, M, N, uppername,        \
+                                                 Inverse>;
 
-#define CONSTANT_SOURCE_OPERATOR_ALIAS(name, op)                            \
+#define CONSTANT_SOURCE_OPERATOR_ALIAS(name, uppername, op)                 \
 template <size_t N, bool Inverse=false>                                     \
 using ConstantSource ## name ## N = Constant ## name ## N<AbstractSource<N>,\
                                                           0, N, Inverse>;
 
-#define CONSTANT_PROCESSOR_OPERATOR_ALIAS(name, op)                          \
+#define CONSTANT_PROCESSOR_OPERATOR_ALIAS(name, uppername, op)               \
 template <size_t M, size_t N, bool Inverse=false>                            \
 using ConstantProcessor ## name ## N = Constant ## name ## N<Processor<M, N>,\
                                                              M, N, Inverse>;
-
-#define OPERATOR_LIST(function)     \
-function(Add, ADDITION)             \
-function(Subtract, SUBTRACTION)     \
-function(Multiply, MULTIPLICATION)  \
-function(Divide, DIVISION)          \
-function(Modulo, MODULO)
 
 OPERATOR_LIST(CONSTANT_OPERATOR_ALIAS)
 OPERATOR_LIST(CONSTANT_SOURCE_OPERATOR_ALIAS)
 OPERATOR_LIST(CONSTANT_PROCESSOR_OPERATOR_ALIAS)
 
-#undef OPERATOR_LIST
 #undef CONSTANT_OPERATOR_ALIAS
 #undef CONSTANT_SOURCE_OPERATOR_ALIAS
 #undef CONSTANT_PROCESSOR_OPERATOR_ALIAS

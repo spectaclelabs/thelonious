@@ -2,8 +2,9 @@
 #define THELONIOUS_DSL_CHANNEL_H
 
 #include "thelonious/util.h"
+#include "thelonious/operators/types.h"
 
-#define CHANNEL_CHANNEL(op)                                         \
+#define CHANNEL_CHANNEL(name, uppername, op)                        \
 template <size_t N>                                                 \
 Channel<N> operator op(const Channel<N> &a, const Channel<N> &b) {  \
     Channel<N> channel;                                             \
@@ -13,7 +14,7 @@ Channel<N> operator op(const Channel<N> &a, const Channel<N> &b) {  \
     return channel;                                                 \
 }
 
-#define CHANNEL_SAMPLE(op)                              \
+#define CHANNEL_SAMPLE(name, uppername, op)             \
 template <size_t N>                                     \
 Channel<N> operator op(const Channel<N> &a, Sample b) { \
     Channel<N> channel;                                 \
@@ -23,7 +24,7 @@ Channel<N> operator op(const Channel<N> &a, Sample b) { \
     return channel;                                     \
 }
 
-#define SAMPLE_CHANNEL(op)                              \
+#define SAMPLE_CHANNEL(name, uppername, op)             \
 template <size_t N>                                     \
 Channel<N> operator op(Sample a, const Channel<N> &b) { \
     Channel<N> channel;                                 \
@@ -33,7 +34,7 @@ Channel<N> operator op(Sample a, const Channel<N> &b) { \
     return channel;                                     \
 }
 
-#define CHANNEL_CHANNEL_ASSIGN(op)                                      \
+#define CHANNEL_CHANNEL_ASSIGN(name, uppername, op)                     \
 template <size_t N>                                                     \
 Channel<N> & operator op ## =(Channel<N> &a, const Channel<N> &b) {     \
     for (uint32_t i=0; i<N; i++) {                                      \
@@ -42,7 +43,7 @@ Channel<N> & operator op ## =(Channel<N> &a, const Channel<N> &b) {     \
     return a;                                                           \
 }
 
-#define CHANNEL_SAMPLE_ASSIGN(op)                           \
+#define CHANNEL_SAMPLE_ASSIGN(name, uppername, op)          \
 template <size_t N>                                         \
 Channel<N> & operator op ## =(Channel<N> &a, Sample b) {    \
     for (uint32_t i=0; i<N; i++) {                          \
@@ -51,26 +52,13 @@ Channel<N> & operator op ## =(Channel<N> &a, Sample b) {    \
     return a;                                               \
 }
 
-#define ARITHMETIC_OPERATOR_LIST(function) \
-function(+)                                \
-function(-)                                \
-function(*)                                \
-function(/)
-
-#define COMPARISON_OPERATOR_LIST(function) \
-function(==)                               \
-function(<)                                \
-function(>)                                \
-function(<=)                               \
-function(>=)                               \
-
 namespace thelonious {
 
-ARITHMETIC_OPERATOR_LIST(CHANNEL_CHANNEL)
-ARITHMETIC_OPERATOR_LIST(CHANNEL_SAMPLE)
-ARITHMETIC_OPERATOR_LIST(SAMPLE_CHANNEL)
-ARITHMETIC_OPERATOR_LIST(CHANNEL_CHANNEL_ASSIGN)
-ARITHMETIC_OPERATOR_LIST(CHANNEL_SAMPLE_ASSIGN)
+RAW_ARITHMETIC_OPERATOR_LIST(CHANNEL_CHANNEL)
+RAW_ARITHMETIC_OPERATOR_LIST(CHANNEL_SAMPLE)
+RAW_ARITHMETIC_OPERATOR_LIST(SAMPLE_CHANNEL)
+RAW_ARITHMETIC_OPERATOR_LIST(CHANNEL_CHANNEL_ASSIGN)
+RAW_ARITHMETIC_OPERATOR_LIST(CHANNEL_SAMPLE_ASSIGN)
 
 COMPARISON_OPERATOR_LIST(CHANNEL_CHANNEL)
 COMPARISON_OPERATOR_LIST(CHANNEL_SAMPLE)
@@ -123,8 +111,6 @@ Channel<N> & operator %=(Channel<N> &a, Sample b) {
 
 } // namespace thelonious
 
-#undef ARITHMETIC_OPERATOR_LIST
-#undef COMPARISON_OPERATOR_LIST
 #undef CHANNEL_CHANNEL
 #undef CHANNEL_SAMPLE
 #undef CHANNEL_CHANNEL_ASSIGN
