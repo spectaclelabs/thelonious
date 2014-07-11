@@ -163,9 +163,9 @@ TEST_F(ConstantSourceTest, ModuloLValue2) {
 }
 
 TEST_F(ConstantSourceTest, ModuloRValue) {
-    ((ones + ones) % 0.4f).tick(dummy, block);
-    ASSERT_THAT(block[0], Each(FloatEq(0.4f)));
-    ASSERT_THAT(block[1], Each(FloatEq(0.4f)));
+    ((ones + ones) % 1.5f).tick(dummy, block);
+    ASSERT_THAT(block[0], Each(FloatEq(0.5f)));
+    ASSERT_THAT(block[1], Each(FloatEq(0.5f)));
 }
 
 TEST_F(ConstantSourceTest, ModuloRValue2) {
@@ -174,10 +174,3 @@ TEST_F(ConstantSourceTest, ModuloRValue2) {
     ASSERT_THAT(block[1], Each(FloatEq(1.f)));
 }
 
-
-    
-
-int main(int argc, char** argv) {
-    testing::InitGoogleMock(&argc, argv);
-    return RUN_ALL_TESTS();
-}

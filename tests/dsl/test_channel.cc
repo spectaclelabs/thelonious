@@ -9,7 +9,6 @@ using namespace testing;
 class ChannelTest : public Test {
 public:
     void SetUp() {
-        
         for (uint32_t i=0; i<constants::BLOCK_SIZE; i++) {
             ones[i] = 1.f;
             twos[i] = 2.f;
@@ -158,9 +157,78 @@ TEST_F(ChannelTest, ModuloAssignSample) {
     ASSERT_THAT(chock, Each(FloatEq(1.f)));
 }
 
+TEST_F(ChannelTest, EqualChannel) {
+    Chock chock = threes == twos;
+    ASSERT_THAT(chock, Each(FloatEq(0.f)));
+}
+
+TEST_F(ChannelTest, EqualSample) {
+    Chock chock = threes == 3.f;
+    ASSERT_THAT(chock, Each(FloatEq(1.f)));
+}
+
+TEST_F(ChannelTest, EqualSample2) {
+    Chock chock = 3.f == twos ;
+    ASSERT_THAT(chock, Each(FloatEq(0.f)));
+}
+
+TEST_F(ChannelTest, LTChannel) {
+    Chock chock = threes < twos;
+    ASSERT_THAT(chock, Each(FloatEq(0.f)));
+}
+
+TEST_F(ChannelTest, LTSample) {
+    Chock chock = threes < 4.f;
+    ASSERT_THAT(chock, Each(FloatEq(1.f)));
+}
+
+TEST_F(ChannelTest, LTSample2) {
+    Chock chock = 3.f < twos ;
+    ASSERT_THAT(chock, Each(FloatEq(0.f)));
+}
 
 
-int main(int argc, char** argv) {
-    testing::InitGoogleMock(&argc, argv);
-    return RUN_ALL_TESTS();
+TEST_F(ChannelTest, GTChannel) {
+    Chock chock = threes > twos;
+    ASSERT_THAT(chock, Each(FloatEq(1.f)));
+}
+
+TEST_F(ChannelTest, GTSample) {
+    Chock chock = threes > 3.f;
+    ASSERT_THAT(chock, Each(FloatEq(0.f)));
+}
+
+TEST_F(ChannelTest, GTSample2) {
+    Chock chock = 3.f > twos;
+    ASSERT_THAT(chock, Each(FloatEq(1.f)));
+}
+
+TEST_F(ChannelTest, LTEChannel) {
+    Chock chock = threes <= twos;
+    ASSERT_THAT(chock, Each(FloatEq(0.f)));
+}
+
+TEST_F(ChannelTest, LTESample) {
+    Chock chock = threes <= 3.f;
+    ASSERT_THAT(chock, Each(FloatEq(1.f)));
+}
+
+TEST_F(ChannelTest, LTESample2) {
+    Chock chock = 3.f <= twos ;
+    ASSERT_THAT(chock, Each(FloatEq(0.f)));
+}
+
+TEST_F(ChannelTest, GTEChannel) {
+    Chock chock = threes >= twos;
+    ASSERT_THAT(chock, Each(FloatEq(1.f)));
+}
+
+TEST_F(ChannelTest, GTESample) {
+    Chock chock = threes >= 3.f;
+    ASSERT_THAT(chock, Each(FloatEq(1.f)));
+}
+
+TEST_F(ChannelTest, GTESample2) {
+    Chock chock = 1.f >= twos ;
+    ASSERT_THAT(chock, Each(FloatEq(0.f)));
 }

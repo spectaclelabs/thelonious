@@ -9,7 +9,6 @@ using namespace testing;
 class BufferTest : public Test {
 public:
     void SetUp() {
-        
         for (uint32_t i=0; i<constants::BLOCK_SIZE; i++) {
             for (uint32_t j=0; j<2; j++) {
                 ones[j][i] = 1.f;
@@ -185,9 +184,92 @@ TEST_F(BufferTest, ModuloAssignSample) {
     ASSERT_THAT(block[1], Each(FloatEq(1.f)));
 }
 
+TEST_F(BufferTest, EqualBuffer) {
+    Block<2> block = threes == twos;
+    ASSERT_THAT(block[0], Each(FloatEq(0.f)));
+    ASSERT_THAT(block[1], Each(FloatEq(0.f)));
+}
 
+TEST_F(BufferTest, EqualSample) {
+    Block<2> block = threes == 3.f;
+    ASSERT_THAT(block[0], Each(FloatEq(1.f)));
+    ASSERT_THAT(block[1], Each(FloatEq(1.f)));
+}
 
-int main(int argc, char** argv) {
-    testing::InitGoogleMock(&argc, argv);
-    return RUN_ALL_TESTS();
+TEST_F(BufferTest, EqualSample2) {
+    Block<2> block = 3.f == twos ;
+    ASSERT_THAT(block[0], Each(FloatEq(0.f)));
+    ASSERT_THAT(block[1], Each(FloatEq(0.f)));
+}
+
+TEST_F(BufferTest, LTBuffer) {
+    Block<2> block = threes < twos;
+    ASSERT_THAT(block[0], Each(FloatEq(0.f)));
+    ASSERT_THAT(block[1], Each(FloatEq(0.f)));
+}
+
+TEST_F(BufferTest, LTSample) {
+    Block<2> block = threes < 4.f;
+    ASSERT_THAT(block[0], Each(FloatEq(1.f)));
+    ASSERT_THAT(block[1], Each(FloatEq(1.f)));
+}
+
+TEST_F(BufferTest, LTSample2) {
+    Block<2> block = 3.f < twos ;
+    ASSERT_THAT(block[0], Each(FloatEq(0.f)));
+    ASSERT_THAT(block[1], Each(FloatEq(0.f)));
+}
+
+TEST_F(BufferTest, GTBuffer) {
+    Block<2> block = threes > twos;
+    ASSERT_THAT(block[0], Each(FloatEq(1.f)));
+    ASSERT_THAT(block[1], Each(FloatEq(1.f)));
+}
+
+TEST_F(BufferTest, GTSample) {
+    Block<2> block = threes > 3.f;
+    ASSERT_THAT(block[0], Each(FloatEq(0.f)));
+    ASSERT_THAT(block[1], Each(FloatEq(0.f)));
+}
+
+TEST_F(BufferTest, GTSample2) {
+    Block<2> block = 3.f > twos ;
+    ASSERT_THAT(block[0], Each(FloatEq(1.f)));
+    ASSERT_THAT(block[1], Each(FloatEq(1.f)));
+}
+
+TEST_F(BufferTest, LTEBuffer) {
+    Block<2> block = threes <= twos;
+    ASSERT_THAT(block[0], Each(FloatEq(0.f)));
+    ASSERT_THAT(block[1], Each(FloatEq(0.f)));
+}
+
+TEST_F(BufferTest, LTEEqualSample) {
+    Block<2> block = threes <= 3.f;
+    ASSERT_THAT(block[0], Each(FloatEq(1.f)));
+    ASSERT_THAT(block[1], Each(FloatEq(1.f)));
+}
+
+TEST_F(BufferTest, LTESample2) {
+    Block<2> block = 3.f <= twos ;
+    ASSERT_THAT(block[0], Each(FloatEq(0.f)));
+    ASSERT_THAT(block[1], Each(FloatEq(0.f)));
+}
+
+TEST_F(BufferTest, GTEBuffer) {
+    Block<2> block = threes >= twos;
+    ASSERT_THAT(block[0], Each(FloatEq(1.f)));
+    ASSERT_THAT(block[1], Each(FloatEq(1.f)));
+}
+
+TEST_F(BufferTest, GTESample) {
+    Block<2> block = threes >= 3.f;
+    ASSERT_THAT(block[0], Each(FloatEq(1.f)));
+    ASSERT_THAT(block[1], Each(FloatEq(1.f)));
+}
+
+TEST_F(BufferTest, GTEESample2) {
+    Block<2> block = 3.f >= twos ;
+    ASSERT_THAT(block[0], Each(FloatEq(1.f)));
+    ASSERT_THAT(block[1], Each(FloatEq(1.f)));
 }
