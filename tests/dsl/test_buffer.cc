@@ -9,12 +9,10 @@ using namespace testing;
 class BufferTest : public Test {
 public:
     void SetUp() {
-        for (uint32_t i=0; i<constants::BLOCK_SIZE; i++) {
-            for (uint32_t j=0; j<2; j++) {
-                ones[j][i] = 1.f;
-                twos[j][i] = 2.f;
-                threes[j][i] = 3.f;
-            }
+        for (uint32_t i=0; i<2; i++) {
+            ones[i].fill(1.f);
+            twos[i].fill(2.f);
+            threes[i].fill(3.f);
         }
     }
 

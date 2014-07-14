@@ -14,10 +14,8 @@ class TestSource : public Source<N> {
 public:
     TestSource(Sample value=0.f) : value(value) {}
     void tick(Block<N> &block) {
-        for (uint32_t i=0; i<constants::BLOCK_SIZE; i++) {
-            for (uint32_t j=0; j<2; j++) {
-                block[j][i] = value;
-            }
+        for (uint32_t i=0; i<N; i++) {
+            block[i].fill(value);
         }
     }
 

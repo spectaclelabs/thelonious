@@ -9,11 +9,9 @@ using namespace testing;
 class ChannelTest : public Test {
 public:
     void SetUp() {
-        for (uint32_t i=0; i<constants::BLOCK_SIZE; i++) {
-            ones[i] = 1.f;
-            twos[i] = 2.f;
-            threes[i] = 3.f;
-        }
+        ones.fill(1.f);
+        twos.fill(2.f);
+        threes.fill(3.f);
     }
 
     Chock ones;
