@@ -2,7 +2,9 @@
 #define THELONIOUS_DSL_TICK_H
 
 #include "thelonious/types.h"
-#include "thelonious/source.h"
+#include "thelonious/operators/unit_tick.h"
+#include "thelonious/abstract_source.h"
+#include "thelonious/abstract_sink.h"
 #include "thelonious/processor.h"
 
 namespace thelonious {
