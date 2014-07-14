@@ -200,9 +200,38 @@ int main() {
 }
 ```
 
-### TODO: Multichannel units
+### Multichannel units
 
-So far we have only worked with monophonic (single-channel) sound.  Almost all of the units in Thelonious are also able to work with multi-channel audio data.
+So far we have only worked with monophonic (single-channel) sound.  Almost all of the units in Thelonious are also able to work with multi-channel audio data.  The number of channels is supplied as a template parameter to the *N* variants of the units.  So for example to create a two-channel Sine wave generator, rather than using the `Sine` class you would use the `SineN<2>` class.  In this example we will update our "hello sine" example to play a stereo sine wave:
+
+```cpp
+#include <iostream>
+
+#include "thelonious.h"
+
+using namespace thelonious;
+
+// Create an audio device with no input channels and a stereo output
+AudioDeviceN<0, 2> device;
+
+// Create a stereo 220Hz sine wave generator
+SineN<2> sine(220.0f);
+
+void onAudio() {
+    // Play the sine wave through the audio device
+    sine >> device;
+}
+
+int main() {
+    // Call the onAudio function when the device needs audio generating
+    device.onAudio(onAudio);
+    // Start the audio playing
+    device.start();
+
+    // Wait for a keypress to exit
+    std::cin.get();
+}
+```
 
 ### TODO: Creating your own units
 
@@ -239,49 +268,124 @@ All of the storage types can be operated on using the standard arithmetic operat
 #### Unit
 
 ```cpp
-template<size_t N>
+template<size_t M, size_t N>
 class Unit;
 ```
 
-Unit is the base class for all units in Thelonious.  It is subdivided into three different classes - sources, processors and sinks.
+Unit is the base class for all units in Thelonious.  It is subdivided into four different classes - sources, processors and sinks and duplexes.
 
 ```cpp
-virtual void UnitN::tick(Block<N> &block);
+virtual void Unit::tick(Block<M> &inputBlock, Block<N> &outputBlock);
 ```
 
-Generate the next block of samples by reading or writing values from `block`.
+Generate the next block of samples by reading values from `inputBlock` and writing values to `outputBlock`.
+
+#### AbstractSource
+
+```cpp
+template <size_t N>
+class AbstractSource : public Unit<0, N>;
+```
+
+AbstractSource is the class which all objects which generate audio signals inherit from.  They can be operated on using the standard arithmetic operators (which produce UnitOperator sources), and can be processed using the right-shift operator.
 
 #### Source
 
 ```cpp
 template<size_t N>
-class Source : public Unit<N>;
+class Source : public AbstractSource<N>;
 ```
 
-Sources are units which generate audio signals.  They can be operated on using the standard arithmetic operators (which produce UnitOperator sources), and can be processed using the right-shift operator.
+Sources are units which only generate audio signals.  They inherit all of the abilities of AbstractSources.
+
+```cpp
+virtual void Source::tick(Block<M> &inputBlock, Block<N> &outputBlock);
+```
+
+Calls the virtual `Source::tick(Block<N> &block)` function.
+
+```cpp
+virtual void Source::tick(Block<N> &block);
+```
+
+Generate the next block of samples by writing values to `block`
 
 #### Processor
 
 ```cpp
-template<size_t N>
-class Processor : public Unit<N>;
+template<size_t M, size_t N>
+class Processor : public Unit<M, N>;
 ```
 
 Processors are units which modify audio signals.  They can be operated on using  the standard arithmetic operators (which produce UnitOperator sources), and can be processed using the right-shift operator.
+
+#### AbstractSink
+
+```cpp
+template <size_t N>
+class AbstractSink : public Unit<N, 0>;
+```
+
+AbstractSink is the class which all objects which receive audio signals inherit from.
 
 #### Sink
 
 ```cpp  
 template<size_t N>
-class Sink : public Unit<N>;
+class Sink : public AbstractSink<N>;
 ```
 
 Sinks are units which receive audio signals from sources or processors.
 
+```cpp
+void Sink::tick(Block<N> &inputBlock, Block<0> &outputBlock);
+```
+
+Calls the virtual `Sink::tick(Block<N> &block)` function.
+
+```cpp
+virtual void Sink::tick(Block<N> &block);
+```
+
+Receive a block of samples by reading from `block`.
+
+#### Duplex
+
+```cpp
+template <size_t M, size_t N>
+class Duplex : public AbstractSource<N>, public AbstractSink<M>;
+```
+
+A duplex is a device which can simultaneously act as a source and a sink.  It is able to both receive samples and generate samples.  Note that this plays a different role to a Processor, as the receiving of samples and generation of samples are two seperate operations.
+
+```cpp
+void Duplex::tick(Block<0> &inputBlock, Block<N> &outputBlock);
+```
+
+Calls the virtual `Duplex::tickOut(Block<N> &block)` function.
+
+```cpp
+void Duplex::tick(Block<M> &inputBlock, Block<0> &outputBlock);
+```
+
+Calls the virtual `Duplex::tickIn(Block<M> &block)` function.
+
+```cpp
+virtual void Duplex::tickIn(Block<M> &block);
+```
+
+Receive a block of samples by reading from `block`.
+
+```cpp
+virtual void Duplex::tickOut(Block<N> &block);
+```
+
+Generate a block of samples by writing to `block`.
+
 #### Parameter
 
 ```cpp
-class Parameter : public Duplex<N>;
+class Parameter : public Duplex<1, 1>;
 ```
 
 Parameters provide variable streams of values to units.  They can either be static, where they hold a single value, or dynamic, where they use the values taken from an audio source.  Static parameters can be made to interpolate from the previous value when a new value is set in order to give glitch-free changes to the audio.
@@ -299,10 +403,10 @@ const Chock& Parameter::get();
 Get a chock containing the values of the parameter for this tick.  Generally only called internally by units which implement their own DSP algorithms.
 
 ```cpp
-void Parameter::tick(Block<1> &block);
+void Parameter::tickOut(Block<1> &block);
 ```
 
-Get the values of the parameter for this tick.  Generally only called           internally by units which are constructed from other units.  It can also be     accessed by right-shifting the parameter into an audio stream, for example      `parameter >> unit.parameter`.
+Get the values of the parameter for this tick.  Generally only called internally by units which are constructed from other units.  It can also be accessed by right-shifting the parameter into an audio stream, for example `parameter >> unit.parameter`.
 
 ```cpp
 void Parameter::set(Sample value);
@@ -327,6 +431,47 @@ void Parameter::setInterpolation(Interpolation interpolation);
 ```
 
 Return the current interpolation type (NONE, LINEAR or CUBIC).
+
+#### AudioDevice
+
+```cpp
+template <size_t M, size_t N>
+class AudioDeviceN : public Duplex<N, M>;
+
+typedef AudioDeviceN<1, 1> AudioDevice;
+```
+
+A unit which uses the RtAudio library to read and write audio from soundcards.  Audio can be output by ticking into a device, for example `oscillator >> device`.  Audio input can be read by ticking out of the device, for example `device >> processor`.  These operations can be combined to allow you to process live audio, for example `device >> processor >> device`.
+
+*Parameters*:
+
+None.
+
+```cpp
+AudioDeviceN::AudioDeviceN(int inputDevice=-1, int outputDevice=-1,
+                           uint32_t numberOfBuffers=8);
+```
+
+Constructor.  Creates a device which reads from the soundcard with the id `inputDevice`, and writes to the soundcard with the id `outputDevice`.  The `numberOfBuffers` argument helps to control the input and output latency - see the [RtAudio documentation](http://www.music.mcgill.ca/~gary/rtaudio/index.html) for more information.
+
+```cpp
+void AudioDeviceN::start();
+```
+
+Start a stopped audio stream.
+
+```cpp
+void AudioDeviceN::stop();
+```
+
+Stop a started audio stream.
+
+```cpp
+void AudioDeviceN::onAudio(*onAudioCallback)());
+```
+
+Set the callback to be fired when audio is needed.
+
 
 #### Utility functions
 
@@ -779,7 +924,7 @@ Constructor.  Creates a trigger with an initial trigger state.
 
 ```cpp
 template <size_t N>
-class SplitterN : public Duplex<N>;
+class SplitterN : public Duplex<<N, N>;
 
 typedef SplitterN<1> Splitter;
 ```
@@ -800,11 +945,42 @@ None.
 SplitterN()::SplitterN();
 ```
 
-### TODO: Operators
+### Operators
 
 Operator units work in a similar way to the standard mathematical operators, except they are able to take advantage of the interpolation built into the Parameter unit.  They should be used when you need smooth transitions between operands.
 
+Here is the documentation for the addition operator:
 
+```cpp
+template <size_t N>
+class AddN: public Processor<N, N>;
 
+typedef AddN<1> Add;
+```
+
+Adds a value to the audio signal.
+
+*Parameters*:
+
+* value - The value to add to the signal.
+
+```cpp
+AddN::AddN(Sample value=0.0f);
+```
+
+Constructor.  Creates the unit with a default value.
+
+The full list of operator units is below.  Each of these units have identical methods and parameters to the `Add` unit.
+
+* Add
+* Subtract
+* Mutliply
+* Divide
+* Modulo
+* EqualTo
+* LessThan
+* GreaterThan
+* LessThanOrEqualTo
+* GreaterThanOrEqualTo
 
 
