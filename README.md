@@ -37,10 +37,10 @@ The musical eqivalent of a "hello world" program.  This example simply plays a s
 using namespace thelonious;
 
 // Create an audio device
-AudioDevice device;
+auto device = AudioDevice();
 
 // Create a 220Hz sine wave generator
-Sine sine(220.0f);
+auto sine = Sine(220.0f);
 
 void onAudio() {
     // Play the sine wave through the audio device
@@ -76,13 +76,13 @@ There are a couple of key things to notice here:
 using namespace thelonious;
 
 // Create an audio device
-AudioDevice device;
+auto device = AudioDevice();
 
 // Create a 220Hz sine wave generator
-Sine sine(220.0f);
+auto sine = Sine(220.0f);
 
 // Create a 1Hz trigangle wave LFO for a vibrato effect
-Triangle lfo(1.0f);
+auto lfo = Triangle(1.0f);
 
 void onAudio() {
     // Use the LFO to make the frequency of the sine wave oscillate
@@ -116,17 +116,17 @@ Rather than playing a continuous tone, it would be nice to play a shorter note. 
 using namespace thelonious;
 
 // Create an audio device
-AudioDevice device;
+auto device = AudioDevice();
 
 // Create a 220Hz sine wave generator
-Sine sine(220.0f);
+auto sine = Sine(220.0f);
 
 // Create a 1Hz trigangle wave LFO for a vibrato effect
-Triangle lfo(1.0f);
+auto lfo = Triangle(1.0f);
 
 // Create a percussive envelope, with a half-second attack phase and a 1
 // second release phase
-PercussiveEnvelope envelope(0.5f, 1.0f);
+auto envelope = PercussiveEnvelope(0.5f, 1.0f);
 
 void onAudio() {
     // Use the LFO to make the frequency of the sine wave oscillate
@@ -165,20 +165,20 @@ Right-shift (>>) operations can be chained together to pass a generator through 
 using namespace thelonious;
 
 // Create an audio device
-AudioDevice device;
+auto device = AudioDevice();
 
 // Create a 110Hz sawtooth wave generator
-Saw saw(110.0f);
+auto saw = Saw(110.0f);
 
 // Create a percussive envelope, with a short attack and release phase
-PercussiveEnvelope envelope(0.05f, 0.05f);
+auto envelope = PercussiveEnvelope(0.05f, 0.05f);
 
 // Create a low-pass filter, with a corner frequency of 220Hz
-LowPassFilter lpf(220.0f);
+auto lpf = LowPassFilter(220.0f);
 
 // Create a delay effect.  The empty template arguments (<>) mean that we
 // use the default maximum delay time of 0.2 seconds.
-FeedbackDelay<> delay;
+auto delay = FeedbackDelay<>();
 
 void onAudio() {
     // Apply the envelope to the sawtooth wave, pass it through the
