@@ -233,10 +233,142 @@ int main() {
 }
 ```
 
-### TODO: Creating your own units
+### Creating your own units...
 
-#### TODO: With your own DSP algorithm
+Now that you know how to create and manipulate sounds using Units, how about making some of your own?  In order to create a Unit you need to subclass one of the types of Unit and write a `tick` function which will carry out your audio processing.  In this example we create a kick-drum synthesizer and trigger it on a regular basis using an inequality.
 
+```cpp
+#include <iostream>
+
+#include "thelonious.h"
+
+using namespace thelonious;
+
+// Create the kick class as a subclass of Source
+template <size_t N>
+class KickN : public Source<N> {
+public:
+    // Constructor initializes the two envelopes
+    // Amplitude envelope goes from 0->1 in 0.01s, and from 1->0 in 0.5s
+    // Frequency envelope goes from 80Hz->1Hz in 0.5s
+    KickN() :
+        amplitudeEnvelope(0.0f, {1.f, 0.0f}, {0.01f, 0.5f}),
+        frequencyEnvelope(80.0f, {80.0f, 1.0f}, {0.01f, 0.5f}) {}
+
+    void tick(Block<N> &block) {
+        // Fan allows us to use a single trigger parameter to trigger both of the
+        // envelopes
+        trigger >> fan;
+        fan >> frequencyEnvelope.gate;
+        fan >> amplitudeEnvelope.gate;
+
+        // Use the frequency envelope to control the frequency of the sine wave
+        frequencyEnvelope >> sine.frequency;
+        // Tick the kick output into the block
+        sine * amplitudeEnvelope >> block;
+    }
+
+    // A trigger for the kick
+    Parameter trigger;
+    Fan fan;
+
+    // The base waveform for our kick
+    SineN<N> sine;
+
+    // An amplitude envelope
+    EnvelopeN<N> amplitudeEnvelope;
+    EnvelopeN<N> frequencyEnvelope;
+};
+
+// Typedef the single-channel variant
+typedef KickN<1> Kick;
+
+
+// Create the audio device
+auto device = AudioDevice();
+
+// Create the kick
+auto kick = Kick();
+
+// Create a sawtooth wave for triggering the kick every second
+auto saw = Saw(2);
+
+void onAudio() {
+    // Trigger the kick when the sawtooth wave passes through zero
+    (saw > 0) >> kick.trigger;
+    // Play the kick through the output
+    kick >> device;
+}
+
+int main() {
+    // Call the onAudio function when the device needs audio generating
+    device.onAudio(onAudio);
+    // Start the audio playing
+    device.start();
+
+    // Wait for a keypress to exit
+    std::cin.get();
+}
+```
+
+#### ...With your own DSP algorithm
+
+You don't need to limit yourself to using the built-in DSP.  It is equally straightforward to write custom DSP code in your `tick` function.  In this example we will write a simple bit crusher which will reduce your sound to glorious 4-bit fidelity.
+
+```cpp
+#include <iostream>
+
+#include "thelonious.h"
+
+using namespace thelonious;
+
+// A four-bit crusher
+// Receives N channels, and outputs the same number of channels.
+template <size_t N>
+class FourBitN : public Processor<N, N> {
+public:
+    void tick(Block<N> &inputBlock, Block<N> &outputBlock) {
+        // Loop through each channel
+        for (uint32_t i=0; i<N; i++) {
+            // Loop through each sample
+            for (uint32_t j=0; j<constants::BLOCK_SIZE; j++) {
+                // Scale the input to an integer between -8 and +8
+                int8_t asFourBit = inputBlock[i][j] * 8;
+                // Convert it back to a float send it to the output
+                outputBlock[i][j] = asFourBit / 8.f;
+            }
+        }
+    }
+};
+
+// Typedef the single-channel variant
+typedef FourBitN<1> FourBit;
+
+
+// Create the audio device
+auto device = AudioDevice();
+
+// A 220Hz sine wave
+auto sine = Sine(220.f);
+
+// The bit crusher
+auto crusher = FourBit();
+
+void onAudio() {
+    // Bit crush the sine wave
+    sine >> crusher >> device;
+}
+
+int main() {
+    // Call the onAudio function when the device needs audio generating
+    device.onAudio(onAudio);
+    // Start the audio playing
+    device.start();
+
+    // Wait for a keypress to exit
+    std::cin.get();
+}
+```
 
 ## API Documentation
 
@@ -920,21 +1052,21 @@ Constructor.  Creates a trigger with an initial trigger state.
 
 #### Splitters
 
-##### Splitter
+##### Fan
 
 ```cpp
 template <size_t N>
-class SplitterN : public Duplex<<N, N>;
+class FanN : public Duplex<N, N>;
 
-typedef SplitterN<1> Splitter;
+typedef FanN<1> Fan;
 ```
 
 A class used to split audio signals so they can be used in more than once.  For example to trigger two envelopes with one trigger:
 
 ```cpp
-trigger >> splitter;
-splitter >> frequencyEnvelope.gate;
-splitter >> amplitudeEnvelope.gate;
+trigger >> fan;
+fan >> frequencyEnvelope.gate;
+fan >> amplitudeEnvelope.gate;
 ```
 
 *Parameters*:
@@ -942,8 +1074,10 @@ splitter >> amplitudeEnvelope.gate;
 None.
 
 ```cpp
-SplitterN()::SplitterN();
+FanN::FanN();
 ```
+
+Constructor.
 
 ### Operators
 
@@ -982,5 +1116,4 @@ The full list of operator units is below.  Each of these units have identical me
 * GreaterThan
 * LessThanOrEqualTo
 * GreaterThanOrEqualTo
-
 
