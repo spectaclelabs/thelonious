@@ -10,7 +10,7 @@
 namespace thelonious {
 namespace operators {
 
-template <size_t N, char Op>
+template <size_t N, Operator Op>
 class OperatorN : public Processor<N, N> {
 public:
     OperatorN(Sample value=0.0f): value(value) {}
