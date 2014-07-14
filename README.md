@@ -823,7 +823,7 @@ Constructor.
 
 ```cpp
 template <size_t N>
-class BiquadFilter : public Processor<N>
+class BiquadFilter : public Processor<N, N>
 ```
 
 A generic biquad filter.  Designed to be subclassed, overriding the calculateCoefficients method.
@@ -923,7 +923,7 @@ Constructor.  Creates a high pass filter with a given frequency and damping.  Th
 
 ```cpp
 template <size_t N, size_t bufferSize=secondsToSamples(0.2)>
-class FeedbackDelayN : public Processor<N>;
+class FeedbackDelayN : public Processor<N, N>;
 
 typedef FeedbackDelayN<1> FeedbackDelay;
 ```
