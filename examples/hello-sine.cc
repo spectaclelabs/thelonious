@@ -5,10 +5,10 @@
 using namespace thelonious;
 
 // Create an audio device
-AudioDevice device;
+auto device = AudioDevice();
 
 // Create a 220Hz sine wave generator
-Sine sine(220.0f);
+auto sine = Sine(220.0f);
 
 void onAudio() {
     // Play the sine wave through the audio device

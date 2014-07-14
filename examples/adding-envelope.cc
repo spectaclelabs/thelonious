@@ -5,17 +5,17 @@
 using namespace thelonious;
 
 // Create an audio device
-AudioDevice device;
+auto device = AudioDevice();
 
 // Create a 220Hz sine wave generator
-Sine sine(220.0f);
+auto sine = Sine(220.0f);
 
 // Create a 1Hz trigangle wave LFO for a vibrato effect
-Triangle lfo(1.0f);
+auto lfo = Triangle(1.0f);
 
 // Create a percussive envelope, with a half-second attack phase and a 1
 // second release phase
-PercussiveEnvelope envelope(0.5f, 1.0f);
+auto envelope = PercussiveEnvelope(0.5f, 1.0f);
 
 void onAudio() {
     // Use the LFO to make the frequency of the sine wave oscillate
