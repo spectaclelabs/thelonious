@@ -9,7 +9,7 @@ namespace thelonious {
 template <size_t N>
 class Sink : public AbstractSink<N> {
 public:
-    virtual void tick(Block<N> &inputBlock, Block<0> &outputBlock) {
+    void tick(Block<N> &inputBlock, Block<0> &outputBlock) {
         tick(inputBlock);
     }
 
