@@ -12,12 +12,12 @@ class FanN : public Duplex<N, N> {
 public:
     FanN() {}
 
-    void tick(Block<0> &inputBlock, Block<N> &outputBlock) {
-        outputBlock = this->block;
+    void tickOut(Block<N> &block) {
+        block = this->block;
     }
 
-    void tick(Block<N> &inputBlock, Block<0> &outputBlock) {
-        this->block = inputBlock;
+    void tickIn(Block<N> &block) {
+        this->block = block;
     }
 
 private:
