@@ -32,26 +32,6 @@ operators::UnitTickN<M, N> operator>>(AbstractSource<M> &&source,
     return operators::UnitTickN<M, N>(source, processor);
 }
 
-/**
- * Ticks an lvalue source through an rvalue processor
- * Usage example: oscillator >> effect * 2.0f
- */
-template <size_t M, size_t N>
-operators::UnitTickN<M, N> operator>>(AbstractSource<N> &source,
-                                      Processor<M, N> &&processor) {
-    return operators::UnitTickN<M, N>(source, processor);
-}
-
-/**
- * Ticks an rvalue source through an rvalue processor
- * Usage example: oscillator1 + oscillator2 >> effect * 2.0f
- */
-template <size_t M, size_t N>
-operators::UnitTickN<M, N> operator>>(AbstractSource<N> &&source,
-                                      Processor<M, N> &&processor) {
-    return operators::UnitTickN<M, N>(source, processor);
-}
-
 // --------------
 // Source >> Sink
 // --------------
