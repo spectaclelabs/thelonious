@@ -65,7 +65,7 @@
 #include "thelonious/dsp/trigger.h"
 
 /* Splitters/Mergers */
-#include "thelonious/dsp/splitter.h"
+#include "thelonious/dsp/fan.h"
 
 // Flatten namespace hierarchy
 namespace thelonious {
