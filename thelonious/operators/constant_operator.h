@@ -4,21 +4,22 @@
 #include "thelonious/operators/types.h"
 #include "thelonious/unit.h"
 #include "thelonious/types.h"
-#include "thelonious/abstract_source.h"
+#include "thelonious/source.h"
 #include "thelonious/processor.h"
 #include "thelonious/dsl/buffer.h"
 
 namespace thelonious {
 namespace operators {
 
-template <class T, size_t M, size_t N, Operator Op, bool Inverse=false>
-class ConstantOperatorN : public T {
+template <size_t N, Operator Op, bool Inverse=false>
+class ConstantOperatorN : public Source<N> {
 public:
-    ConstantOperatorN(Unit<M, N> &unit, Sample value):
+    ConstantOperatorN(AbstractSource<N> &unit, Sample value):
             unit(&unit), value(value) {}
 
-    void tick(Block<M> &inputBlock, Block<N> &outputBlock) {
-        unit->tick(inputBlock, outputBlock);
+    void tick(Block<N> &outputBlock) {
+        Block<0> tmp;
+        unit->tick(tmp, outputBlock);
         operate(outputBlock, value);
     }
 
@@ -48,33 +49,18 @@ private:
 #undef OPERATE_FUNCTION
 #undef INVERSE_OPERATE_FUNCTION
 
-    Unit<M, N> *unit;
+    AbstractSource<N> *unit;
     Sample value;
 };
 
 
 #define CONSTANT_OPERATOR_ALIAS(name, uppername, op)                        \
-template <class T, size_t M, size_t N, bool Inverse=false>                  \
-using Constant ## name  ## N = ConstantOperatorN<T, M, N, uppername,        \
-                                                 Inverse>;
-
-#define CONSTANT_SOURCE_OPERATOR_ALIAS(name, uppername, op)                 \
 template <size_t N, bool Inverse=false>                                     \
-using ConstantSource ## name ## N = Constant ## name ## N<AbstractSource<N>,\
-                                                          0, N, Inverse>;
-
-#define CONSTANT_PROCESSOR_OPERATOR_ALIAS(name, uppername, op)               \
-template <size_t M, size_t N, bool Inverse=false>                            \
-using ConstantProcessor ## name ## N = Constant ## name ## N<Processor<M, N>,\
-                                                             M, N, Inverse>;
+using Constant ## name  ## N = ConstantOperatorN<N, uppername, Inverse>;
 
 OPERATOR_LIST(CONSTANT_OPERATOR_ALIAS)
-OPERATOR_LIST(CONSTANT_SOURCE_OPERATOR_ALIAS)
-OPERATOR_LIST(CONSTANT_PROCESSOR_OPERATOR_ALIAS)
 
 #undef CONSTANT_OPERATOR_ALIAS
-#undef CONSTANT_SOURCE_OPERATOR_ALIAS
-#undef CONSTANT_PROCESSOR_OPERATOR_ALIAS
 
 } // namespace operators
 } // namespace thelonious
