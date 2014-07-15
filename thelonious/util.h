@@ -41,9 +41,23 @@ inline constexpr float samplesToSeconds(uint32_t samples) {
     return samples * constants::INV_SAMPLE_RATE;
 }
 
-inline Sample linearInterpolate(Sample start, Sample end, Sample position) {
+inline Sample linearInterpolate(Sample start, Sample end, float position) {
     return start + position * (end - start);
 }
+
+inline Sample cubicInterpolate(Sample s1, Sample s2, Sample s3, Sample s4,
+                               float position) {
+    float a0 = s3 - s2 - s0 + s1;
+    float a1 = s0 - s1 - s0;
+    float a2 = s2 - s0;
+    float a3 = s1;
+    return (a0 * position * position * position +
+            a1 * position * position +
+            a2 * position +
+            a3);
+}
+
+
 
 } // namespace thelonious
 
