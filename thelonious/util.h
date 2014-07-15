@@ -45,7 +45,7 @@ inline Sample linearInterpolate(Sample start, Sample end, float position) {
     return start + position * (end - start);
 }
 
-inline Sample cubicInterpolate(Sample s1, Sample s2, Sample s3, Sample s4,
+inline Sample cubicInterpolate(Sample s0, Sample s1, Sample s2, Sample s3,
                                float position) {
     float a0 = s3 - s2 - s0 + s1;
     float a1 = s0 - s1 - s0;
