@@ -7,6 +7,7 @@
 
 namespace thelonious {
 namespace dsp {
+namespace oscillators {
 
 template <size_t N>
 class SilenceN : public Source<N> {
@@ -20,6 +21,7 @@ public:
 
 typedef SilenceN<1> Silence;
 
+} // namespace oscillators
 } // namespace dsp
 } // namespace thelonious
 

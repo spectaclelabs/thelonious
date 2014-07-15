@@ -13,6 +13,7 @@
 
 namespace thelonious {
 namespace dsp {
+namespace oscillators {
 
 /**
  * A non-band-limited triangle wave oscillator.
@@ -61,6 +62,7 @@ private:
 
 typedef TriangleN<1> Triangle;
 
+} // namespace oscillators
 } // namespace dsp
 } // namespace thelonious
 

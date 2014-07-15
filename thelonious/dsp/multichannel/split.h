@@ -6,6 +6,7 @@
 
 namespace thelonious {
 namespace dsp {
+namespace multichannel {
 
 template <size_t M, size_t N>
 class SplitN : public Duplex<M, N> {
@@ -36,6 +37,7 @@ private:
 
 typedef SplitN<1> Split;
 
+} // namespace multichannel
 } // namespace dsp
 } // namespace thelonious
 

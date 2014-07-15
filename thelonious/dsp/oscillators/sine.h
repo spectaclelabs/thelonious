@@ -14,6 +14,7 @@
 
 namespace thelonious {
 namespace dsp {
+namespace oscillators {
 
 template <size_t N>
 class SineN : public Source<N> {
@@ -50,6 +51,7 @@ private:
 
 typedef SineN<1> Sine;
 
+} // namespace oscillators
 } // namespace dsp
 } // namespace thelonious
 

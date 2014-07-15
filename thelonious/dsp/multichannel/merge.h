@@ -6,6 +6,7 @@
 
 namespace thelonious {
 namespace dsp {
+namespace multichannel {
 
 template <size_t M, size_t N>
 class MergeN : public Duplex<M, N> {
@@ -35,6 +36,7 @@ private:
 
 typedef MergeN<1> Merge;
 
+} // namespace multichannel
 } // namespace dsp
 } // namespace thelonious
 

@@ -10,6 +10,7 @@
 
 namespace thelonious {
 namespace dsp {
+namespace filters {
 
 template <size_t N>
 class HighPassFilterN: public BiquadFilter<N> {
@@ -36,6 +37,7 @@ private:
 
 typedef HighPassFilterN<1> HighPassFilter;
 
+} // namespace filters
 } // namespace dsp
 } // namespace thelonious
 

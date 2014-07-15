@@ -9,6 +9,7 @@
 
 namespace thelonious {
 namespace dsp {
+namespace noise {
 
 template <size_t N>
 class WhiteNoiseN : public Source<N> {
@@ -26,6 +27,7 @@ public:
 
 typedef WhiteNoiseN<1> WhiteNoise;
 
+} // namespace noise
 } // namespace dsp
 } // namespace thelonious
 

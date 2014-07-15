@@ -13,6 +13,7 @@
 
 namespace thelonious {
 namespace dsp {
+namespace oscillators {
 
 /**
  * An alias-reduced triangle wave oscillator.
@@ -74,6 +75,7 @@ private:
 
 typedef DPWTriangleN<1> DPWTriangle;
 
+} // namespace oscillators
 } // namespace dsp
 } // namespace thelonious
 

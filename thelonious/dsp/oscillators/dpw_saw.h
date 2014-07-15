@@ -12,6 +12,7 @@
 
 namespace thelonious {
 namespace dsp {
+namespace oscillators {
 
 /**
  * An alias-reduced sawtooth oscillator.
@@ -74,6 +75,7 @@ private:
 
 typedef DPWSawN<1> DPWSaw;
 
+} // namespace oscillators
 } // namespace dsp
 } // namespace thelonious
 

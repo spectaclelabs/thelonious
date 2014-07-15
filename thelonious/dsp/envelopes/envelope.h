@@ -14,6 +14,7 @@
 
 namespace thelonious {
 namespace dsp {
+namespace envelopes {
 
 class EnvelopeSegment {
 public:
@@ -146,6 +147,7 @@ private:
 
 typedef EnvelopeN<1> Envelope;
 
+} // namespace envelopes
 } // namespace dsp
 } // namespace thelonious
 

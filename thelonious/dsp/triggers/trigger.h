@@ -9,6 +9,7 @@
 
 namespace thelonious {
 namespace dsp {
+namespace triggers {
 
 template <size_t N>
 class TriggerN : public Source<N> {
@@ -38,6 +39,7 @@ public:
 
 typedef TriggerN<1> Trigger;
 
+} // namespace triggers
 } // namespace dsp
 } // namespace thelonious
 

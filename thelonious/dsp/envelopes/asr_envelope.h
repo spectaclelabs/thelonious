@@ -6,6 +6,7 @@
 
 namespace thelonious {
 namespace dsp {
+namespace envelopes {
 
 template <size_t N>
 class ASREnvelopeN : public EnvelopeN<N> {
@@ -18,6 +19,7 @@ public:
 
 typedef ASREnvelopeN<1> ASREnvelope;
 
+}
 } // namespace dsp
 } // namespace thelonious
 

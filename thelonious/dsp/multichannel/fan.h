@@ -6,6 +6,7 @@
 
 namespace thelonious {
 namespace dsp {
+namespace multichannel {
 
 template <size_t N>
 class FanN : public Duplex<N, N> {
@@ -26,6 +27,7 @@ private:
 
 typedef FanN<1> Fan;
 
+} // namespace multichannel
 } // namespace dsp
 } // namespace thelonious
 

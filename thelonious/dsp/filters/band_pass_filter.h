@@ -10,6 +10,7 @@
 
 namespace thelonious {
 namespace dsp {
+namespace filters {
 
 template <size_t N>
 class BandPassFilterN: public BiquadFilter<N> {
@@ -36,6 +37,7 @@ private:
 
 typedef BandPassFilterN<1> BandPassFilter;
 
+} // namespace filters
 } // namespace dsp
 } // namespace thelonious
 

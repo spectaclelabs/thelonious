@@ -8,6 +8,7 @@
 
 namespace thelonious {
 namespace dsp {
+namespace filters {
 
 template <size_t N>
 class BiquadFilter : public Processor<N, N> {
@@ -78,6 +79,7 @@ private:
     Sample lastDamping;
 };
 
+} // namespace filters
 } // namespace dsp
 } // namespace thelonious
 

@@ -12,6 +12,7 @@
 
 namespace thelonious {
 namespace dsp {
+namespace oscillators {
 
 /**
  * A non-band-limited pulse oscillator, with a variable pulse width
@@ -64,6 +65,7 @@ private:
 
 typedef PulseN<1> Pulse;
 
+} // namespace oscillators
 } // namespace dsp
 } // namespace thelonious
 

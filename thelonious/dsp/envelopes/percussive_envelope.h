@@ -6,6 +6,7 @@
 
 namespace thelonious {
 namespace dsp {
+namespace envelopes {
 
 template <size_t N>
 class PercussiveEnvelopeN : public EnvelopeN<N> {
@@ -17,6 +18,7 @@ public:
 
 typedef PercussiveEnvelopeN<1> PercussiveEnvelope;
 
+} // namespace envelopes
 } // namespace dsp
 } // namespace thelonious
 

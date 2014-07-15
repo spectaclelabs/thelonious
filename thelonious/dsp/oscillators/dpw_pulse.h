@@ -12,6 +12,7 @@
 
 namespace thelonious {
 namespace dsp {
+namespace oscillators {
 
 /**
  * An alias-reduced pulse wave oscillator.
@@ -81,6 +82,7 @@ private:
 
 typedef DPWPulseN<1> DPWPulse;
 
+} // namespace oscillators
 } // namespace dsp
 } // namespace thelonious
 

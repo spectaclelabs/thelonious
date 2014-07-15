@@ -9,6 +9,7 @@
 
 namespace thelonious {
 namespace dsp {
+namespace delays {
 
 template <size_t N, size_t bufferSize=secondsToSamples(0.2)>
 class FeedbackDelayN : public Processor<N, N> {
@@ -46,6 +47,7 @@ private:
 template <size_t bufferSize=secondsToSamples(0.2)>
 using FeedbackDelay = FeedbackDelayN<1, bufferSize>;
 
+} // namespace delays
 } // namespace dsp
 } // namespace thelonious
 

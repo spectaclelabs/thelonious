@@ -12,6 +12,7 @@
 
 namespace thelonious {
 namespace dsp {
+namespace oscillators {
 
 /**
  * A non-band-limited sawtooth oscillator.
@@ -59,6 +60,7 @@ private:
 
 typedef SawN<1> Saw;
 
+} // namespace oscillators
 } // namespace dsp
 } // namespace thelonious
 

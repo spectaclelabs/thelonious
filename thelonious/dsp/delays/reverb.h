@@ -9,6 +9,7 @@
 
 namespace thelonious {
 namespace dsp {
+namespace delays {
 
 class Reverb : public Processor<1, 1> {
 public:
@@ -48,20 +49,20 @@ public:
 
             Sample sampleA = loopDelay1[loopDelayIndex1] * time;
             Sample sampleB = loopDelay2[loopDelayIndex2] * time;
-            
+
             // First loop AP
             bufferSample = loopAp1[loopApIndex1];
             delaySample = sampleA + 0.625 * bufferSample;
             inputAp2[inputApIndex2] = delaySample;
             sampleA = bufferSample - 0.625 * delaySample;
-            
+
             // Second loop AP
             bufferSample = loopAp2[loopApIndex2];
             delaySample = sampleB + 0.625 * bufferSample;
             inputAp2[inputApIndex2] = delaySample;
             sampleB = bufferSample - 0.625 * delaySample;
 
-            
+
             // First loop delay
             loopDelay1[loopDelayIndex1] = outputSample + sampleB;
             // Second loop delay
@@ -71,7 +72,7 @@ public:
                                 (sampleA + sampleB) * mix;
 
             inputApIndex1++;
-            inputApIndex1 %= inputAp1.size();            
+            inputApIndex1 %= inputAp1.size();
             inputApIndex2++;
             inputApIndex2 %= inputAp2.size();
             inputApIndex3++;
@@ -119,6 +120,7 @@ private:
     uint32_t loopApIndex2;
 };
 
+} // namespace delays
 } // namespace dsp
 } // namespace thelonious
 
