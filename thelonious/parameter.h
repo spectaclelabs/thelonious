@@ -64,7 +64,6 @@ private:
             return;
         }
 
-        // TODO: Cubic interpolation
         for (uint32_t i=0; i<constants::BLOCK_SIZE; i++) {
             block[0][i] = linearInterpolate(lastValue, value,
                                             i * constants::INV_BLOCK_SIZE);
