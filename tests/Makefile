@@ -24,11 +24,10 @@ vpath test/%.cc .
 
 all: $(THELONIOUS_OBJ) $(TEST_EXE)
 
-echo:
-	echo $(THELONIOUS_OBJ)
-
-test:
+test: $(TEST_EXE)
 	./$(TEST_EXE)
+
+compiletest: $(THELONIOUS_OBJ)
 
 $(TEST_EXE): $(TEST_OBJ) $(TEST_DEPS)
 	$(CXX) $(CXXFLAGS) -o $@ $(TEST_OBJ) $(GMOCK) $(LIB)
