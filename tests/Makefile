@@ -2,16 +2,10 @@ BUILD_DIR = build
 TEST_BUILD_DIR = $(BUILD_DIR)/tests
 THELONIOUS_BUILD_DIR = $(BUILD_DIR)/thelonious
 
-# Source files
-TEST_SRC =  $(wildcard *.cc)
-TEST_SRC += $(wildcard constants/*.cc)
-TEST_SRC += $(wildcard dsl/*.cc)
-TEST_SRC += $(wildcard dsp/*.cc)
-TEST_SRC += $(wildcard operators/*.cc)
-
-THELONIOUS_SRC = $(shell find ../thelonious -type f -name *.h)
+THELONIOUS_SRC = $(shell find ../thelonious -type f -name "*.h")
 THELONIOUS_OBJ = $(addprefix $(THELONIOUS_BUILD_DIR)/, $(THELONIOUS_SRC:../%.h=%.o))
 
+TEST_SRC = $(shell find . -type f -name "*.cc")
 TEST_OBJ = $(addprefix $(TEST_BUILD_DIR)/, $(TEST_SRC:.cc=.o))
 TEST_DEPS = $(addprefix $(TEST_BUILD_DIR)/, $(TEST_SRC:.cc=.d))
 TEST_EXE = test_runner
