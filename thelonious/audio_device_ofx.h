@@ -2,6 +2,8 @@
 #define THELONIOUS_AUDIO_DEVICE_OFX_H
 
 #ifndef THELONIOUS_NO_DEVICE
+#if defined(OF_VERSION_MAJOR) || defined(OF_VERSION_MINOR) ||\
+    defined(OF_VERSION_PATCH)
 
 // Undef stupid ofx defines
 #undef PI
@@ -82,6 +84,7 @@ private:
 
 } // namespace
 
+#endif // ifdef OF_VERSION_*
 #endif // ifndef THELONIOUS_NO_DEVICE
 
 #endif
