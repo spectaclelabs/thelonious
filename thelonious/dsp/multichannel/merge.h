@@ -34,7 +34,7 @@ private:
     uint32_t index;
 };
 
-typedef MergeN<1> Merge;
+typedef MergeN<1, 1> Merge;
 
 } // namespace multichannel
 } // namespace dsp
