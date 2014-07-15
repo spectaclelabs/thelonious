@@ -14,7 +14,15 @@ public:
     MergeN() {}
 
     void tickOut(Block<N> &block) {
-        block = storedBlock;
+        for (uint32_t i=0; i<N; i++) {
+            if (i >= index) {
+                block[i].fill(0.f);
+                continue;
+            }
+
+            block[i] = storedBlock[i];
+        }
+
         index = 0;
     }
 
