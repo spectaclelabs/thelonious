@@ -35,7 +35,7 @@ private:
     uint32_t index;
 };
 
-typedef SplitN<1, 1> Split;
+typedef SplitN<2, 1> Split;
 
 } // namespace multichannel
 } // namespace dsp
