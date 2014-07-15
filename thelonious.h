@@ -29,49 +29,53 @@
 #include "thelonious/dsl/unit.h"
 
 /* Oscillators */
-#include "thelonious/dsp/sine.h"
-#include "thelonious/dsp/saw.h"
-#include "thelonious/dsp/pulse.h"
-#include "thelonious/dsp/triangle.h"
-#include "thelonious/dsp/dpw_saw.h"
-#include "thelonious/dsp/dpw_pulse.h"
-#include "thelonious/dsp/dpw_triangle.h"
+#include "thelonious/dsp/oscillators/sine.h"
+#include "thelonious/dsp/oscillators/saw.h"
+#include "thelonious/dsp/oscillators/pulse.h"
+#include "thelonious/dsp/oscillators/triangle.h"
+#include "thelonious/dsp/oscillators/dpw_saw.h"
+#include "thelonious/dsp/oscillators/dpw_pulse.h"
+#include "thelonious/dsp/oscillators/dpw_triangle.h"
+#include "thelonious/dsp/oscillators/silence.h"
 
 /* Noise */
-#include "thelonious/dsp/white_noise.h"
-
-/* Silence */
-#include "thelonious/dsp/silence.h"
+#include "thelonious/dsp/noise/white_noise.h"
 
 /* Filters */
-#include "thelonious/dsp/biquad_filter.h"
-#include "thelonious/dsp/low_pass_filter.h"
-#include "thelonious/dsp/high_pass_filter.h"
-#include "thelonious/dsp/band_pass_filter.h"
+#include "thelonious/dsp/filters/biquad_filter.h"
+#include "thelonious/dsp/filters/low_pass_filter.h"
+#include "thelonious/dsp/filters/high_pass_filter.h"
+#include "thelonious/dsp/filters/band_pass_filter.h"
 
-/* Delay */
-#include "thelonious/dsp/feedback_delay.h"
-
-/* Reverb */
-#include "thelonious/dsp/reverb.h"
+/* Delays */
+#include "thelonious/dsp/delays/feedback_delay.h"
+#include "thelonious/dsp/delays/reverb.h"
 
 /* Envelopes */
-#include "thelonious/dsp/envelope.h"
-#include "thelonious/dsp/percussive_envelope.h"
-#include "thelonious/dsp/asr_envelope.h"
-#include "thelonious/dsp/adsr_envelope.h"
+#include "thelonious/dsp/envelopes/envelope.h"
+#include "thelonious/dsp/envelopes/percussive_envelope.h"
+#include "thelonious/dsp/envelopes/asr_envelope.h"
+#include "thelonious/dsp/envelopes/adsr_envelope.h"
 
 /* Triggers */
-#include "thelonious/dsp/trigger.h"
+#include "thelonious/dsp/triggers/trigger.h"
 
-/* Splitters/Mergers */
-#include "thelonious/dsp/fan.h"
+/* Multichannel */
+#include "thelonious/dsp/multichannel/fan.h"
+#include "thelonious/dsp/multichannel/merge.h"
+#include "thelonious/dsp/multichannel/split.h"
 
 // Flatten namespace hierarchy
 namespace thelonious {
 
 using namespace thelonious::operators;
-using namespace thelonious::dsp;
+using namespace thelonious::dsp::oscillators;
+using namespace thelonious::dsp::noise;
+using namespace thelonious::dsp::filters;
+using namespace thelonious::dsp::envelopes;
+using namespace thelonious::dsp::delays;
+using namespace thelonious::dsp::triggers;
+using namespace thelonious::dsp::multichannel;
 
 }
 
