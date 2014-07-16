@@ -1,6 +1,8 @@
 #ifndef THELONIOUS_DSL_CHANNEL_H
 #define THELONIOUS_DSL_CHANNEL_H
 
+#include <cstdint>
+
 #include "thelonious/util.h"
 #include "thelonious/operators/types.h"
 

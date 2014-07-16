@@ -1,6 +1,7 @@
 #ifndef THELONIOUS_UTIL_H
 #define THELONIOUS_UTIL_H
 
+#include <cstdint>
 #include <cmath>
 
 #include "types.h"
