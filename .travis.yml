@@ -8,6 +8,7 @@ before_install:
 install: 
     - if [ "$CXX" = "g++" ]; then sudo apt-get install -qq g++-4.8; fi
     - if [ "$CXX" = "g++" ]; then export CXX=g++-4.8; fi
+    - sudo apt-get install -qq librtaudio-dev
     - wget https://googlemock.googlecode.com/files/gmock-1.7.0.zip
     - unzip gmock-1.7.0.zip
     - cd gmock-1.7.0/make

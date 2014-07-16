@@ -3,7 +3,7 @@ TEST_BUILD_DIR = $(BUILD_DIR)/tests
 THELONIOUS_BUILD_DIR = $(BUILD_DIR)/thelonious
 
 THELONIOUS_SRC = $(shell find ../thelonious -type f -name "*.h")
-THELONIOUS_OBJ = $(addprefix $(THELONIOUS_BUILD_DIR)/, $(THELONIOUS_SRC:../%.h=%.o))
+THELONIOUS_GCH = $(addprefix $(THELONIOUS_BUILD_DIR)/, $(THELONIOUS_SRC:../%.h=%.h.gch))
 
 TEST_SRC = $(shell find . -type f -name "*.cc")
 TEST_OBJ = $(addprefix $(TEST_BUILD_DIR)/, $(TEST_SRC:.cc=.o))
@@ -14,7 +14,19 @@ GMOCK_DIR ?= ../../gmock-1.6.0
 
 # Compiler options
 CXX ?= g++
-CXXFLAGS = -Werror -Wall -Wno-unused-local-typedefs -g -std=c++11
+
+ifdef $(shell echo | $(CXX) -dM -E - | grep __CLANG__)
+COMPILER_CLANG = 1
+else
+COMPILER_GXX = 1
+endif
+
+
+CXXFLAGS = -Werror -Wall -g -std=c++11
+# Needed to compile GMock on g++-4.8
+ifdef COMPILER_GXX
+CXXFLAGS += -Wno-unused-local-typedefs
+endif
 INC = -I ../ -I $(GMOCK_DIR)/include -I $(GMOCK_DIR)/gtest/include
 LIB = -l pthread
 GMOCK = $(GMOCK_DIR)/make/gmock.a
@@ -22,7 +34,7 @@ GMOCK = $(GMOCK_DIR)/make/gmock.a
 vpath thelonious/%.h ../
 vpath test/%.cc .
 
-all: $(THELONIOUS_OBJ) $(TEST_EXE)
+all: $(THELONIOUS_GCH) $(TEST_EXE)
 
 test: $(TEST_EXE)
 	./$(TEST_EXE)
@@ -36,9 +48,9 @@ $(TEST_BUILD_DIR)/%.o: %.cc
 	mkdir -p $(@D)
 	$(CXX) $(INC) $(CXXFLAGS) -o $@ -c $<
 
-$(THELONIOUS_BUILD_DIR)/%.o: %.h
+$(THELONIOUS_BUILD_DIR)/%.h.gch: %.h
 	mkdir -p $(@D)
-	$(CXX) $(INC) $(CXXFLAGS) -o $@ -c $<
+	$(CXX) $(INC) $(CXXFLAGS) -x c++-header -o $@ $<
 
 $(TEST_BUILD_DIR)/%.d: %.cc
 	mkdir -p $(@D)
