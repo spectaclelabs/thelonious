@@ -65,6 +65,10 @@
 #include "thelonious/dsp/multichannel/fan.h"
 #include "thelonious/dsp/multichannel/merge.h"
 #include "thelonious/dsp/multichannel/split.h"
+#include "thelonious/dsp/multichannel/upmix.h"
+#include "thelonious/dsp/multichannel/downmix.h"
+#include "thelonious/dsp/multichannel/select.h"
+#include "thelonious/dsp/multichannel/multiselect.h"
 
 // Flatten namespace hierarchy
 namespace thelonious {
