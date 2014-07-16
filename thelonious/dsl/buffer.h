@@ -73,18 +73,34 @@ Buffer<M, N> & operator op ## =(Buffer<M, N> &a, Sample b) {    \
     return a;                                                   \
 }
 
+/**
+ * Unary operate on a buffer
+ * Usage example: bufferA = -bufferB
+ */
+#define BUFFER_UNARY(name, uppername, op)                           \
+template <size_t M, size_t N>                                       \
+Buffer<M, N> operator op(const Buffer<M, N> &a) {                   \
+    Buffer<M, N> buffer;                                            \
+    for (uint32_t i=0; i<M; i++) {                                  \
+        buffer[i] = op a[i];                                        \
+    }                                                               \
+    return buffer;                                                  \
+}
+
 namespace thelonious {
 //namespace dsl {
 
-ARITHMETIC_OPERATOR_LIST(BUFFER_BUFFER)
-ARITHMETIC_OPERATOR_LIST(BUFFER_SAMPLE)
-ARITHMETIC_OPERATOR_LIST(SAMPLE_BUFFER)
-ARITHMETIC_OPERATOR_LIST(BUFFER_BUFFER_ASSIGN)
-ARITHMETIC_OPERATOR_LIST(BUFFER_SAMPLE_ASSIGN)
+BINARY_ARITHMETIC_OPERATOR_LIST(BUFFER_BUFFER)
+BINARY_ARITHMETIC_OPERATOR_LIST(BUFFER_SAMPLE)
+BINARY_ARITHMETIC_OPERATOR_LIST(SAMPLE_BUFFER)
+BINARY_ARITHMETIC_OPERATOR_LIST(BUFFER_BUFFER_ASSIGN)
+BINARY_ARITHMETIC_OPERATOR_LIST(BUFFER_SAMPLE_ASSIGN)
 
 COMPARISON_OPERATOR_LIST(BUFFER_BUFFER)
 COMPARISON_OPERATOR_LIST(BUFFER_SAMPLE)
 COMPARISON_OPERATOR_LIST(SAMPLE_BUFFER)
+
+UNARY_OPERATOR_LIST(BUFFER_UNARY)
 
 //} // namespace dsl
 } // namespace thelonious
@@ -93,6 +109,7 @@ COMPARISON_OPERATOR_LIST(SAMPLE_BUFFER)
 #undef BUFFER_SAMPLE
 #undef BUFFER_BUFFER_ASSIGN
 #undef BUFFER_SAMPLE_ASSIGN
+#undef BUFFER_UNARY
 
 #endif
 

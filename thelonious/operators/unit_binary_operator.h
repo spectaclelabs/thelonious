@@ -1,5 +1,5 @@
-#ifndef THELONIOUS_OPERATORS_UNIT_OPERATOR_H
-#define THELONIOUS_OPERATORS_UNIT_OPERATOR_H
+#ifndef THELONIOUS_OPERATORS_UNIT_BINARY_OPERATOR_H
+#define THELONIOUS_OPERATORS_UNIT_BINARY_OPERATOR_H
 
 #include "thelonious/operators/types.h"
 #include "thelonious/source.h"
@@ -9,9 +9,9 @@ namespace thelonious {
 namespace operators {
 
 template <size_t N, Operator Op>
-class UnitOperatorN : public Source<N> {
+class UnitBinaryOperatorN : public Source<N> {
 public:
-    UnitOperatorN(AbstractSource<N> &unitA, AbstractSource<N> &unitB):
+    UnitBinaryOperatorN(AbstractSource<N> &unitA, AbstractSource<N> &unitB):
             unitA(&unitA), unitB(&unitB) {}
 
     void tick(Block<N> &blockA) {
@@ -36,7 +36,7 @@ private:
         blockA = blockA op blockB;                                          \
     }
 
-    OPERATOR_LIST(OPERATE_FUNCTION)
+    BINARY_OPERATOR_LIST(OPERATE_FUNCTION)
 
 #undef OPERATE_FUNCTION
 
@@ -44,13 +44,13 @@ private:
     AbstractSource<N> *unitB;
 };
 
-#define UNIT_OPERATOR_ALIAS(name, uppername, op)                            \
+#define UNIT_BINARY_OPERATOR_ALIAS(name, uppername, op)                            \
 template<size_t N>                                                          \
-using Unit ## name ## N = UnitOperatorN<N, uppername>;
+using Unit ## name ## N = UnitBinaryOperatorN<N, uppername>;
 
-OPERATOR_LIST(UNIT_OPERATOR_ALIAS)
+BINARY_OPERATOR_LIST(UNIT_BINARY_OPERATOR_ALIAS)
 
-#undef UNIT_OPERATOR_ALIAS
+#undef UNIT_BINARY_OPERATOR_ALIAS
 
 } // namespace operators
 } // namespace thelonious

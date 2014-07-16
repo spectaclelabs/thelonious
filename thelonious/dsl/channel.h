@@ -52,17 +52,29 @@ Channel<N> & operator op ## =(Channel<N> &a, Sample b) {    \
     return a;                                               \
 }
 
+#define CHANNEL_UNARY(name, uppername, op)              \
+template <size_t N>                                     \
+Channel<N> operator op(const Channel<N> &a) {           \
+    Channel<N> channel;                                 \
+    for (uint32_t i=0; i<N; i++) {                      \
+        channel[i] = op a[i];                           \
+    }                                                   \
+    return channel;                                     \
+}
+
 namespace thelonious {
 
-RAW_ARITHMETIC_OPERATOR_LIST(CHANNEL_CHANNEL)
-RAW_ARITHMETIC_OPERATOR_LIST(CHANNEL_SAMPLE)
-RAW_ARITHMETIC_OPERATOR_LIST(SAMPLE_CHANNEL)
-RAW_ARITHMETIC_OPERATOR_LIST(CHANNEL_CHANNEL_ASSIGN)
-RAW_ARITHMETIC_OPERATOR_LIST(CHANNEL_SAMPLE_ASSIGN)
+BINARY_ARITHMETIC_OPERATOR_LIST_NO_MODULO(CHANNEL_CHANNEL)
+BINARY_ARITHMETIC_OPERATOR_LIST_NO_MODULO(CHANNEL_SAMPLE)
+BINARY_ARITHMETIC_OPERATOR_LIST_NO_MODULO(SAMPLE_CHANNEL)
+BINARY_ARITHMETIC_OPERATOR_LIST_NO_MODULO(CHANNEL_CHANNEL_ASSIGN)
+BINARY_ARITHMETIC_OPERATOR_LIST_NO_MODULO(CHANNEL_SAMPLE_ASSIGN)
 
 COMPARISON_OPERATOR_LIST(CHANNEL_CHANNEL)
 COMPARISON_OPERATOR_LIST(CHANNEL_SAMPLE)
 COMPARISON_OPERATOR_LIST(SAMPLE_CHANNEL)
+
+UNARY_OPERATOR_LIST(CHANNEL_UNARY)
 
 // Need to manually define these as we need to use the modulo function
 template <size_t N>
@@ -115,6 +127,7 @@ Channel<N> & operator %=(Channel<N> &a, Sample b) {
 #undef CHANNEL_SAMPLE
 #undef CHANNEL_CHANNEL_ASSIGN
 #undef CHANNEL_SAMPLE_ASSIGN
+#undef CHANNEL_UNARY
 
 #endif
 
