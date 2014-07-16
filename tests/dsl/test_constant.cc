@@ -24,8 +24,9 @@ public:
 
 class ConstantSourceTest : public Test {
 public:
-    ConstantSourceTest() : ones(1.f), twos(2.f) {}
+    ConstantSourceTest() : zeros(0.f), ones(1.f), twos(2.f) {}
 
+    TestSource<2> zeros;
     TestSource<2> ones;
     TestSource<2> twos;
     Block<2> block;
@@ -176,6 +177,30 @@ TEST_F(ConstantSourceTest, EqualRValue2) {
     ASSERT_THAT(block[1], Each(FloatEq(0.f)));
 }
 
+TEST_F(ConstantSourceTest, NotEqualLValue) {
+    (ones != 1.f).tick(block);
+    ASSERT_THAT(block[0], Each(FloatEq(0.f)));
+    ASSERT_THAT(block[1], Each(FloatEq(0.f)));
+}
+
+TEST_F(ConstantSourceTest, NotEqualLValue2) {
+    (2.f != ones).tick(block);
+    ASSERT_THAT(block[0], Each(FloatEq(1.f)));
+    ASSERT_THAT(block[1], Each(FloatEq(1.f)));
+}
+
+TEST_F(ConstantSourceTest, NotEqualRValue) {
+    ((ones + ones) != 2.f).tick(block);
+    ASSERT_THAT(block[0], Each(FloatEq(0.f)));
+    ASSERT_THAT(block[1], Each(FloatEq(0.f)));
+}
+
+TEST_F(ConstantSourceTest, NotEqualRValue2) {
+    (3.f != (ones + ones)).tick(block);
+    ASSERT_THAT(block[0], Each(FloatEq(1.f)));
+    ASSERT_THAT(block[1], Each(FloatEq(1.f)));
+}
+
 TEST_F(ConstantSourceTest, LTLValue) {
     (ones < 1.f).tick(block);
     ASSERT_THAT(block[0], Each(FloatEq(0.f)));
@@ -274,3 +299,50 @@ TEST_F(ConstantSourceTest, GTERValue2) {
     ASSERT_THAT(block[1], Each(FloatEq(1.f)));
 }
 
+TEST_F(ConstantSourceTest, LogicalAndLValue) {
+    (ones && 1.f).tick(block);
+    ASSERT_THAT(block[0], Each(FloatEq(1.f)));
+    ASSERT_THAT(block[1], Each(FloatEq(1.f)));
+}
+
+TEST_F(ConstantSourceTest, LogicalAndLValue2) {
+    (0.f && ones).tick(block);
+    ASSERT_THAT(block[0], Each(FloatEq(0.f)));
+    ASSERT_THAT(block[1], Each(FloatEq(0.f)));
+}
+
+TEST_F(ConstantSourceTest, LogicalAndRValue) {
+    ((zeros + zeros) && 3.f).tick(block);
+    ASSERT_THAT(block[0], Each(FloatEq(0.f)));
+    ASSERT_THAT(block[1], Each(FloatEq(0.f)));
+}
+
+TEST_F(ConstantSourceTest, LogicalAndRValue2) {
+    (3.f && (ones + zeros)).tick(block);
+    ASSERT_THAT(block[0], Each(FloatEq(1.f)));
+    ASSERT_THAT(block[1], Each(FloatEq(1.f)));
+}
+
+TEST_F(ConstantSourceTest, LogicalOrLValue) {
+    (ones || 1.f).tick(block);
+    ASSERT_THAT(block[0], Each(FloatEq(1.f)));
+    ASSERT_THAT(block[1], Each(FloatEq(1.f)));
+}
+
+TEST_F(ConstantSourceTest, LogicalOrLValue2) {
+    (0.f || ones).tick(block);
+    ASSERT_THAT(block[0], Each(FloatEq(1.f)));
+    ASSERT_THAT(block[1], Each(FloatEq(1.f)));
+}
+
+TEST_F(ConstantSourceTest, LogicalOrRValue) {
+    ((zeros + zeros) || 0.f).tick(block);
+    ASSERT_THAT(block[0], Each(FloatEq(0.f)));
+    ASSERT_THAT(block[1], Each(FloatEq(0.f)));
+}
+
+TEST_F(ConstantSourceTest, LogicalOrRValue2) {
+    (0.f || (ones + zeros)).tick(block);
+    ASSERT_THAT(block[0], Each(FloatEq(1.f)));
+    ASSERT_THAT(block[1], Each(FloatEq(1.f)));
+}

@@ -10,12 +10,14 @@ class BufferTest : public Test {
 public:
     void SetUp() {
         for (uint32_t i=0; i<2; i++) {
+            zeros[i].fill(0.f);
             ones[i].fill(1.f);
             twos[i].fill(2.f);
             threes[i].fill(3.f);
         }
     }
 
+    Block<2> zeros;
     Block<2> ones;
     Block<2> twos;
     Block<2> threes;
@@ -182,6 +184,18 @@ TEST_F(BufferTest, ModuloAssignSample) {
     ASSERT_THAT(block[1], Each(FloatEq(1.f)));
 }
 
+TEST_F(BufferTest, UnaryPlus) {
+    Block<2> block = +threes;
+    ASSERT_THAT(block[0], Each(FloatEq(3.f)));
+    ASSERT_THAT(block[1], Each(FloatEq(3.f)));
+}
+
+TEST_F(BufferTest, UnaryMinus) {
+    Block<2> block = -threes;
+    ASSERT_THAT(block[0], Each(FloatEq(-3.f)));
+    ASSERT_THAT(block[1], Each(FloatEq(-3.f)));
+}
+
 TEST_F(BufferTest, EqualBuffer) {
     Block<2> block = threes == twos;
     ASSERT_THAT(block[0], Each(FloatEq(0.f)));
@@ -198,6 +212,24 @@ TEST_F(BufferTest, EqualSample2) {
     Block<2> block = 3.f == twos ;
     ASSERT_THAT(block[0], Each(FloatEq(0.f)));
     ASSERT_THAT(block[1], Each(FloatEq(0.f)));
+}
+
+TEST_F(BufferTest, NotEqualBuffer) {
+    Block<2> block = threes != twos;
+    ASSERT_THAT(block[0], Each(FloatEq(1.f)));
+    ASSERT_THAT(block[1], Each(FloatEq(1.f)));
+}
+
+TEST_F(BufferTest, NotEqualSample) {
+    Block<2> block = threes != 3.f;
+    ASSERT_THAT(block[0], Each(FloatEq(0.f)));
+    ASSERT_THAT(block[1], Each(FloatEq(0.f)));
+}
+
+TEST_F(BufferTest, NotEqualSample2) {
+    Block<2> block = 3.f != twos ;
+    ASSERT_THAT(block[0], Each(FloatEq(1.f)));
+    ASSERT_THAT(block[1], Each(FloatEq(1.f)));
 }
 
 TEST_F(BufferTest, LTBuffer) {
@@ -270,4 +302,46 @@ TEST_F(BufferTest, GTEESample2) {
     Block<2> block = 3.f >= twos ;
     ASSERT_THAT(block[0], Each(FloatEq(1.f)));
     ASSERT_THAT(block[1], Each(FloatEq(1.f)));
+}
+
+TEST_F(BufferTest, LogicalNot) {
+    Block<2> block = !threes;
+    ASSERT_THAT(block[0], Each(FloatEq(0.f)));
+    ASSERT_THAT(block[1], Each(FloatEq(0.f)));
+}
+
+TEST_F(BufferTest, LogicalAndBuffer) {
+    Block<2> block = threes && twos;
+    ASSERT_THAT(block[0], Each(FloatEq(1.f)));
+    ASSERT_THAT(block[1], Each(FloatEq(1.f)));
+}
+
+TEST_F(BufferTest, LogicalAndSample) {
+    Block<2> block = threes && 0.f;
+    ASSERT_THAT(block[0], Each(FloatEq(0.f)));
+    ASSERT_THAT(block[1], Each(FloatEq(0.f)));
+}
+
+TEST_F(BufferTest, LogicalAndSample2) {
+    Block<2> block = 3.f && zeros;
+    ASSERT_THAT(block[0], Each(FloatEq(0.f)));
+    ASSERT_THAT(block[1], Each(FloatEq(0.f)));
+}
+
+TEST_F(BufferTest, LogicalOrBuffer) {
+    Block<2> block = threes || twos;
+    ASSERT_THAT(block[0], Each(FloatEq(1.f)));
+    ASSERT_THAT(block[1], Each(FloatEq(1.f)));
+}
+
+TEST_F(BufferTest, LogicalOrSample) {
+    Block<2> block = threes || 0.f;
+    ASSERT_THAT(block[0], Each(FloatEq(1.f)));
+    ASSERT_THAT(block[1], Each(FloatEq(1.f)));
+}
+
+TEST_F(BufferTest, LogicalOrSample2) {
+    Block<2> block = 0.f || zeros;
+    ASSERT_THAT(block[0], Each(FloatEq(0.f)));
+    ASSERT_THAT(block[1], Each(FloatEq(0.f)));
 }

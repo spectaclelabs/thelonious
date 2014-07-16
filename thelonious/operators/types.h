@@ -7,6 +7,7 @@ namespace thelonious {
 namespace operators {
 
 // Individual operators
+// Arithmetic
 #define ADD_OPERATOR(function) \
 function(Add, ADD, +)
 
@@ -37,6 +38,7 @@ function(UnaryPlus, UNARY_PLUS, +)
 #define UNARY_MINUS_OPERATOR(function) \
 function(UnaryMinus, UNARY_MINUS, -)
 
+// Comparison
 #define LESS_THAN_OPERATOR(function) \
 function(LessThan, LESS_THAN, <)
 
@@ -48,6 +50,16 @@ function(LessThanOrEqualTo, LESS_THAN_OR_EQUAL_TO, <=)
 
 #define GREATER_THAN_OR_EQUAL_TO_OPERATOR(function) \
 function(GreaterThanOrEqualTo, GREATER_THAN_OR_EQUAL_TO, >=)
+
+// Logical
+#define LOGICAL_NOT_OPERATOR(function) \
+function(LogicalNot, LOGICAL_NOT, !)
+
+#define LOGICAL_AND_OPERATOR(function) \
+function(LogicalAnd, LOGICAL_AND, &&)
+
+#define LOGICAL_OR_OPERATOR(function) \
+function(LogicalOr, LOGICAL_OR, ||)
 
 #define OPERATOR_LIST(function)             \
 ADD_OPERATOR(function)                      \
@@ -63,6 +75,9 @@ LESS_THAN_OPERATOR(function)                \
 GREATER_THAN_OPERATOR(function)             \
 LESS_THAN_OR_EQUAL_TO_OPERATOR(function)    \
 GREATER_THAN_OR_EQUAL_TO_OPERATOR(function) \
+LOGICAL_NOT_OPERATOR(function)              \
+LOGICAL_AND_OPERATOR(function)              \
+LOGICAL_OR_OPERATOR(function)               \
 
 #define BINARY_OPERATOR_LIST(function)      \
 ADD_OPERATOR(function)                      \
@@ -76,16 +91,21 @@ LESS_THAN_OPERATOR(function)                \
 GREATER_THAN_OPERATOR(function)             \
 LESS_THAN_OR_EQUAL_TO_OPERATOR(function)    \
 GREATER_THAN_OR_EQUAL_TO_OPERATOR(function) \
+LOGICAL_AND_OPERATOR(function)              \
+LOGICAL_OR_OPERATOR(function)               \
 
 #define UNARY_OPERATOR_LIST(function)   \
 UNARY_PLUS_OPERATOR(function)           \
 UNARY_MINUS_OPERATOR(function)          \
+LOGICAL_NOT_OPERATOR(function)              \
 
 #define COMMUTATIVE_OPERATOR_LIST(function) \
 ADD_OPERATOR(function)                      \
 MULTIPLY_OPERATOR(function)                 \
 EQUAL_TO_OPERATOR(function)                 \
 NOT_EQUAL_TO_OPERATOR(function)             \
+LOGICAL_AND_OPERATOR(function)              \
+LOGICAL_OR_OPERATOR(function)               \
 
 #define NON_COMMUTATIVE_OPERATOR_LIST(function) \
 SUBTRACT_OPERATOR(function)                     \
@@ -96,29 +116,41 @@ GREATER_THAN_OPERATOR(function)                 \
 LESS_THAN_OR_EQUAL_TO_OPERATOR(function)        \
 GREATER_THAN_OR_EQUAL_TO_OPERATOR(function)     \
 
-#define BINARY_ARITHMETIC_OPERATOR_LIST(function)   \
+#define BINARY_COMPOUND_OPERATOR_LIST(function)     \
 ADD_OPERATOR(function)                              \
 SUBTRACT_OPERATOR(function)                         \
 MULTIPLY_OPERATOR(function)                         \
 DIVIDE_OPERATOR(function)                           \
 MODULO_OPERATOR(function)                           \
 
-// The arithmetic operators minus modulo, which we override for sample
-// processing
-#define BINARY_ARITHMETIC_OPERATOR_LIST_NO_MODULO(function) \
-ADD_OPERATOR(function)                                      \
-SUBTRACT_OPERATOR(function)                                 \
-MULTIPLY_OPERATOR(function)                                 \
-DIVIDE_OPERATOR(function)                                   \
-
-// The comparison operators
-#define COMPARISON_OPERATOR_LIST(function)  \
-EQUAL_TO_OPERATOR(function)                 \
-NOT_EQUAL_TO_OPERATOR(function)             \
+#define BINARY_NON_COMPOUND_OPERATOR_LIST(function) \
 LESS_THAN_OPERATOR(function)                \
 GREATER_THAN_OPERATOR(function)             \
 LESS_THAN_OR_EQUAL_TO_OPERATOR(function)    \
 GREATER_THAN_OR_EQUAL_TO_OPERATOR(function) \
+LOGICAL_AND_OPERATOR(function)              \
+LOGICAL_OR_OPERATOR(function)               \
+
+// Operator lists minus modulo, which we override for sample processing
+#define BINARY_OPERATOR_LIST_NO_MODULO(function)    \
+ADD_OPERATOR(function)                              \
+SUBTRACT_OPERATOR(function)                         \
+MULTIPLY_OPERATOR(function)                         \
+DIVIDE_OPERATOR(function)                           \
+EQUAL_TO_OPERATOR(function)                         \
+NOT_EQUAL_TO_OPERATOR(function)                     \
+LESS_THAN_OPERATOR(function)                        \
+GREATER_THAN_OPERATOR(function)                     \
+LESS_THAN_OR_EQUAL_TO_OPERATOR(function)            \
+GREATER_THAN_OR_EQUAL_TO_OPERATOR(function)         \
+LOGICAL_AND_OPERATOR(function)                      \
+LOGICAL_OR_OPERATOR(function)                       \
+
+#define BINARY_COMPOUND_OPERATOR_LIST_NO_MODULO(function)   \
+ADD_OPERATOR(function)                                      \
+SUBTRACT_OPERATOR(function)                                 \
+MULTIPLY_OPERATOR(function)                                 \
+DIVIDE_OPERATOR(function)                                   \
 
 // Create an enum containing the uppername of all of the operators
 #define UPPERNAME(name, uppername, op) uppername,

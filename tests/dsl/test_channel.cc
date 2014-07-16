@@ -9,11 +9,13 @@ using namespace testing;
 class ChannelTest : public Test {
 public:
     void SetUp() {
+        zeros.fill(0.f);
         ones.fill(1.f);
         twos.fill(2.f);
         threes.fill(3.f);
     }
 
+    Chock zeros;
     Chock ones;
     Chock twos;
     Chock threes;
@@ -155,6 +157,16 @@ TEST_F(ChannelTest, ModuloAssignSample) {
     ASSERT_THAT(chock, Each(FloatEq(1.f)));
 }
 
+TEST_F(ChannelTest, UnaryPlus) {
+    Chock chock = +ones ;
+    ASSERT_THAT(chock, Each(FloatEq(1.f)));
+}
+
+TEST_F(ChannelTest, UnaryMinus) {
+    Chock chock = -ones ;
+    ASSERT_THAT(chock, Each(FloatEq(-1.f)));
+}
+
 TEST_F(ChannelTest, EqualChannel) {
     Chock chock = threes == twos;
     ASSERT_THAT(chock, Each(FloatEq(0.f)));
@@ -168,6 +180,21 @@ TEST_F(ChannelTest, EqualSample) {
 TEST_F(ChannelTest, EqualSample2) {
     Chock chock = 3.f == twos ;
     ASSERT_THAT(chock, Each(FloatEq(0.f)));
+}
+
+TEST_F(ChannelTest, NotEqualChannel) {
+    Chock chock = threes != twos;
+    ASSERT_THAT(chock, Each(FloatEq(1.f)));
+}
+
+TEST_F(ChannelTest, NotEqualSample) {
+    Chock chock = threes != 3.f;
+    ASSERT_THAT(chock, Each(FloatEq(0.f)));
+}
+
+TEST_F(ChannelTest, NotEqualSample2) {
+    Chock chock = 3.f != twos ;
+    ASSERT_THAT(chock, Each(FloatEq(1.f)));
 }
 
 TEST_F(ChannelTest, LTChannel) {
@@ -228,5 +255,40 @@ TEST_F(ChannelTest, GTESample) {
 
 TEST_F(ChannelTest, GTESample2) {
     Chock chock = 1.f >= twos ;
+    ASSERT_THAT(chock, Each(FloatEq(0.f)));
+}
+
+TEST_F(ChannelTest, LogicalNot) {
+    Chock chock = !ones ;
+    ASSERT_THAT(chock, Each(FloatEq(0.f)));
+}
+
+TEST_F(ChannelTest, LogicalAndChannel) {
+    Chock chock = ones && zeros;
+    ASSERT_THAT(chock, Each(FloatEq(0.f)));
+}
+
+TEST_F(ChannelTest, LogicalAndSample) {
+    Chock chock = ones && 1.f;
+    ASSERT_THAT(chock, Each(FloatEq(1.f)));
+}
+
+TEST_F(ChannelTest, LogicalAndSample2) {
+    Chock chock = 1.f && ones;
+    ASSERT_THAT(chock, Each(FloatEq(1.f)));
+}
+
+TEST_F(ChannelTest, LogicalOrChannel) {
+    Chock chock = ones || zeros;
+    ASSERT_THAT(chock, Each(FloatEq(1.f)));
+}
+
+TEST_F(ChannelTest, LogicalOrSample) {
+    Chock chock = ones || 1.f;
+    ASSERT_THAT(chock, Each(FloatEq(1.f)));
+}
+
+TEST_F(ChannelTest, LogicalOrSample2) {
+    Chock chock = 0.f || zeros;
     ASSERT_THAT(chock, Each(FloatEq(0.f)));
 }

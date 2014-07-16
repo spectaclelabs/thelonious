@@ -17,7 +17,8 @@
 
 /* Operators */
 #include "thelonious/operators/operator.h"
-#include "thelonious/operators/unit_operator.h"
+#include "thelonious/operators/unit_binary_operator.h"
+#include "thelonious/operators/unit_unary_operator.h"
 #include "thelonious/operators/constant_operator.h"
 #include "thelonious/operators/unit_tick.h"
 

@@ -1,5 +1,5 @@
-#ifndef THELONIOUS_OPERATORS_OPERATOR_H
-#define THELONIOUS_OPERATORS_OPERATOR_H
+#ifndef THELONIOUS_OPERATORS_BINARY_OPERATOR_H
+#define THELONIOUS_OPERATORS_BINARY_OPERATOR_H
 
 #include "thelonious/types.h"
 #include "thelonious/processor.h"
@@ -11,9 +11,9 @@ namespace thelonious {
 namespace operators {
 
 template <size_t N, Operator Op>
-class OperatorN : public Processor<N, N> {
+class BinaryOperatorN : public Processor<N, N> {
 public:
-    OperatorN(Sample value=0.0f): value(value) {}
+    BinaryOperatorN(Sample value=0.0f): value(value) {}
 
     void tick(Block<N> &inputBlock, Block<N> &outputBlock) {
         Chock valueChock = value.get();
@@ -37,25 +37,25 @@ private:
         outputChock = inputChock op valueChock;                             \
     }
 
-    OPERATOR_LIST(OPERATE_FUNCTION)
+    BINARY_OPERATOR_LIST(OPERATE_FUNCTION)
 
 #undef OPERATE_FUNCTION
 
 };
 
 
-#define OPERATOR_ALIAS_N(name, uppername, op)                               \
+#define BINARY_OPERATOR_ALIAS_N(name, uppername, op)                               \
 template<size_t N>                                                          \
-using name ## N = OperatorN<N, uppername>;
+using name ## N = BinaryOperatorN<N, uppername>;
 
-#define OPERATOR_ALIAS(name, uppername, op)                                 \
+#define BINARY_OPERATOR_ALIAS(name, uppername, op)                                 \
 typedef name ## N<1> name;
 
-OPERATOR_LIST(OPERATOR_ALIAS_N)
-OPERATOR_LIST(OPERATOR_ALIAS)
+BINARY_OPERATOR_LIST(BINARY_OPERATOR_ALIAS_N)
+BINARY_OPERATOR_LIST(BINARY_OPERATOR_ALIAS)
 
-#undef OPERATOR_ALIAS_N
-#undef OPERATOR_ALIAS
+#undef BINARY_OPERATOR_ALIAS_N
+#undef BINARY_OPERATOR_ALIAS
 
 } // namespace operators
 } // namespace thelonious

@@ -24,8 +24,9 @@ public:
 
 class TestUnit : public Test {
 public:
-    TestUnit() : ones(1.f), twos(2.f), threes(3.f) {}
+    TestUnit() : zeros(0.f), ones(1.f), twos(2.f), threes(3.f) {}
 
+    TestSource<2> zeros;
     TestSource<2> ones;
     TestSource<2> twos;
     TestSource<2> threes;
@@ -34,12 +35,6 @@ public:
 
 TEST_F(TestUnit, AddLValue) {
     (ones + twos).tick(block);
-    ASSERT_THAT(block[0], Each(FloatEq(3.f)));
-    ASSERT_THAT(block[1], Each(FloatEq(3.f)));
-}
-
-TEST_F(TestUnit, AddLValue2) {
-    (twos + ones).tick(block);
     ASSERT_THAT(block[0], Each(FloatEq(3.f)));
     ASSERT_THAT(block[1], Each(FloatEq(3.f)));
 }
@@ -62,12 +57,6 @@ TEST_F(TestUnit, SubtractLValue) {
     ASSERT_THAT(block[1], Each(FloatEq(-1.f)));
 }
 
-TEST_F(TestUnit, SubtractLValue2) {
-    (twos - ones).tick(block);
-    ASSERT_THAT(block[0], Each(FloatEq(1.f)));
-    ASSERT_THAT(block[1], Each(FloatEq(1.f)));
-}
-
 TEST_F(TestUnit, SubtractRValue) {
     ((ones + ones) - twos).tick(block);
     ASSERT_THAT(block[0], Each(FloatEq(0.f)));
@@ -87,12 +76,6 @@ TEST_F(TestUnit, MultiplyLValue) {
     ASSERT_THAT(block[1], Each(FloatEq(2.f)));
 }
 
-TEST_F(TestUnit, MultiplyLValue2) {
-    (twos * ones).tick(block);
-    ASSERT_THAT(block[0], Each(FloatEq(2.f)));
-    ASSERT_THAT(block[1], Each(FloatEq(2.f)));
-}
-
 TEST_F(TestUnit, MultiplyRValue) {
     ((ones + ones) * twos).tick(block);
     ASSERT_THAT(block[0], Each(FloatEq(4.f)));
@@ -106,12 +89,6 @@ TEST_F(TestUnit, MultiplyRValue2) {
 }
 
 TEST_F(TestUnit, DivideLValue) {
-    (ones / twos).tick(block);
-    ASSERT_THAT(block[0], Each(FloatEq(0.5f)));
-    ASSERT_THAT(block[1], Each(FloatEq(0.5f)));
-}
-
-TEST_F(TestUnit, DivideLValue2) {
     (ones / twos).tick(block);
     ASSERT_THAT(block[0], Each(FloatEq(0.5f)));
     ASSERT_THAT(block[1], Each(FloatEq(0.5f)));
@@ -135,12 +112,6 @@ TEST_F(TestUnit, ModuloLValue) {
     ASSERT_THAT(block[1], Each(FloatEq(0.2f)));
 }
 
-TEST_F(TestUnit, ModuloLValue2) {
-    (TestSource<2>(1.3f) % ones).tick(block);
-    ASSERT_THAT(block[0], Each(FloatEq(0.3f)));
-    ASSERT_THAT(block[1], Each(FloatEq(0.3f)));
-}
-
 TEST_F(TestUnit, ModuloRValue) {
     ((ones + ones) % TestSource<2>(1.5f)).tick(block);
     ASSERT_THAT(block[0], Each(FloatEq(0.5f)));
@@ -153,16 +124,34 @@ TEST_F(TestUnit, ModuloRValue2) {
     ASSERT_THAT(block[1], Each(FloatEq(1.f)));
 }
 
-TEST_F(TestUnit, EqualLValue) {
-    (ones == ones).tick(block);
+TEST_F(TestUnit, UnaryPlusLValue) {
+    (+ones).tick(block);
     ASSERT_THAT(block[0], Each(FloatEq(1.f)));
     ASSERT_THAT(block[1], Each(FloatEq(1.f)));
 }
 
-TEST_F(TestUnit, EqualLValue2) {
-    (twos == ones).tick(block);
-    ASSERT_THAT(block[0], Each(FloatEq(0.f)));
-    ASSERT_THAT(block[1], Each(FloatEq(0.f)));
+TEST_F(TestUnit, UnaryPlusRValue) {
+    (+(ones + ones)).tick(block);
+    ASSERT_THAT(block[0], Each(FloatEq(2.f)));
+    ASSERT_THAT(block[1], Each(FloatEq(2.f)));
+}
+
+TEST_F(TestUnit, UnaryMinusLValue) {
+    (-ones).tick(block);
+    ASSERT_THAT(block[0], Each(FloatEq(-1.f)));
+    ASSERT_THAT(block[1], Each(FloatEq(-1.f)));
+}
+
+TEST_F(TestUnit, UnaryMinusRValue) {
+    (-(ones + ones)).tick(block);
+    ASSERT_THAT(block[0], Each(FloatEq(-2.f)));
+    ASSERT_THAT(block[1], Each(FloatEq(-2.f)));
+}
+
+TEST_F(TestUnit, EqualLValue) {
+    (ones == ones).tick(block);
+    ASSERT_THAT(block[0], Each(FloatEq(1.f)));
+    ASSERT_THAT(block[1], Each(FloatEq(1.f)));
 }
 
 TEST_F(TestUnit, EqualRValue) {
@@ -177,14 +166,26 @@ TEST_F(TestUnit, EqualRValue2) {
     ASSERT_THAT(block[1], Each(FloatEq(0.f)));
 }
 
-TEST_F(TestUnit, LTLValue) {
-    (ones < ones).tick(block);
+TEST_F(TestUnit, NotEqualLValue) {
+    (ones != ones).tick(block);
     ASSERT_THAT(block[0], Each(FloatEq(0.f)));
     ASSERT_THAT(block[1], Each(FloatEq(0.f)));
 }
 
-TEST_F(TestUnit, LTLValue2) {
-    (twos < ones).tick(block);
+TEST_F(TestUnit, NotEqualRValue) {
+    ((ones + ones) != twos).tick(block);
+    ASSERT_THAT(block[0], Each(FloatEq(0.f)));
+    ASSERT_THAT(block[1], Each(FloatEq(0.f)));
+}
+
+TEST_F(TestUnit, NotEqualRValue2) {
+    (threes != (ones + ones)).tick(block);
+    ASSERT_THAT(block[0], Each(FloatEq(1.f)));
+    ASSERT_THAT(block[1], Each(FloatEq(1.f)));
+}
+
+TEST_F(TestUnit, LTLValue) {
+    (ones < ones).tick(block);
     ASSERT_THAT(block[0], Each(FloatEq(0.f)));
     ASSERT_THAT(block[1], Each(FloatEq(0.f)));
 }
@@ -208,12 +209,6 @@ TEST_F(TestUnit, GTLValue) {
     ASSERT_THAT(block[1], Each(FloatEq(0.f)));
 }
 
-TEST_F(TestUnit, GTLValue2) {
-    (twos > ones).tick(block);
-    ASSERT_THAT(block[0], Each(FloatEq(1.f)));
-    ASSERT_THAT(block[1], Each(FloatEq(1.f)));
-}
-
 TEST_F(TestUnit, GTRValue) {
     ((ones + ones) > twos).tick(block);
     ASSERT_THAT(block[0], Each(FloatEq(0.f)));
@@ -231,12 +226,6 @@ TEST_F(TestUnit, LTELValue) {
     (ones <= ones).tick(block);
     ASSERT_THAT(block[0], Each(FloatEq(1.f)));
     ASSERT_THAT(block[1], Each(FloatEq(1.f)));
-}
-
-TEST_F(TestUnit, LTELValue2) {
-    (twos <= ones).tick(block);
-    ASSERT_THAT(block[0], Each(FloatEq(0.f)));
-    ASSERT_THAT(block[1], Each(FloatEq(0.f)));
 }
 
 TEST_F(TestUnit, LTERValue) {
@@ -257,12 +246,6 @@ TEST_F(TestUnit, GTELValue) {
     ASSERT_THAT(block[1], Each(FloatEq(1.f)));
 }
 
-TEST_F(TestUnit, GTELValue2) {
-    (twos >= ones).tick(block);
-    ASSERT_THAT(block[0], Each(FloatEq(1.f)));
-    ASSERT_THAT(block[1], Each(FloatEq(1.f)));
-}
-
 TEST_F(TestUnit, GTERValue) {
     ((ones + ones) >= threes).tick(block);
     ASSERT_THAT(block[0], Each(FloatEq(0.f)));
@@ -275,3 +258,50 @@ TEST_F(TestUnit, GTERValue2) {
     ASSERT_THAT(block[1], Each(FloatEq(1.f)));
 }
 
+TEST_F(TestUnit, LogicalNotLValue) {
+    (!ones).tick(block);
+    ASSERT_THAT(block[0], Each(FloatEq(0.f)));
+    ASSERT_THAT(block[1], Each(FloatEq(0.f)));
+}
+
+TEST_F(TestUnit, LogicalNotRValue) {
+    (!(zeros + zeros)).tick(block);
+    ASSERT_THAT(block[0], Each(FloatEq(1.f)));
+    ASSERT_THAT(block[1], Each(FloatEq(1.f)));
+}
+
+TEST_F(TestUnit, LogicalAndLValue) {
+    (ones && ones).tick(block);
+    ASSERT_THAT(block[0], Each(FloatEq(1.f)));
+    ASSERT_THAT(block[1], Each(FloatEq(1.f)));
+}
+
+TEST_F(TestUnit, LogicalAndRValue) {
+    ((ones + ones) && zeros).tick(block);
+    ASSERT_THAT(block[0], Each(FloatEq(0.f)));
+    ASSERT_THAT(block[1], Each(FloatEq(0.f)));
+}
+
+TEST_F(TestUnit, LogicalAndRValue2) {
+    (threes && (ones + ones)).tick(block);
+    ASSERT_THAT(block[0], Each(FloatEq(1.f)));
+    ASSERT_THAT(block[1], Each(FloatEq(1.f)));
+}
+
+TEST_F(TestUnit, LogicalOrLValue) {
+    (ones || ones).tick(block);
+    ASSERT_THAT(block[0], Each(FloatEq(1.f)));
+    ASSERT_THAT(block[1], Each(FloatEq(1.f)));
+}
+
+TEST_F(TestUnit, LogicalOrRValue) {
+    ((ones + ones) || zeros).tick(block);
+    ASSERT_THAT(block[0], Each(FloatEq(1.f)));
+    ASSERT_THAT(block[1], Each(FloatEq(1.f)));
+}
+
+TEST_F(TestUnit, LogicalOrRValue2) {
+    (zeros || (zeros + zeros)).tick(block);
+    ASSERT_THAT(block[0], Each(FloatEq(0.f)));
+    ASSERT_THAT(block[1], Each(FloatEq(0.f)));
+}
