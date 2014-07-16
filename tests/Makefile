@@ -10,23 +10,11 @@ TEST_OBJ = $(addprefix $(TEST_BUILD_DIR)/, $(TEST_SRC:.cc=.o))
 TEST_DEPS = $(addprefix $(TEST_BUILD_DIR)/, $(TEST_SRC:.cc=.d))
 TEST_EXE = test_runner
 
-GMOCK_DIR ?= ../../gmock-1.6.0
+GMOCK_DIR ?= ../../gmock-1.7.0
 
 # Compiler options
 CXX ?= g++
-
-ifdef $(shell echo | $(CXX) -dM -E - | grep __CLANG__)
-COMPILER_CLANG = 1
-else
-COMPILER_GXX = 1
-endif
-
-
 CXXFLAGS = -Werror -Wall -g -std=c++11
-# Needed to compile GMock on g++-4.8
-ifdef COMPILER_GXX
-CXXFLAGS += -Wno-unused-local-typedefs
-endif
 INC = -I ../ -I $(GMOCK_DIR)/include -I $(GMOCK_DIR)/gtest/include
 LIB = -l pthread
 GMOCK = $(GMOCK_DIR)/make/gmock.a
