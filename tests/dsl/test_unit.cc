@@ -1,6 +1,7 @@
 #include "gmock/gmock.h"
 #include "gtest/gtest.h"
 
+#include "thelonious/dsp/oscillators/constant.h"
 #include "thelonious/dsl/constant.h"
 #include "thelonious/dsl/unit.h"
 #include "thelonious/source.h"
@@ -9,27 +10,14 @@
 using namespace thelonious;
 using namespace testing;
 
-template <size_t N>
-class TestSource : public Source<N> {
-public:
-    TestSource(Sample value=0.f) : value(value) {}
-    void tick(Block<N> &block) {
-        for (uint32_t i=0; i<N; i++) {
-            block[i].fill(value);
-        }
-    }
-
-    Sample value;
-};
-
 class TestUnit : public Test {
 public:
     TestUnit() : zeros(0.f), ones(1.f), twos(2.f), threes(3.f) {}
 
-    TestSource<2> zeros;
-    TestSource<2> ones;
-    TestSource<2> twos;
-    TestSource<2> threes;
+    thelonious::dsp::oscillators::ConstantN<2> zeros;
+    thelonious::dsp::oscillators::ConstantN<2> ones;
+    thelonious::dsp::oscillators::ConstantN<2> twos;
+    thelonious::dsp::oscillators::ConstantN<2> threes;
     Block<2> block;
 };
 
@@ -95,7 +83,7 @@ TEST_F(TestUnit, DivideLValue) {
 }
 
 TEST_F(TestUnit, DivideRValue) {
-    ((ones + ones) / TestSource<2>(8.f)).tick(block);
+    ((ones + ones) / thelonious::dsp::oscillators::ConstantN<2>(8.f)).tick(block);
     ASSERT_THAT(block[0], Each(FloatEq(0.25f)));
     ASSERT_THAT(block[1], Each(FloatEq(0.25f)));
 }
@@ -107,13 +95,13 @@ TEST_F(TestUnit, DivideRValue2) {
 }
 
 TEST_F(TestUnit, ModuloLValue) {
-    (ones % TestSource<2>(0.4f)).tick(block);
+    (ones % thelonious::dsp::oscillators::ConstantN<2>(0.4f)).tick(block);
     ASSERT_THAT(block[0], Each(FloatEq(0.2f)));
     ASSERT_THAT(block[1], Each(FloatEq(0.2f)));
 }
 
 TEST_F(TestUnit, ModuloRValue) {
-    ((ones + ones) % TestSource<2>(1.5f)).tick(block);
+    ((ones + ones) % thelonious::dsp::oscillators::ConstantN<2>(1.5f)).tick(block);
     ASSERT_THAT(block[0], Each(FloatEq(0.5f)));
     ASSERT_THAT(block[1], Each(FloatEq(0.5f)));
 }
