@@ -11,7 +11,7 @@ namespace multichannel {
 template <size_t M, size_t N>
 class MergeN : public Duplex<M, N> {
 public:
-    MergeN() {}
+    MergeN() : index(0) {}
 
     void tickOut(Block<N> &block) {
         for (uint32_t i=0; i<N; i++) {
