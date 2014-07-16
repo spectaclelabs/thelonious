@@ -1,6 +1,7 @@
 #ifndef THELONIOUS_UNIT_H
 #define THELONIOUS_UNIT_H
 
+#include <cstdint>
 #include "types.h"
 
 namespace thelonious {
