@@ -4,6 +4,7 @@
 #include "thelonious/operators/types.h"
 #include "thelonious/source.h"
 #include "thelonious/types.h"
+#include "thelonious/dsl/buffer.h"
 
 namespace thelonious {
 namespace operators {
