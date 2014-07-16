@@ -27,7 +27,7 @@ all: $(THELONIOUS_GCH) $(TEST_EXE)
 test: $(TEST_EXE)
 	./$(TEST_EXE)
 
-compiletest: $(THELONIOUS_OBJ)
+compiletest: $(THELONIOUS_GCH)
 
 $(TEST_EXE): $(TEST_OBJ) $(TEST_DEPS)
 	$(CXX) $(CXXFLAGS) -o $@ $(TEST_OBJ) $(GMOCK) $(LIB)
