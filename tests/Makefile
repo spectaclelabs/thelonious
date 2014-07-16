@@ -14,7 +14,7 @@ GMOCK_DIR ?= ../../gmock-1.7.0
 
 # Compiler options
 CXX ?= g++
-CXXFLAGS = -Werror -Wall -g -std=c++11
+CXXFLAGS = -Werror -Wall -Wno-missing-braces -g -std=c++11
 INC = -I ../ -I $(GMOCK_DIR)/include -I $(GMOCK_DIR)/gtest/include
 LIB = -l pthread
 GMOCK = $(GMOCK_DIR)/make/gmock.a
